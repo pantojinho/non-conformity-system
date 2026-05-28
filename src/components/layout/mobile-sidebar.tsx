@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -41,27 +41,24 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
   const isAdminActive = pathname.startsWith("/admin");
   const shouldShowAdminSubItems = adminOpen || isAdminActive;
 
-  // Update title when route changes (would be done via context, not implemented yet)
-
-  const handleLinkClick = () => {
-    onClose();
-  };
-
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 lg:hidden">
-      {/* Backdrop */}
+      {/* Backdrop - click to close */}
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 w-80 bg-gray-900 shadow-2xl">
+      {/* Sidebar panel */}
+      <div
+        className="fixed inset-y-0 left-0 w-80 max-w-[85vw] bg-gray-900 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex h-full flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-gray-800 px-6 py-4">
+          <div className="flex items-center justify-between border-b border-gray-800 px-5 py-4">
             <span className="text-lg font-bold text-white">Robotics Hub</span>
             <button
               onClick={onClose}
@@ -72,7 +69,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto px-4 py-6">
+          <nav className="flex-1 overflow-y-auto px-3 py-4">
             <div className="space-y-1">
               {navItems.map((item) => {
                 const isActive = pathname.startsWith(item.href);
@@ -80,7 +77,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={handleLinkClick}
+                    onClick={onClose}
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all",
                       isActive
@@ -88,7 +85,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                         : "text-gray-300 hover:bg-gray-800 hover:text-white"
                     )}
                   >
-                    <item.icon className="h-5 w-5" />
+                    <item.icon className="h-5 w-5 shrink-0" />
                     <span>{item.label}</span>
                   </Link>
                 );
@@ -106,7 +103,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                   )}
                 >
                   <div className="flex items-center gap-3">
-                    <Settings className="h-5 w-5" />
+                    <Settings className="h-5 w-5 shrink-0" />
                     <span>Administração</span>
                   </div>
                   <ChevronDown
@@ -124,7 +121,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={handleLinkClick}
+                          onClick={onClose}
                           className={cn(
                             "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all",
                             isActive
@@ -132,7 +129,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                               : "text-gray-300 hover:bg-gray-800 hover:text-white"
                           )}
                         >
-                          <item.icon className="h-4 w-4" />
+                          <item.icon className="h-4 w-4 shrink-0" />
                           <span>{item.label}</span>
                         </Link>
                       );
