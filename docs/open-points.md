@@ -2,6 +2,7 @@
 
 > Lista consolidada de dúvidas e pontos em aberto para validar internamente antes/durante as sprints.
 > Baseado na Documentação do Projeto v0.1 (28/05/2026) + materiais de apoio.
+> Última atualização: 28/05/2026
 
 ---
 
@@ -186,20 +187,187 @@
 
 ---
 
+## 13. Campos Obrigatórios por Tipo de Registro
+
+- [ ] Quais campos serão **obrigatórios para NC**?
+- [ ] Quais serão **obrigatórios para Hazard**?
+- [ ] Quais serão **obrigatórios para Reclamações/NPS**?
+- [ ] Haverá **campos dinâmicos por norma e por país**?
+
+**Impacto:** Validação de formulários (Zod), UX, experiência do usuário
+**Sprint relacionada:** Sprint 1 (NC), Sprint 2 (Hazard), Sprint 4 (NPS)
+
+---
+
+## 14. Listas Parametrizáveis (Admin)
+
+- [ ] Quais listas poderão ser **administradas sem desenvolvedor**?
+  - [ ] Processos
+  - [ ] Normas
+  - [ ] Itens de norma
+  - [ ] Categorias
+  - [ ] Status
+  - [ ] Business
+  - [ ] Locais
+  - [ ] Tipos de detecção
+  - [ ] Responsáveis
+- [ ] Quem terá **permissão para administrar** essas listas?
+
+**Impacto:** Interface de admin, CRUD paramétrico, independência do dev
+**Sprint relacionada:** Sprint 0 (tabelas paramétricas), Sprint 1 (admin NC)
+**Princípio:** Todas as listas devem ser administráveis internamente
+
+---
+
+## 15. Evidências e Anexos
+
+- [ ] Quais **tipos de arquivo** serão aceitos oficialmente?
+  - [ ] Foto
+  - [ ] Vídeo
+  - [ ] PDF
+  - [ ] Áudio
+  - [ ] Excel
+  - [ ] PPT
+  - [ ] Print
+- [ ] Haverá **limite de tamanho**?
+- [ ] Haverá **obrigatoriedade de anexar evidência** em alguns tipos de caso?
+
+**Impacto:** Supabase Storage config, validação de upload, UX mobile
+**Sprint relacionada:** Sprint 0 (storage), Sprint 1 (upload NC), Sprint 2 (foto Hazard)
+
+---
+
+## 16. Base de Hazard
+
+- [ ] A base de hazards será **criada localmente** desde o início?
+- [ ] Ela **substituirá alguma base global**?
+- [ ] Quem **cadastra e mantém** categorias e tipos de hazard?
+
+**Impacto:** Módulo Hazard, migração de dados, admin
+**Sprint relacionada:** Sprint 2 (Hazard)
+
+---
+
+## 17. Regras de Reclamações / NPS
+
+- [ ] Toda reclamação de cliente vai **gerar NC automaticamente**?
+- [ ] Ou somente **alguns tipos**?
+- [ ] Quais **categorias de reclamação** entram no sistema?
+- [ ] Quem será o **responsável por aprovar e tratar** essas ocorrências?
+
+**Impacto:** Workflow NPS → NC, geração automática, SLA
+**Sprint relacionada:** Sprint 4 (NPS)
+
+---
+
+## 18. Países, Unidades e Idioma
+
+- [ ] Quais **unidades entram na primeira fase**?
+- [ ] Apenas Brasil e Argentina ou **mais locais no futuro**?
+- [ ] O sistema será **bilíngue** (pt-BR + es-AR) desde o início?
+- [ ] Os **fluxos serão iguais** nos dois países?
+
+**Impacto:** i18n, multi-tenant, formulários por país, seeds
+**Sprint relacionada:** Sprint 0 (i18n setup), Sprint 1 (formulários)
+**Recomendação:** Começar pt-BR, preparar estrutura para es-AR
+
+---
+
+## 19. Perfis e Permissões (Detalhado)
+
+- [ ] Quais **perfis finais** existirão oficialmente?
+  - [ ] Usuário
+  - [ ] Resolvedor
+  - [ ] Qualidade/HSE
+  - [ ] Admin
+  - [ ] Auditor
+  - [ ] Diretor
+  - [ ] Gestor/Aprovador
+- [ ] Quem pode **ver tudo** e quem vê **só seus próprios casos**?
+- [ ] Quem pode **reabrir**?
+- [ ] Quem pode **excluir** ou **editar** registro já aberto?
+
+**Impacto:** RBAC completo, RLS policies, interface condicional
+**Sprint relacionada:** Sprint 0 (RBAC), Sprint 1 (NC)
+
+---
+
+## 20. Numeração dos Registros
+
+- [ ] Os códigos serão:
+  - [ ] `NC-000001`
+  - [ ] `HZ-000001`
+  - [ ] `SOT-000001`
+  - [ ] `NPS-000001`
+- [ ] A sequência será **única global** ou **separada por país/unidade**?
+- [ ] Haverá **reinício anual** ou **sequência contínua**?
+
+**Impacto:** Gerador de IDs, sequences no banco, labels
+**Sprint relacionada:** Sprint 0 (ID generator), Sprint 1 (NC)
+**Opção enterprise:** `NC-BR-2026-000001` (tipo-país-ano-seq)
+
+---
+
+## 21. Critérios de Fechamento
+
+- [ ] O que exatamente **permite fechar** uma NC?
+- [ ] Precisa:
+  - [ ] Ação imediata concluída
+  - [ ] Ação corretiva aprovada
+  - [ ] Eficácia positiva
+- [ ] Quem tem **autoridade final** para fechar o caso?
+
+**Impacto:** Regras de transição de status, validação antes de fechar
+**Sprint relacionada:** Sprint 1 (workflow NC)
+
+---
+
+## 22. Auditoria e Rastreabilidade
+
+- [ ] Quais **eventos precisam ficar gravados** em log?
+- [ ] Apenas **mudança de status** ou também **alteração de campo**?
+- [ ] Será possível rastrear:
+  - [ ] Quem alterou
+  - [ ] Quando alterou
+  - [ ] O que alterou
+  - [ ] Valor anterior e novo
+- [ ] Isso valerá para **todos os módulos**?
+
+**Impacto:** Tabela activity_logs, triggers, UI de histórico
+**Sprint relacionada:** Sprint 0 (activity_logs), Sprint 1 (histórico NC)
+**Recomendação:** Log de tudo — status + campos + anexos + comentários
+
+---
+
+## 🔴 Os 7 Pontos Bloqueantes (resolver PRIMEIRO)
+
+| # | Ponto | Por que bloqueia | Sprint |
+|---|-------|-----------------|--------|
+| 1 | Itens das normas ISO | Sem isso o dropdown dinâmico não funciona | Sprint 0/1 |
+| 2 | Matriz de aprovadores | Sem isso o workflow não avança | Sprint 0/1 |
+| 3 | Prazo/regra de eficácia | Sem isso o agendamento automático não funciona | Sprint 1 |
+| 4 | Nomenclatura Hazard/SOT/SOFIA | Sem isso os IDs e labels ficam indefinidos | Sprint 0/2 |
+| 5 | Arquitetura oficial | Sem isso não sabemos em que stack construir | Sprint 0 |
+| 6 | Integrações prioritárias | Sem isso a arquitetura de integração fica em standby | Sprint 10 |
+| 7 | Modelo de dashboards | Sem isso não sabemos o que construir na Fase 1 | Sprint 1/7 |
+
+---
+
 ## Resumo de Impacto por Sprint
 
 | Sprint | Pontos relacionados |
 |--------|-------------------|
-| Sprint 0 (Foundation) | #1 (itens norma), #4 (nomenclatura), #5 (arquitetura), #8 (escopo), #11 (status) |
-| Sprint 1 (NC) | #2 (aprovadores), #3 (eficácia), #9 (resolvedor), #10 (SLA), #12 (risco) |
-| Sprint 2 (Hazard) | #4 (nomenclatura), #10 (SLA), #11 (status) |
-| Sprint 3 (Documental) | #10 (SLA), #11 (status) |
-| Sprint 4 (NPS) | #7 (integrações), #10 (SLA) |
-| Sprint 5 (Auditorias) | #11 (status) |
-| Sprint 6 (Workflow) | #2 (aprovadores), #9 (resolvedor), #10 (SLA) |
-| Sprint 7 (Dashboards) | #6 (estratégia dashboards), #12 (risco) |
-| Sprint 10 (Integrações) | #7 (integrações) |
+| Sprint 0 (Foundation) | #1, #4, #5, #8, #11, #13, #14, #18, #19, #20, #22 |
+| Sprint 1 (NC) | #2, #3, #9, #10, #12, #13, #15, #19, #21, #22 |
+| Sprint 2 (Hazard) | #4, #10, #11, #13, #15, #16 |
+| Sprint 3 (Documental) | #10, #11, #13, #15 |
+| Sprint 4 (NPS) | #7, #10, #13, #17 |
+| Sprint 5 (Auditorias) | #11, #13, #15 |
+| Sprint 6 (Workflow) | #2, #3, #9, #10, #21 |
+| Sprint 7 (Dashboards) | #6, #12 |
+| Sprint 9 (Notificações) | #10, #15 |
+| Sprint 10 (Integrações) | #7 |
 
 ---
 
-> **Recomendação:** Validar estes pontos em **workshop com Qualidade, HSE, responsáveis regionais e time de desenvolvimento** antes de iniciar o Sprint 1. Os pontos 5 (arquitetura) e 8 (escopo) são bloqueantes e devem ser decididos no Sprint 0.
+> **Recomendação:** Validar estes pontos em **workshop com Qualidade, HSE, responsáveis regionais e time de desenvolvimento**. Os pontos **#5 (arquitetura)** e **#8 (escopo)** são bloqueantes e devem ser decididos **antes do Sprint 0**. Os 7 pontos da tabela acima devem ser resolvidos **antes do Sprint 1**.
