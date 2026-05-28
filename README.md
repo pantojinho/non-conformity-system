@@ -19,7 +19,6 @@ Sistema unificado para gestão de:
 - ✅ Não Conformidades
 - ✅ Hazard / SOT
 - ✅ Gestão Documental ISO
-- ✅ Controle de EPI
 - ✅ Reclamações de Clientes (NPS)
 - ✅ Gestão de Auditorias
 - ✅ Controle de Aprovações
@@ -30,6 +29,8 @@ Sistema unificado para gestão de:
 - ✅ Governança BR + Argentina
 
 **Scope:** Fábrica Sorocaba, Escritório São Paulo, Argentina, expansão futura
+
+> **Nota:** Treinamentos, Controle de EPI, Controle de Acessos e Saída de Materiais possuem sistemas próprios e **não fazem parte** deste projeto.
 
 ---
 
@@ -103,25 +104,7 @@ Ver [docs/dashboards/architecture.md](docs/dashboards/architecture.md) para deta
 
 **Features:** ✅ SLA cliente ✅ Workflow atendimento ✅ Analytics cliente ✅ Tendência satisfação ✅ Escalonamento ✅ Geração automática NC ✅ Dashboard cliente ✅ Indicadores qualidade
 
-### 5. Controle de EPI
-- Gestão de entrega, assinaturas, matrizes
-- Controle de validade
-- Histórico completo
-- Auditorias
-
-### 6. Controle de Acessos
-- Portaria, acessos, visitantes
-- Aprovações de entrada/saída
-- Log de entradas e saídas (Sorocaba + São Paulo + Argentina)
-
-### 7. Saída de Materiais
-- Controle de saída de equipamentos
-- Aprovação
-- Portaria
-- Histórico
-- Transporte e justificativas
-
-### 8. Auditorias
+### 5. Auditorias
 - Gestão de auditorias internas e externas
 - Constatações
 - Observações
@@ -225,9 +208,6 @@ src/
 │       ├── hazards/          # Hazard / SOT
 │       ├── complaints/       # NPS / Reclamações
 │       ├── documents/        # Documentos ISO
-│       ├── epi/              # Controle de EPI
-│       ├── access-control/   # Controle de Acessos
-│       ├── material-exit/    # Saída de Materiais
 │       ├── audits/           # Auditorias
 │       └── admin/            # Administração
 │   └── api/                  # Route handlers
@@ -299,38 +279,30 @@ docs/
 - [ ] SLA
 - [ ] Dashboard NPS
 
-### Sprint 5 — Access Control
-- [ ] Controle de Acessos
-- [ ] Log de entradas/saídas
-
-### Sprint 6 — Material Exit
-- [ ] Saída de Materiais
-- [ ] Aprovação e histórico
-
-### Sprint 7 — Audits
+### Sprint 5 — Audits
 - [ ] Gestão de Auditorias
 - [ ] Vinculação com NC
 
-### Sprint 8 — Workflow Engine
+### Sprint 6 — Workflow Engine
 - [ ] Motor de workflow centralizado
 - [ ] Regras condicionais
 - [ ] Escalonamento automático
 
-### Sprint 9 — Dashboards Avançados
+### Sprint 7 — Dashboards Avançados
 - [ ] Dashboard Executivo
 - [ ] Dashboard Documental
 - [ ] Dashboard Treinamentos
 
-### Sprint 10 — Inteligência Artificial
+### Sprint 8 — Inteligência Artificial
 - [ ] Sugestão automática de causa raiz
 - [ ] Classificação automática
 - [ ] OCR de imagens
 - [ ] Insights preditivos
 
-### Sprint 11 — Notificações
+### Sprint 9 — Notificações
 - [ ] Sistema de notificações (email + in-app)
 
-### Sprint 12 — Integrações
+### Sprint 10 — Integrações
 - [ ] Scaffolds para SAP, CRM, Outlook, Teams
 
 ---

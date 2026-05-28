@@ -2,7 +2,7 @@
 
 > Lista de tarefas detalhadas e possíveis bugs para agentes de IA implementarem.
 >
-> **Nota:** Módulo de Treinamentos **não faz parte** deste projeto — já existe uma base própria.
+> **Nota:** Módulos de Treinamentos, Controle de EPI, Controle de Acessos e Saída de Materiais **não fazem parte** deste projeto — possuem sistemas próprios.
 
 ## Visão Geral
 
@@ -62,7 +62,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 - `src/app/layout.tsx`
 
 **Tarefas:**
-- [ ] Criar Sidebar com navegação modular (8 módulos)
+- [ ] Criar Sidebar com navegação modular (5 módulos)
 - [ ] Criar Header com dados do usuário e ações globais
 - [ ] Criar Home Buttons (grandes botões de entrada)
 - [ ] Implementar navegação dinâmica
@@ -404,54 +404,9 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 🔐 Sprint 5 — Access Control
+## 🔍 Sprint 5 — Audits
 
-### 16. Controle de Acesso
-
-**Arquivos necessários:**
-- `src/app/(app)/access-control/page.tsx`
-- `src/app/(app)/access-control/log/page.tsx`
-- `src/components/access-control/access-log.tsx`
-- `src/app/api/access-control/*`
-
-**Tarefas:**
-- [ ] Criar CRUD de portaria
-- [ ] Implementar aprovação de acessos
-- [ ] Implementar log de entradas/saídas
-- [ ] Implementar filtre por local (Sorocaba, São Paulo, Argentina)
-
-**Possíveis Bugs:**
-- Log não persistir
-- Aprovação não funcionar
-- Filtros não atualizarem
-
----
-
-## 📤 Sprint 6 — Material Exit
-
-### 17. Saída de Materiais
-
-**Arquivos necessários:**
-- `src/app/(app)/material-exit/page.tsx`
-- `src/app/(app)/material-exit/new/page.tsx`
-- `src/components/material-exit/material-exit-form.tsx`
-- `src/app/api/material-exit/*`
-
-**Tarefas:**
-- [ ] Criar CRUD de saídas
-- [ ] Implementar aprovação
-- [ ] Implementar log de histórico
-- [ ] Implementar justificativas
-
-**Possíveis Bugs:**
-- Histórico não persistir
-- Aprovação não disparar notificação
-
----
-
-## 🔍 Sprint 7 — Audits
-
-### 18. Gestão de Auditorias
+### 16. Gestão de Auditorias
 
 **Arquivos necessários:**
 - `src/app/(app)/audits/page.tsx`
@@ -471,7 +426,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## ⚙️ Sprint 8 — Workflow Engine
+## ⚙️ Sprint 6 — Workflow Engine
 
 ### 20. Motor de Workflow Centralizado
 
@@ -536,7 +491,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 🤖 Sprint 9 — Inteligência Artificial
+## 🤖 Sprint 7 — Inteligência Artificial
 
 ### 24. Sugestão Automática de Causa Raiz
 
@@ -607,7 +562,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 📞 Sprint 10 — Notificações
+## 📞 Sprint 8 — Notificações
 
 ### 28. Sistema de Notificações
 
@@ -629,7 +584,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 🔧 Sprint 11 — Integrações
+## 🔧 Sprint 9 — Integrações
 
 ### 29. Integrações Futuras
 
