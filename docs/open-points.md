@@ -61,17 +61,19 @@
 
 ---
 
-## 5. Arquitetura Oficial do Sistema
+## 5. Arquitetura Oficial do Sistema ✅ DECIDIDO
 
-- [ ] A solução final será:
-  - [ ] Power Apps + SharePoint/Dataverse + Power Automate + Power BI
-  - [ ] Next.js + Supabase + Vercel + dashboards nativos
-- [ ] Vai existir um **MVP em Microsoft 365** e depois migração?
-- [ ] Ou o projeto já **nasce direto na arquitetura própria**?
+- [x] **Decisão:** Next.js + Supabase + Vercel + dashboards nativos (Option B)
+- [x] Power Apps pode ser usado como stopgap/MVP temporário se necessário, mas a base definitiva é a plataforma própria
+- [x] Stack confirmada:
+  - Frontend: Next.js 15 + Tailwind + shadcn/ui
+  - Backend: Supabase (PostgreSQL) + Prisma
+  - Deploy: Vercel
+  - Dashboards: Tremor + Recharts (sem Power BI)
+  - Auth: Supabase Auth + RBAC
 
-**Impacto:** Stack inteira, cronograma, recursos, roadmap
-**Sprint relacionada:** Sprint 0 (decisão fundamental)
-**Status atual:** Direção estratégica aponta para Vercel + Supabase, mas precisa confirmação oficial
+**Decisão tomada em:** 28/05/2026
+**Decidido por:** Gabriel Ciandrini
 
 ---
 
@@ -339,17 +341,12 @@
 
 ---
 
-## 🔴 Os 7 Pontos Bloqueantes (resolver PRIMEIRO)
+## 🔴 Os 7 Pontos Criticos — Decisões que Precisam Ser Tomadas
 
-| # | Ponto | Por que bloqueia | Sprint |
-|---|-------|-----------------|--------|
-| 1 | Itens das normas ISO | Sem isso o dropdown dinâmico não funciona | Sprint 0/1 |
-| 2 | Matriz de aprovadores | Sem isso o workflow não avança | Sprint 0/1 |
-| 3 | Prazo/regra de eficácia | Sem isso o agendamento automático não funciona | Sprint 1 |
-| 4 | Nomenclatura Hazard/SOT/SOFIA | Sem isso os IDs e labels ficam indefinidos | Sprint 0/2 |
-| 5 | Arquitetura oficial | Sem isso não sabemos em que stack construir | Sprint 0 |
-| 6 | Integrações prioritárias | Sem isso a arquitetura de integração fica em standby | Sprint 10 |
-| 7 | Modelo de dashboards | Sem isso não sabemos o que construir na Fase 1 | Sprint 1/7 |
+**Status (28/05/2026):**
+- ✅ **5 — Arquitetura** — Definida: Next.js + Supabase + Vercel (Option B)
+- ⚠️ **6 — Integrações** — A definir (impacto Sprint 10)
+- ❓ **1-4, 7, 8-22** — Pendentes (resolver durante Sprint 1)
 
 ---
 
@@ -357,17 +354,18 @@
 
 | Sprint | Pontos relacionados |
 |--------|-------------------|
-| Sprint 0 (Foundation) | #1, #4, #5, #8, #11, #13, #14, #18, #19, #20, #22 |
+| Sprint 0 (Foundation) | #1, #4, #8, #11, #13, #14, #18, #19, #20, #22 |
 | Sprint 1 (NC) | #2, #3, #9, #10, #12, #13, #15, #19, #21, #22 |
 | Sprint 2 (Hazard) | #4, #10, #11, #13, #15, #16 |
 | Sprint 3 (Documental) | #10, #11, #13, #15 |
-| Sprint 4 (NPS) | #7, #10, #13, #17 |
+| Sprint 4 (NPS) | #6, #10, #13, #17 |
 | Sprint 5 (Auditorias) | #11, #13, #15 |
 | Sprint 6 (Workflow) | #2, #3, #9, #10, #21 |
-| Sprint 7 (Dashboards) | #6, #12 |
+| Sprint 7 (Dashboards) | #7, #12 |
 | Sprint 9 (Notificações) | #10, #15 |
-| Sprint 10 (Integrações) | #7 |
 
 ---
 
-> **Recomendação:** Validar estes pontos em **workshop com Qualidade, HSE, responsáveis regionais e time de desenvolvimento**. Os pontos **#5 (arquitetura)** e **#8 (escopo)** são bloqueantes e devem ser decididos **antes do Sprint 0**. Os 7 pontos da tabela acima devem ser resolvidos **antes do Sprint 1**.
+> **Recomendação:** Validar estes pontos em **workshop com Qualidade, HSE, responsáveis regionais e time de desenvolvimento**.
+> **Bloqueantes definidos:** ✅ #5 (Arquitetura), ✅ #8 (Escopo)
+> **A resolver durante Sprint 1:** #1, #2, #3, #4, #7 (e os demais nas sprints subsequentes)
