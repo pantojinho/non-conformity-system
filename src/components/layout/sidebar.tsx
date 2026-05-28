@@ -1,159 +1,62 @@
 "use client";
 
+import { DesktopSidebar } from "./desktop-sidebar";
+import { MobileSidebar } from "./mobile-sidebar";
+import { MobileHeader } from "./mobile-header";
 import { useState } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  FileWarning,
-  ShieldAlert,
-  MessageSquareWarning,
-  FileText,
-  ClipboardCheck,
-  Settings,
-  ChevronLeft,
-  ChevronRight,
-  Users,
-  ChevronDown,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-
-const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/nc", label: "Não Conformidades", icon: FileWarning },
-  { href: "/hazards", label: "Perigos & Riscos", icon: ShieldAlert },
-  { href: "/complaints", label: "NPS & Reclamações", icon: MessageSquareWarning },
-  { href: "/documents", label: "Documentos", icon: FileText },
-  { href: "/audits", label: "Auditorias", icon: ClipboardCheck },
-];
-
-const adminSubItems = [
-  { href: "/admin/users", label: "Usuários", icon: Users },
-];
+import { Bell, User } from "lucide-react";
 
 export function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const [adminOpen, setAdminOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
-  // Check if any admin sub-item is active
-  const isAdminActive = pathname.startsWith("/admin");
-
-  // Auto-open admin section if on an admin page
-  const shouldShowAdminSubItems = adminOpen || isAdminActive;
+  const getPageTitle = () => {
+    if (pathname === "/dashboard") return "Dashboard";
+    if (pathname.startsWith("/nc")) return "Não Conformidades";
+    if (pathname.startsWith("/hazards")) return "Perigos & Riscos";
+    if (pathname.startsWith("/complaints")) return "NPS & Reclamações";
+    if (pathname.startsWith("/documents")) return "Documentos";
+    if (pathname.startsWith("/audits")) return "Auditorias";
+    if (pathname.startsWith("/admin")) return "Administração";
+    return "Robotics Hub";
+  };
 
   return (
-    <aside
-      className={cn(
-        "flex h-full flex-col transition-all duration-200",
-        collapsed ? "w-16" : "w-64"
-      )}
-      style={{ background: "var(--sidebar-bg)" }}
-    >
-      {/* Logo */}
-      <div className="flex h-16 items-center justify-between px-4">
-        {!collapsed && (
-          <span
-            className="text-lg font-bold"
-            style={{ color: "var(--sidebar-text)" }}
-          >
-            Robotics Hub
-          </span>
-        )}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="rounded-md p-1.5 hover:opacity-80"
-          style={{ color: "var(--sidebar-text)" }}
-        >
-          {collapsed ? (
-            <ChevronRight className="h-5 w-5" />
-          ) : (
-            <ChevronLeft className="h-5 w-5" />
-          )}
-        </button>
-      </div>
+    <>
+      {/* Desktop Sidebar */}
+      <DesktopSidebar />
 
-      {/* Navigation */}
-      <nav className="flex-1 space-y-1 px-2 py-4">
-        {navItems.map((item) => {
-          const isActive = pathname.startsWith(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                isActive ? "bg-white/10" : "hover:bg-white/5"
-              )}
-              style={{ color: "var(--sidebar-text)" }}
-              title={collapsed ? item.label : undefined}
-            >
-              <item.icon className="h-5 w-5 shrink-0" />
-              {!collapsed && <span>{item.label}</span>}
-            </Link>
-          );
-        })}
+      {/* Mobile Sidebar */}
+      <MobileSidebar isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
 
-        {/* Admin section */}
-        {!collapsed ? (
-          <>
+      {/* Mobile Header */}
+      <div className="lg:hidden sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+        <div className="flex items-center justify-between px-4 py-3">
+          <div className="flex items-center gap-3">
             <button
-              onClick={() => setAdminOpen(!adminOpen)}
-              className={cn(
-                "flex w-full items-center justify-between gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                isAdminActive ? "bg-white/10" : "hover:bg-white/5"
-              )}
-              style={{ color: "var(--sidebar-text)" }}
+              onClick={() => setMobileOpen(true)}
+              className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white transition-colors"
             >
-              <div className="flex items-center gap-3">
-                <Settings className="h-5 w-5 shrink-0" />
-                <span>Administração</span>
-              </div>
-              <ChevronDown
-                className={cn(
-                  "h-4 w-4 transition-transform",
-                  shouldShowAdminSubItems && "rotate-180"
-                )}
-              />
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
             </button>
-            {shouldShowAdminSubItems && (
-              <div className="ml-4 space-y-1 border-l border-white/10 pl-3">
-                {adminSubItems.map((item) => {
-                  const isActive = pathname === item.href;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={cn(
-                        "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                        isActive
-                          ? "bg-white/15 text-white"
-                          : "text-white/60 hover:bg-white/5 hover:text-white/80"
-                      )}
-                      style={{ color: "var(--sidebar-text)" }}
-                    >
-                      <item.icon className="h-4 w-4 shrink-0" />
-                      <span>{item.label}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-          </>
-        ) : (
-          <Link
-            href="/admin/users"
-            className={cn(
-              "flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-colors",
-              isAdminActive ? "bg-white/10" : "hover:bg-white/5"
-            )}
-            style={{ color: "var(--sidebar-text)" }}
-            title="Administração"
-          >
-            <Settings className="h-5 w-5 shrink-0" />
-          </Link>
-        )}
-      </nav>
-    </aside>
+            <span className="text-lg font-semibold text-gray-900 dark:text-white">
+              {getPageTitle()}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white transition-colors">
+              <Bell className="h-5 w-5" />
+            </button>
+            <button className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white transition-colors">
+              <User className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
