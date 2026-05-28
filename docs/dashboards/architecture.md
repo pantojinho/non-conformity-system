@@ -2,7 +2,7 @@
 
 ## Por que NÃO usar Power BI
 
-| Critério | Power BI | Tremor + Recharts (Next.js) |
+| Critério | Power BI | Recharts (Next.js) |
 |----------|----------|----------------------------|
 | Custo | Licença Pro por usuário (~$10/user/mês) | **Gratuito** (open source) |
 | Integração | Embed complexo, iframe | **Nativo** na aplicação |
@@ -15,14 +15,8 @@
 ## Stack de Dashboards
 
 ```
-Tremor (componentes) + Recharts (gráficos) + Supabase (dados)
+Recharts (gráficos) + Supabase (dados) + Tailwind + shadcn/ui
 ```
-
-### Tremor
-- Lib de componentes React para dashboards
-- Profissional, acessível, customizável
-- Cards, KPIs, tabelas, gráficos prontos
-- https://tremor.so
 
 ### Recharts
 - Gráficos declarativos em React

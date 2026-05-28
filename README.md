@@ -318,13 +318,15 @@ supabase/
 └── seed/                     # Dados iniciais (001_initial.sql)
 
 docs/
-├── schema/                   # Database + RBAC
-├── workflows/                # Fluxos de cada módulo
-├── dashboards/               # Arquitetura de dashboards
-├── admin-guide/              # Guia de administração
-├── ai-agents/                # Tarefas para agentes de IA
-├── open-points.md            # Validações pendentes
-└── checklist-reuniao.md      # Checklist reunião Aldo/Qualidade
+├── decisions.md           # Validações pendentes + decisões tomadas
+├── workflows.md           # Fluxos NC, Hazard, NPS (consolidado)
+├── schema/
+│   ├── database.md        # 16+ tabelas detalhadas
+│   └── rbac.md            # 7 perfis + permissões + admin guide
+├── dashboards/
+│   └── architecture.md    # Stack Recharts (sem Power BI)
+└── ai-agents/
+    └── AI-Agents-Tasks.md # Sprints e tarefas detalhadas
 
 .github/
 └── workflows/

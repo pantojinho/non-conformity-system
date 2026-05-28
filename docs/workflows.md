@@ -1,8 +1,12 @@
-# Fluxo Completo — Não Conformidade
+# Fluxos de Trabalho — Robotics Hub
 
 > Versão validada — Documentação do Projeto v0.1 (28/05/2026)
 
-## Visão Geral — 9 Etapas
+---
+
+## Não Conformidade (9 etapas)
+
+### Visão Geral
 
 | Etapa | Objetivo | Responsável | Saída Esperada | Observação |
 |-------|----------|-------------|----------------|------------|
@@ -16,11 +20,9 @@
 | 8. Aprovação final | Validar solução | Qualidade/HSE/Gestor | Pronto para eficácia | Aprovação multinível |
 | 9. Eficácia | Verificar se funcionou | Qualidade/HSE/Aprovador | Fechamento ou reabertura | 90 dias (padrão) ou 180 dias (parametrizável) |
 
----
+### Detalhamento por Etapa
 
-## Detalhamento por Etapa
-
-### ETAPA 1 — ABERTURA
+#### ETAPA 1 — ABERTURA
 **Ator:** Qualquer usuário logado (originador)
 
 **Campos obrigatórios:**
@@ -43,7 +45,7 @@
 
 ---
 
-### ETAPA 2 — DEFINIÇÃO DE RESOLVEDOR
+#### ETAPA 2 — DEFINIÇÃO DE RESOLVEDOR
 **Ator:** Qualidade / HSE / Gestor
 
 **Pergunta ao originador:** "Você sabe quem deve resolver?"
@@ -56,7 +58,7 @@
 
 ---
 
-### ETAPA 3 — ACEITE DO RESOLVEDOR
+#### ETAPA 3 — ACEITE DO RESOLVEDOR
 **Ator:** Resolvedor
 
 **Opções:**
@@ -67,7 +69,7 @@
 
 ---
 
-### ETAPA 4 — AÇÃO IMEDIATA / REMEDIAÇÃO
+#### ETAPA 4 — AÇÃO IMEDIATA / REMEDIAÇÃO
 **Ator:** Resolvedor
 
 **Objetivo:** Conter o problema no curto prazo
@@ -89,7 +91,7 @@
 
 ---
 
-### ETAPA 5 — APROVAÇÃO DA AÇÃO IMEDIATA
+#### ETAPA 5 — APROVAÇÃO DA AÇÃO IMEDIATA
 **Ator:** Qualidade / HSE / Aprovador
 
 - **Aprovada** → Abre fluxo de análise de causa
@@ -97,7 +99,7 @@
 
 ---
 
-### ETAPA 6 — ANÁLISE DE CAUSA
+#### ETAPA 6 — ANÁLISE DE CAUSA
 **Ator:** Resolvedor / Área responsável
 
 **Campos:**
@@ -113,7 +115,7 @@
 
 ---
 
-### ETAPA 7 — AÇÃO CORRETIVA
+#### ETAPA 7 — AÇÃO CORRETIVA
 **Ator:** Resolvedor / Área responsável
 
 **Objetivo:** Eliminar a causa raiz do problema
@@ -129,14 +131,14 @@
 
 ---
 
-### ETAPA 8 — APROVAÇÃO FINAL
+#### ETAPA 8 — APROVAÇÃO FINAL
 **Ator:** Qualidade / HSE / Gestor (aprovação multinível)
 
 Valida a solução proposta. Aprovado → segue para eficácia.
 
 ---
 
-### ETAPA 9 — EFICÁCIA
+#### ETAPA 9 — EFICÁCIA
 **Ator:** Qualidade / HSE / Aprovador
 
 **Agendamento automático:**
@@ -151,7 +153,7 @@ Valida a solução proposta. Aprovado → segue para eficácia.
 
 ---
 
-## Regras de Negócio do Fluxo
+### Regras de Negócio do Fluxo NC
 
 1. Se a ação corretiva for aprovada → sistema programa automaticamente a avaliação de eficácia
 2. Se a eficácia for positiva → processo pode ser fechado
@@ -162,9 +164,7 @@ Valida a solução proposta. Aprovado → segue para eficácia.
 7. Histórico permite reconstruir todo o ciclo de vida para auditoria
 8. SLA vencido → status muda automaticamente para "Atrasado" + gestor recebe alerta
 
----
-
-## Automações do Fluxo
+### Automações do Fluxo NC
 
 - Notificação automática ao abrir registro
 - Notificação quando responsável for definido
@@ -174,3 +174,89 @@ Valida a solução proposta. Aprovado → segue para eficácia.
 - Notificação de reabertura
 - Aviso automático de eficácia na data parametrizada
 - Escalonamento automático quando SLA vencido
+
+---
+
+## Hazard / SOT (fluxo simplificado)
+
+### Abertura
+**Ator:** Qualquer usuário logado
+
+### Campos
+- País (Brasil / Argentina)
+- Unidade
+- Tipo (Hazard ou SOT)
+- Categoria:
+  - Segurança
+  - Saúde
+  - Meio Ambiente
+  - Security Patrimonial
+- Local
+- Risco (Baixo / Médio / Alto)
+- Foto (obrigatório para chão de fábrica)
+- Descrição
+- Área
+- Processo
+- Responsável
+
+### Exemplos de Hazard
+- Óleo no chão
+- Produto químico aberto
+- Risco de queda
+- EPI inadequado
+- Área insegura
+- Vazamento
+- Risco elétrico
+
+### Fluxo Simplificado
+
+```
+Aberto → Em Análise → Ação Corretiva → Verificação → Fechado
+```
+
+### Regras
+- Registro deve ser possível em menos de 2 minutos
+- Mobile-first (chão de fábrica / inspeções)
+- Foto é prioridade como evidência
+
+---
+
+## NPS / Reclamações (fluxo)
+
+### Abertura
+**Ator:** Qualquer usuário logado
+
+### Campos
+- Cliente
+- Projeto
+- Pedido
+- Tipo de reclamação
+- Categoria (Qualidade, Atendimento, Prazo, Instalação, Service)
+- Impacto
+- Área responsável
+- Responsável
+- Data ocorrência
+- Evidências
+- SLA
+
+### Geração Automática
+O módulo pode gerar automaticamente:
+- Não conformidade vinculada
+- Ação corretiva
+- Escalonamento
+- Dashboard de clientes
+
+### Integrações Futuras
+- SAP
+- CRM
+- Outlook
+- Teams
+- SharePoint
+
+### Dashboard NPS
+- Reclamações por cliente
+- Reclamações por projeto
+- SLA compliance
+- Reincidência
+- Motivos principais
+- Tendência de satisfação
