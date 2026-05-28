@@ -47,6 +47,8 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
     onClose();
   };
 
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-50 lg:hidden">
       {/* Backdrop */}
