@@ -54,21 +54,17 @@ Criar uma **plataforma corporativa moderna, escalável e independente** para sub
 | Camada | Tecnologia | Justificativa |
 |--------|-----------|---------------|
 | **Frontend** | Next.js 15 | SSR, rotas dinâmicas, performance |
-| **UI** | Tailwind + shadcn/ui | Moderno, acessível, customizável |
-| **Charts** | Recharts + Tremor | Dashboards profissionais sem Power BI |
+| **UI** | Tailwind CSS | Utility-first, moderno, responsivo |
+| **Charts** | Recharts | Dashboards nativos sem Power BI |
 | **Backend** | Vercel Serverless Functions | Deploy automático, escalabilidade |
 | **Banco de Dados** | Supabase (PostgreSQL) | RLS, Auth, Realtime, Storage |
-| **ORM** | Prisma | Type-safe database access |
-| **Auth** | Supabase Auth + RBAC | Email/senha, perfis granulares |
+| **Auth** | Supabase Auth + RBAC | Email/senha, 7 perfis granulares |
 | **Storage** | Supabase Storage | Anexos, documentos, certificados |
 | **Forms** | React Hook Form + Zod | Validação robusta |
 | **Query** | TanStack Query | Cache, stale-while-revalidate |
 | **State** | Zustand | Leve e simples |
-| **Email** | Resend + React Email | Notificações transacionais |
-| **PDF** | React PDF | Certificados, relatórios |
-| **Deploy** | Vercel | CI/CD, preview deployments |
-| **CI/CD** | GitHub Actions | Automação de testes e deploy |
-| **Logs** | Sentry | Error tracking |
+| **Email** | Resend (futuro) | Notificações transacionais |
+| **Deploy** | Vercel + GitHub Actions | CI/CD, preview deployments |
 
 ### Por que NÃO Microsoft Power Platform?
 
@@ -228,11 +224,17 @@ Ver [docs/open-points.md](docs/open-points.md) para a lista completa de validaç
 
 ## 🗺️ Roadmap
 
-### Sprint 0 — Foundation
-- [ ] Setup Base (Next.js, Supabase, Prisma, CI/CD)
-- [ ] Layout Global (Sidebar, Header, Home Buttons)
-- [ ] Banco Inicial (16+ tabelas, RLS, seeds)
-- [ ] Autenticação e RBAC (login, signup, permissões, middleware)
+### Sprint 0 — Foundation ✅
+- [x] Next.js 15 + TypeScript + Tailwind CSS
+- [x] Supabase client (browser + server + admin)
+- [x] Auth (login/signup/callback via Supabase Auth)
+- [x] RBAC com 7 perfis + permissões granulares
+- [x] Middleware protegendo rotas
+- [x] Layout (sidebar + header)
+- [x] Database schema (16+ tabelas via SQL migrations)
+- [x] Seeds (roles, orgs, normas, processos, negócios)
+- [x] User Management CRUD (admin)
+- [x] Deploy Vercel + domínio roboticsportal.com.br
 
 ### Sprint 1 — Não Conformidade (Core)
 - [ ] Formulário NC completo
@@ -280,52 +282,53 @@ Ver [docs/open-points.md](docs/open-points.md) para a lista completa de validaç
 src/
 ├── app/
 │   ├── (auth)/               # Login, Signup
-│   ├── (dashboard)/          # Dashboard principal
-│   └── (app)/
-│       ├── nc/               # Não conformidades
-│       ├── hazards/          # Hazard / SOT
-│       ├── complaints/       # NPS / Reclamações
-│       ├── documents/        # Documentos ISO
-│       ├── audits/           # Auditorias
-│       ├── pending/          # Minhas pendências
-│       └── admin/            # Administração
-│   └── api/                  # Route handlers
+│   ├── (app)/
+│   │   ├── dashboard/        # Dashboard principal
+│   │   ├── nc/               # Não conformidades
+│   │   ├── hazards/          # Hazard / SOT
+│   │   ├── complaints/       # NPS / Reclamações
+│   │   ├── documents/        # Documentos ISO
+│   │   ├── audits/           # Auditorias
+│   │   ├── pending/          # Minhas pendências
+│   │   └── admin/            # Administração (users, normas, processos)
+│   ├── api/
+│   │   ├── auth/callback/    # Supabase code exchange
+│   │   └── admin/users/      # CRUD de usuários
+│   ├── layout.tsx            # Root layout
+│   ├── globals.css           # Tailwind global
+│   ├── loading.tsx           # Global loading
+│   └── not-found.tsx         # 404
 ├── components/
-│   ├── ui/                   # Componentes base
-│   ├── layout/               # Sidebar, Header, Home Buttons
-│   ├── forms/                # Formulários reutilizáveis
-│   ├── nc/                   # Componentes NC
-│   ├── hazards/              # Componentes Hazard
-│   ├── complaints/           # Componentes NPS
-│   ├── documents/            # Componentes Documentos
-│   ├── audits/               # Componentes Auditorias
+│   ├── admin/                # User table, form modal, delete confirm
 │   ├── dashboard/            # Charts, KPI Cards
+│   ├── layout/               # Sidebar, Header, Home Buttons
 │   ├── timeline/             # Timeline visual
-│   └── workflow/             # Componentes Workflow
+│   └── providers.tsx         # QueryClient provider
 ├── lib/
-│   ├── supabase/             # Client + Server
-│   ├── auth/                 # Middleware, permissões RBAC
+│   ├── supabase/             # Client (browser) + Server (cookies) + Admin (service role)
+│   ├── auth/                 # RBAC, permissions, middleware helper
 │   ├── types/                # TypeScript types + enums
-│   ├── utils/                # Helpers, ID generator
-│   ├── validators/           # Validação (Zod)
-│   ├── workflow/             # Workflow engine
-│   ├── notifications/        # Sistema de notificações
-│   └── integrations/         # Integrações futuras
-└── styles/                   # CSS global
+│   ├── utils/                # cn(), ID generator, helpers
+│   ├── validators/           # Zod schemas (NC, Hazard, Complaint)
+│   └── workflow/             # Workflow engine (placeholder)
+└── middleware.ts             # Route protection + session refresh
 
 supabase/
-├── migrations/               # Schema SQL versionado
-├── seed/                     # Dados iniciais
-└── rls/                      # Row Level Security
+├── migrations/               # Schema SQL versionado (001_initial.sql)
+└── seed/                     # Dados iniciais (001_initial.sql)
 
 docs/
 ├── schema/                   # Database + RBAC
 ├── workflows/                # Fluxos de cada módulo
 ├── dashboards/               # Arquitetura de dashboards
-├── api/                      # Documentação de API
 ├── admin-guide/              # Guia de administração
 ├── ai-agents/                # Tarefas para agentes de IA
-└── open-points.md            # Validações pendentes
+├── open-points.md            # Validações pendentes
+└── checklist-reuniao.md      # Checklist reunião Aldo/Qualidade
+
+.github/
+└── workflows/
+    └── supabase-migrate.yml  # Auto-migrate on push
 ```
 
 ---
@@ -347,4 +350,4 @@ Projeto corporativo fechado. Contributions devem ser aprovadas pelo responsável
 
 ---
 
-**Status:** 🚧 Em planejamento — kick-off concluído, documentação v0.1 consolidada
+**Status:** ✅ Sprint 0 concluído — plataforma online, autenticação funcional, CRUD de usuários operacional

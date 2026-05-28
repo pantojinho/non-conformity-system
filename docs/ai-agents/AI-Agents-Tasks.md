@@ -12,127 +12,89 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ## 📦 Sprint 0 — Foundation
 
-### 1. Setup Base
+> Sprint 0 is substantially complete. Items marked `[ ]` are deferred to backlog or Sprint 1.
 
-**Arquivos necessários:**
-- `package.json` com dependências:
-  - Next.js 15
-  - React 19
-  - TypeScript
-  - Tailwind CSS
-  - shadcn/ui
-  - Prisma
-  - Supabase
-  - @tanstack/react-query
-  - @tanstack/react-table
-  - recharts
-  - tremor
-  - react-hook-form
-  - zod
-  - @hookform/resolvers
-  - zustand
-  - date-fns
-  - clsx
-  - tailwind-merge
-- `turbo.json` (para monorepo futuro)
-- `pnpm-workspace.yaml` (para monorepo futuro)
-- `.env.example`
+### 1. Setup Base — ✅ DONE
 
-**Tarefas:**
-- [ ] Inicializar Next.js 15 com TypeScript
-- [ ] Configurar Tailwind + shadcn/ui
-- [ ] Instalar Prisma + Supabase client
-- [ ] Configurar CI/CD com GitHub Actions
-- [ ] Configurar Sentry para erro tracking
+**Stack atual (instalado e configurado):**
+- Next.js 15 + React 19 + TypeScript
+- Tailwind CSS 4
+- Supabase client (browser + server + admin)
+- @tanstack/react-query
+- recharts (para gráficos)
+- react-hook-form + zod + @hookform/resolvers
+- zustand (state management)
+- date-fns + clsx + tailwind-merge
 
-**Possíveis Bugs:**
-- Dependências conflitantes entre shadcn/ui e outros componentes
-- Tailwind CSS não renderizar no Next.js App Router
-- Supabase client não inicializar corretamente no ambiente de desenvolvimento
+**Checklist:**
+- [x] Next.js 15 + TypeScript + Tailwind CSS
+- [x] Supabase client (browser + server + admin)
+- [x] `.env.example` configurado
+
+**Deferido:**
+- [ ] shadcn/ui setup → Sprint 1
+- [ ] CI/CD com GitHub Actions → Backlog
+- [ ] Dark mode toggle → Backlog
 
 ---
 
-### 2. Layout Global
+### 2. Layout Global — ✅ DONE
 
-**Arquivos necessários:**
-- `src/components/layout/sidebar.tsx`
-- `src/components/layout/header.tsx`
-- `src/components/layout/home-buttons.tsx`
-- `src/components/layout/navigation.tsx`
-- `src/app/layout.tsx`
+**Arquivos:** `src/components/layout/sidebar.tsx`, `header.tsx`, `home-buttons.tsx`, `navigation.tsx`, `src/app/layout.tsx`
 
-**Tarefas:**
-- [ ] Criar Sidebar com navegação modular (5 módulos)
-- [ ] Criar Header com dados do usuário e ações globais
-- [ ] Criar Home Buttons (grandes botões de entrada)
-- [ ] Implementar navegação dinâmica
-- [ ] Implementar dark mode toggle
-- [ ] Criar protected routes wrapper
+**Checklist:**
+- [x] Sidebar com navegação modular (5 módulos)
+- [x] Header com dados do usuário e ações globais
+- [x] Home Buttons (grandes botões de entrada)
+- [x] Navegação dinâmica
+- [x] Protected routes via middleware
 
-**Possíveis Bugs:**
-- Sidebar não persistir estado entre navegações
-- Header não atualizar dados do usuário em tempo real
-- Navegação não travar rotas não autorizadas
-- Dark mode não persistir no refresh
+**Deferido:**
+- [ ] Dark mode toggle → Backlog
 
 ---
 
-### 3. Banco de Dados Inicial
+### 3. Banco de Dados — ✅ DONE
 
-**Arquivos necessários:**
-- `prisma/schema.prisma`
-- `supabase/migrations/001_initial.sql`
-- `supabase/seed/001_initial.sql`
+**Arquivos:** `supabase/migrations/`, `supabase/seeds/`
 
-**Tarefas:**
-- [ ] Criar tabelas: users, roles, permissions, nc_records, hazards, documents, audit_logs, attachments
-- [ ] Criar índices para performance
-- [ ] Criar foreign keys com cascade delete
-- [ ] Criar seeds com dados iniciais (normas, processos, status)
-- [ ] Criar enum types (status, risk_level, categories)
-- [ ] Criar row level security policies
-
-**Possíveis Bugs:**
-- Foreign keys com cascade delete causarem erros em cascata
-- Índices não criarem para queries comuns
-- Enum types não suportarem valores customizados
-- RLS policies causarem bloqueios indevidos
-- Sequences não iniciarem corretamente para IDs
+**Checklist:**
+- [x] 16+ tabelas via SQL migrations (users, roles, permissions, nc_records, hazards, documents, audit_logs, attachments, etc.)
+- [x] Índices para performance
+- [x] Foreign keys com cascade delete
+- [x] Seeds com dados iniciais (roles, orgs, normas, processos, business)
+- [x] Enum types (status, risk_level, categories)
+- [x] Row level security policies
 
 ---
 
-### 4. Autenticação e RBAC
+### 4. Autenticação e RBAC — ✅ DONE
 
-**Arquivos necessários:**
-- `src/lib/supabase/auth.ts`
-- `src/lib/auth/middleware.ts`
-- `src/lib/auth/permissions.ts`
-- `src/lib/auth/rbac.ts`
-- `src/app/(auth)/login/page.tsx`
-- `src/app/(auth)/signup/page.tsx`
-- `src/app/(auth)/logout/page.tsx`
+**Arquivos:** `src/lib/supabase/`, `src/lib/auth/`, `src/middleware.ts`, `src/app/(auth)/`
 
-**Tarefas:**
-- [ ] Implementar login com Supabase Auth
-- [ ] Implementar signup com verificação de email
-- [ ] Criar perfis de usuário (role_id)
-- [ ] Criar permissões granulares (por módulo)
-- [ ] Criar middleware de proteção de rotas
-- [ ] Implementar RBAC com check de permissões
-- [ ] Criar helper `hasPermission(role, permission)`
+**Checklist:**
+- [x] Login com Supabase Auth
+- [x] Signup com verificação de email
+- [x] Callback route para Supabase Auth
+- [x] Perfis de usuário (role_id)
+- [x] RBAC com 7 roles + permissões granulares (por módulo)
+- [x] Middleware protegendo rotas
+- [x] Helper `hasPermission(role, permission)`
 
-**Possíveis Bugs:**
-- Supabase client não autenticar corretamente no SSR
-- Middleware não detectar usuário logado
-- Permissões não atualizarem após mudança de perfil
-- Session expirar sem redirecionamento correto
-- Role não persistir no banco de dados
+---
+
+### 5. User Management CRUD — ✅ DONE
+
+**Checklist:**
+- [x] CRUD de usuários (admin)
+- [x] Atribuição de roles
+- [x] Filtros e busca
 
 ---
 
 ## 🚀 Sprint 1 — Non Conformity (MVP)
 
-### 5. Registro NC — Formulário Completo
+### 6. Registro NC — Formulário Completo
 
 **Arquivos necessários:**
 - `src/app/(app)/nc/new/page.tsx`
@@ -163,7 +125,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 6. Detalhe NC — Timeline e Workflow
+### 7. Detalhe NC — Timeline e Workflow
 
 **Arquivos necessários:**
 - `src/app/(app)/nc/[id]/page.tsx`
@@ -193,7 +155,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 7. Dashboard NC — KPIs e Charts
+### 8. Dashboard NC — KPIs e Charts
 
 **Arquivos necessários:**
 - `src/components/dashboard/kpi-cards.tsx`
@@ -218,7 +180,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 8. Ação Imediata
+### 9. Ação Imediata
 
 **Arquivos necessários:**
 - `src/components/nc/immediate-action-section.tsx`
@@ -239,7 +201,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 9. Ação Corretiva
+### 10. Ação Corretiva
 
 **Arquivos necessários:**
 - `src/components/nc/corrective-action-section.tsx`
@@ -259,7 +221,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 10. Eficácia e Reabertura
+### 11. Eficácia e Reabertura
 
 **Arquivos necessários:**
 - `src/components/nc/efficacy-section.tsx`
@@ -279,7 +241,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 11. Admin de Módulos NC
+### 12. Admin de Módulos NC
 
 **Arquivos necessários:**
 - `src/app/(app)/admin/nc/processes/page.tsx`
@@ -304,9 +266,18 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
+### 13. shadcn/ui Setup
+
+**Tarefas:**
+- [ ] Instalar e configurar shadcn/ui
+- [ ] Adicionar componentes base (Button, Input, Select, Dialog, etc.)
+- [ ] Substituir componentes custom onde apropriado
+
+---
+
 ## 🔥 Sprint 2 — Hazard / HSE
 
-### 12. Registro Hazard — Mobile First
+### 14. Registro Hazard — Mobile First
 
 **Arquivos necessários:**
 - `src/app/(app)/hazards/new/page.tsx`
@@ -330,7 +301,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 13. Dashboard HSE
+### 15. Dashboard HSE
 
 **Arquivos necessários:**
 - `src/components/dashboard/hse-dashboard.tsx`
@@ -354,11 +325,11 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ## 📄 Sprint 3 — Documents (ISO)
 
-### 14. Gestão Documental ISO
+### 16. Gestão Documental ISO
 
 **Arquivos necessários:**
 - `src/app/(app)/documents/page.tsx`
-- `src/app/(app)/documents/\[id\]/page.tsx`
+- `src/app/(app)/documents/[id]/page.tsx`
 - `src/components/documents/document-card.tsx`
 - `src/lib/workflow/document-workflow.ts`
 - `src/app/api/documents/*`
@@ -381,7 +352,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ## 📊 Sprint 4 — NPS / Reclamações
 
-### 15. NPS e Reclamações
+### 17. NPS e Reclamações
 
 **Arquivos necessários:**
 - `src/app/(app)/complaints/page.tsx`
@@ -406,11 +377,11 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ## 🔍 Sprint 5 — Audits
 
-### 16. Gestão de Auditorias
+### 18. Gestão de Auditorias
 
 **Arquivos necessários:**
 - `src/app/(app)/audits/page.tsx`
-- `src/app/(app)/audits/\[id\]/page.tsx`
+- `src/app/(app)/audits/[id]/page.tsx`
 - `src/components/audits/audit-form.tsx`
 - `src/app/api/audits/*`
 
@@ -428,7 +399,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ## ⚙️ Sprint 6 — Workflow Engine
 
-### 20. Motor de Workflow Centralizado
+### 19. Motor de Workflow Centralizado
 
 **Arquivos necessários:**
 - `src/lib/workflow/engine.ts`
@@ -453,7 +424,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ## 📈 Sprint 10 — Dashboards Avançados
 
-### 21. Dashboard Executivo
+### 20. Dashboard Executivo
 
 **Arquivos necessários:**
 - `src/components/dashboard/executive-dashboard.tsx`
@@ -473,7 +444,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 22. Dashboard Documental
+### 21. Dashboard Documental
 
 **Arquivos necessários:**
 - `src/components/dashboard/documental-dashboard.tsx`
@@ -493,7 +464,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ## 🤖 Sprint 7 — Inteligência Artificial
 
-### 24. Sugestão Automática de Causa Raiz
+### 22. Sugestão Automática de Causa Raiz
 
 **Arquivos necessários:**
 - `src/app/api/ai/suggest-root-cause/route.ts`
@@ -503,7 +474,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 - [ ] Integrar com modelo de IA (OpenAI / Claude)
 - [ ] Implementar estrutura de prompt
 - [ ] Implementar parsing da resposta
-- [ ] Fornecer 3-5 sugestões baseadas em descreção
+- [ ] Fornecer 3-5 sugestões baseadas em descrição
 
 **Possíveis Bugs:**
 - IA não retornar resposta formatada
@@ -512,7 +483,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 25. Classificação Automática
+### 23. Classificação Automática
 
 **Arquivos necessários:**
 - `src/app/api/ai/classify-nc/route.ts`
@@ -529,7 +500,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 26. OCR de Imagens
+### 24. OCR de Imagens
 
 **Arquivos necessários:**
 - `src/app/api/ai/ocr/route.ts`
@@ -546,7 +517,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 27. Insights Preditivos
+### 25. Insights Preditivos
 
 **Arquivos necessários:**
 - `src/app/api/ai/predictive-insights/route.ts`
@@ -564,7 +535,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ## 📞 Sprint 8 — Notificações
 
-### 28. Sistema de Notificações
+### 26. Sistema de Notificações
 
 **Arquivos necessários:**
 - `src/components/notifications/notification-center.tsx`
@@ -586,7 +557,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ## 🔧 Sprint 9 — Integrações
 
-### 29. Integrações Futuras
+### 27. Integrações Futuras
 
 **Arquivos necessários:**
 - `src/lib/integrations/sap.ts`
@@ -604,6 +575,14 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 - OAuth não funcionar
 - Integrações não conectar
 - Erros não tratados
+
+---
+
+## 📋 Backlog
+
+- [ ] CI/CD com GitHub Actions
+- [ ] Dark mode toggle
+- [ ] shadcn/ui setup (moved to Sprint 1)
 
 ---
 
