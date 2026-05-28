@@ -7,30 +7,43 @@
 
 ---
 
+## 📄 Documentação Oficial
+
+| Documento | Descrição |
+|-----------|-----------|
+| [README.md](README.md) | Visão geral do projeto (este arquivo) |
+| [docs/schema/database.md](docs/schema/database.md) | Schema completo do banco (16+ tabelas) |
+| [docs/schema/rbac.md](docs/schema/rbac.md) | Perfis de acesso e permissões detalhados |
+| [docs/workflows/nc-flow.md](docs/workflows/nc-flow.md) | Fluxo NC completo em 9 etapas |
+| [docs/workflows/hazard-flow.md](docs/workflows/hazard-flow.md) | Fluxo Hazard / SOT simplificado |
+| [docs/workflows/complaint-flow.md](docs/workflows/complaint-flow.md) | Fluxo NPS / Reclamações |
+| [docs/dashboards/architecture.md](docs/dashboards/architecture.md) | Dashboards sem Power BI |
+| [docs/admin-guide/README.md](docs/admin-guide/README.md) | Guia de administração |
+| [docs/ai-agents/AI-Agents-Tasks.md](docs/ai-agents/AI-Agents-Tasks.md) | Tarefas e bugs para agentes de IA |
+| [docs/open-points.md](docs/open-points.md) | Pontos em aberto para validação |
+
+**Documentação base:** Documentação do Projeto — Sistema Integrado de Registro e Gestão de Não Conformidades v0.1 (28/05/2026)
+
+---
+
 ## 🎯 Objetivo
 
-Criar uma **plataforma corporativa moderna, escalável e independente de fornecedores Microsoft tradicionais** para substituir gradualmente sistemas como:
-- Intelex
-- Trinapse
-- Power Platform
-- Power BI
+Criar uma **plataforma corporativa moderna, escalável e independente** para substituir gradualmente sistemas como Intelex, Trinapse, Power Platform e Power BI.
 
-Sistema unificado para gestão de:
-- ✅ Não Conformidades
-- ✅ Hazard / SOT
-- ✅ Gestão Documental ISO
-- ✅ Reclamações de Clientes (NPS)
-- ✅ Gestão de Auditorias
-- ✅ Controle de Aprovações
-- ✅ Analytics Corporativo
-- ✅ Gestão de Processos
-- ✅ Workflow Operacional
-- ✅ Compliance ISO
-- ✅ Governança BR + Argentina
+### Por que estamos criando este sistema
+
+- **Padronizar** o registro e tratamento de NCs entre Brasil e Argentina
+- **Garantir aderência** às normas ISO 9001, 14001, 45001 e Hazard/SOT
+- **Centralizar** informações que hoje ficam fragmentadas em planilhas, e-mails e sistemas legados
+- **Rastreabilidade ponta a ponta:** quem abriu, quem tratou, quais ações, quem aprovou, quando venceu, se foi eficaz
+- **Reduzir tempo** de abertura — qualquer colaborador registra em < 2 minutos
+- **Disponibilizar evidências** e histórico completo para auditorias e compliance
+- **Gerar indicadores** gerenciais e operacionais (SLA, reincidência, risco, áreas críticas)
+- **Reduzir dependência** de plataformas fragmentadas, preparando base escalável
 
 **Scope:** Fábrica Sorocaba, Escritório São Paulo, Argentina, expansão futura
 
-> **Nota:** Treinamentos, Controle de EPI, Controle de Acessos e Saída de Materiais possuem sistemas próprios e **não fazem parte** deste projeto.
+> **Nota:** Treinamentos, Controle de EPI, Controle de Acessos e Saída de Materiais possuem sistemas próprios e **não fazem parte** deste projeto. Podem ser referência para integrações futuras.
 
 ---
 
@@ -49,96 +62,130 @@ Sistema unificado para gestão de:
 | **Forms** | React Hook Form + Zod | Validação robusta |
 | **Query** | TanStack Query | Cache, stale-while-revalidate |
 | **State** | Zustand | Leve e simples |
+| **Email** | Resend + React Email | Notificações transacionais |
+| **PDF** | React PDF | Certificados, relatórios |
 | **Deploy** | Vercel | CI/CD, preview deployments |
+| **CI/CD** | GitHub Actions | Automação de testes e deploy |
+| **Logs** | Sentry | Error tracking |
 
-### Por que NÃO usar Microsoft Power Platform?
+### Por que NÃO Microsoft Power Platform?
 
 | Critério | Power Platform | Vercel + Supabase |
 |----------|----------------|-------------------|
 | **Custo** | ~$10/user/mês | **Gratuito** (open source) |
 | **Integração** | Embed complexo | **Nativo** na aplicação |
-| **Autenticação** | SSO separado | **Mesma auth** do sistema |
+| **Autenticação** | SSO separado | **Mesma auth** |
 | **Mobile** | App separado | **Responsivo nativo** |
 | **Manutenção** | Gateway/refresh | **Zero overhead** |
-| **Real-time** | Limitado (DirectQuery) | **Supabase Realtime** grátis |
+| **Real-time** | Limitado | **Supabase Realtime** grátis |
 | **Customização** | Limitada | **Total controle** |
 | **Vendor Lock-in** | Sim | **Não** |
 
-Ver [docs/dashboards/architecture.md](docs/dashboards/architecture.md) para detalhes.
+Ver [docs/dashboards/architecture.md](docs/dashboards/architecture.md).
 
 ---
 
-## 📦 Módulos do Sistema
+## 📦 Módulos (5)
 
-### 1. Não Conformidade
-- Fluxo completo: abertura → ação imediata → aprovação → ação corretiva → análise de causa → eficácia → fechamento
-- Conformidade ISO 9001, 14001, 45001
+### 1. Não Conformidade (Core)
+- Fluxo completo em **9 etapas** com workflow estruturado
+- Conformidade **ISO 9001, 14001, 45001**
 - Geração automática ID: `NC-000001`
 - Dropdowns dinâmicos (norma → itens da norma)
-- Timeline visual de status
-
-**Features:** ✅ Timeline visual ✅ Histórico completo ✅ Reabertura automática ✅ Workflow de aprovação ✅ SLA ✅ Upload evidências ✅ Análise Ishikawa ✅ 5 porquês ✅ Analytics ✅ Dashboard operacional ✅ Rastreabilidade completa
+- Timeline visual com 12 status
+- Aprovação multinível
+- Análise de causa (5 Porquês / Ishikawa)
+- Eficácia automática (90/180 dias)
+- Reabertura automática se não eficaz
+- Histórico completo para auditoria
 
 ### 2. Hazard / SOT
-- Categorias: Segurança, Saúde, Meio Ambiente, Security
-- Fluxo simplificado e rápido (< 2 min)
-- Mobile-first (chão de fábrica)
+- Categorias: Segurança, Saúde, Meio Ambiente, Security Patrimonial
+- Registro rápido (< 2 min) — mobile-first (chão de fábrica)
 - Foto como evidência prioritária
 - Geração automática ID: `HZ-000001` / `SOT-000001`
-
-**Features:** ✅ Registro rápido ✅ Upload foto instantâneo ✅ QR code por área ✅ Heatmap de risco ✅ Dashboard HSE ✅ SLA automático ✅ Alertas críticos
+- Heatmap de risco, dashboard HSE
 
 ### 3. Gestão Documental ISO
-- Controle de procedimentos, instruções, formulários
+- Procedimentos, instruções, formulários
 - Controle de revisão, validade, aprovações
-- Históricos de publicações
+- Versionamento e histórico completo
 - Alertas automáticos de expiração
-
-**Features:** ✅ Controle de revisão ✅ Controle de validade ✅ Aprovação documental ✅ Histórico completo ✅ Alertas automáticos ✅ Expiração automática ✅ Vinculação com normas ✅ Vinculação com NC
+- Vinculação com normas e NCs
 
 ### 4. NPS / Reclamações de Clientes
-- Centralização de reclamações, feedbacks, incidentes
-- SLA por cliente
-- Geração automática NC a partir de reclamação
-- Dashboard NPS
-
-**Features:** ✅ SLA cliente ✅ Workflow atendimento ✅ Analytics cliente ✅ Tendência satisfação ✅ Escalonamento ✅ Geração automática NC ✅ Dashboard cliente ✅ Indicadores qualidade
+- Reclamações, feedbacks, incidentes
+- SLA por cliente com escalonamento
+- Geração automática de NC a partir de reclamação
+- Dashboard NPS com tendência de satisfação
+- Geração automática ID: `NPS-000001`
 
 ### 5. Auditorias
-- Gestão de auditorias internas e externas
-- Constatações
-- Observações
-- Não conformidades
+- Auditorias internas e externas
+- Constatações e observações
+- Vinculação com NCs
 - Evidências
 
 ---
 
-## 🔧 Workflow Engine Centralizado
+## 🔄 Fluxo NC — 9 Etapas
 
-Motor de workflow unificado com:
-- ✅ Aprovações multinível
-- ✅ Rejeições e reaberturas
-- ✅ Escalonamento automático
-- ✅ SLA com alertas
-- ✅ Notificações
-- ✅ Timeline visual
-- ✅ Histórico completo
-- ✅ Delegação de tarefas
-- ✅ Regras condicionais
-- ✅ Automações
+```
+Abertura → Definição Resolvedor → Aceite → Ação Imediata (30d) →
+Aprovação → Análise Causa (5 Porquês / Ishikawa) → Ação Corretiva →
+Aprovação Final → Eficácia (90d/180d) → [Eficaz → Fecha | Não Eficaz → Reabre]
+```
+
+| # | Etapa | Responsável | Saída |
+|---|-------|-------------|-------|
+| 1 | Abertura | Originador | Registro com ID automático |
+| 2 | Definição resolvedor | Qualidade/HSE | Responsável definido |
+| 3 | Aceite | Resolvedor | Aceito ou rejeitado |
+| 4 | Ação imediata | Resolvedor | Plano de contenção (30d) |
+| 5 | Aprovação | Qualidade/HSE | Aprovada ou reprovada |
+| 6 | Análise de causa | Resolvedor | Causa raiz (5P/Ishikawa) |
+| 7 | Ação corretiva | Resolvedor | Ação com prazo e dono |
+| 8 | Aprovação final | Qualidade/HSE | Pronto para eficácia |
+| 9 | Eficácia | Qualidade/HSE | Fechamento ou reabertura |
+
+Detalhes: [docs/workflows/nc-flow.md](docs/workflows/nc-flow.md)
+
+---
+
+## 📊 Dashboards (sem Power BI)
+
+### Dashboard Executivo
+Total NCs/Hazards/NPS, SLA compliance, risco alto, reincidência, tempo médio, áreas críticas, KPIs ISO
+
+### Dashboard Qualidade
+NC por norma/processo/unidade/país, tendência mensal, pareto, efetividade
+
+### Dashboard HSE
+Hazard por categoria/local, risco alto, áreas críticas, heatmap
+
+### Dashboard Documental
+Documentos vencendo, revisões pendentes, compliance
+
+### Dashboard NPS
+Reclamações por cliente/projeto, SLA, motivos, tendência satisfação
+
+Ver: [docs/dashboards/architecture.md](docs/dashboards/architecture.md)
 
 ---
 
 ## 👥 Perfis de Acesso
 
-| Perfil | Capacidades |
-|--------|-------------|
-| **Usuário** | Abrir registros, consultar próprios, ver dashboards gerais |
-| **Resolvedor** | Receber tarefas, executar ações, anexar evidências |
-| **Qualidade/HSE** | Aprovar, reabrir, definir responsáveis, analisar eficácia |
-| **Administrador** | Gerenciar listas, usuários, permissões, configurações |
-| **Auditor** | Visualização e análise de dados |
+| Perfil | Responsabilidade |
+|--------|-----------------|
+| **Usuário / Originador** | Abrir registros, acompanhar seus casos |
+| **Resolvedor** | Receber tarefas, executar ações (imediata + corretiva) |
+| **Qualidade / HSE** | Governar fluxo, aprovar, reabrir, definir responsáveis |
+| **Administrador** | Gerenciar listas, permissões, parametrizações |
+| **Gestores / Aprovadores** | Aprovar etapas críticas |
+| **Auditor** | Visualização e análise de todos os registros |
 | **Diretor** | Dashboards executivos |
+
+Detalhes: [docs/schema/rbac.md](docs/schema/rbac.md)
 
 ---
 
@@ -146,53 +193,82 @@ Motor de workflow unificado com:
 
 1. **Modularidade** — Todas as listas administráveis via UI (sem depender do dev)
 2. **Interface Simples** — Registro em menos de 2 minutos
-3. **Mobile First** — Funciona em celular/tablet (chão de fábrica)
-4. **Evidências** — Foto, vídeo, PDF, áudio, PPT
+3. **Mobile First** — Funciona em celular/tablet (chão de fábrica, inspeções)
+4. **Evidências** — Foto, vídeo, PDF, áudio, PPT, Excel, print
 5. **Timeline Visual** — Linha do tempo de status em cada registro
 6. **Originador registrado** — Nunca anônimo
 7. **Dropdowns dinâmicos** — Norma → itens filtrados automaticamente
-8. **Escalonamento automático** — SLA vencido → gestor é alertado
+8. **Escalonamento automático** — SLA vencido → gestor alertado + status "Atrasado"
 9. **Eficácia agendada** — 90 ou 180 dias automático
-10. **Histórico completo** — Quem alterou, quando, o quê
-11. **Multi-tenant** — organization_id em TODAS as tabelas (prepared para expansão)
-12. **Auto-IDs** — NC-BR-2026-000001, HZ-AR-2026-000001 (enterprise style)
+10. **Histórico completo** — Quem alterou, quando, o quê (reconstruir ciclo de vida)
+11. **Multi-tenant** — `organization_id` em todas as tabelas
+12. **Auto-IDs** — NC-000001, HZ-000001, SOT-000001, NPS-000001
+13. **Papéis funcionais** — Aprovadores por papel, não por nome
+14. **Aprovação multinível** — Etapas críticas exigem validação
 
 ---
 
-## 📊 Dashboards
+## ⚠️ Pontos em Aberto
 
-### Dashboard Executivo
-- Total NCs/Hazards/NPS
-- SLA compliance
-- Risco alto
-- Reincidência
-- Tempo médio de resolução
-- Áreas críticas
-- Processos críticos
-- KPIs ISO
+Ver [docs/open-points.md](docs/open-points.md) para a lista completa de validações pendentes:
 
-### Dashboard Qualidade
-- NC por norma/processo/unidade/país
-- Tendência mensal
-- Pareto de causas
+1. Lista definitiva de itens por norma
+2. Matriz final de aprovadores (papéis vs nomes)
+3. Regras de prazo de eficácia (90 vs 180 dias)
+4. Nomenclatura Hazard / SOT / SOFIA
+5. Arquitetura de implantação (MVP intermediário?)
+6. Integrações prioritárias (SAP, CRM, etc.)
+7. Modelo de relatórios
+8. Multi-tenant no MVP
+9. Idiomas da interface (pt-BR + es-AR?)
 
-### Dashboard HSE
-- Hazard por categoria/local
-- Risco alto
-- Áreas críticas
-- Tendência acidentes evitados
+---
 
-### Dashboard Documental
-- Documentos vencendo
-- Revisões pendentes
-- Atrasos
-- Compliance
+## 🗺️ Roadmap
 
-### Dashboard NPS
-- Reclamações por cliente/projeto
-- SLA
-- Motivos principais
-- Tendência de satisfação
+### Sprint 0 — Foundation
+- [ ] Setup Base (Next.js, Supabase, Prisma, CI/CD)
+- [ ] Layout Global (Sidebar, Header, Home Buttons)
+- [ ] Banco Inicial (16+ tabelas, RLS, seeds)
+- [ ] Autenticação e RBAC (login, signup, permissões, middleware)
+
+### Sprint 1 — Não Conformidade (Core)
+- [ ] Formulário NC completo
+- [ ] Detalhe NC com timeline
+- [ ] Dashboard NC (KPIs, charts)
+- [ ] Ação Imediata
+- [ ] Ação Corretiva
+- [ ] Eficácia e Reabertura
+- [ ] Admin de Módulos NC
+
+### Sprint 2 — Hazard / HSE
+- [ ] Registro rápido mobile-first
+- [ ] Dashboard HSE
+
+### Sprint 3 — Gestão Documental
+- [ ] Revisões, aprovações, versionamento
+- [ ] Alertas automáticos
+
+### Sprint 4 — NPS / Reclamações
+- [ ] Reclamações, SLA, dashboards
+
+### Sprint 5 — Auditorias
+- [ ] Gestão de auditorias, vinculação com NCs
+
+### Sprint 6 — Workflow Engine
+- [ ] Motor centralizado de workflow
+
+### Sprint 7 — Dashboards Avançados
+- [ ] Executivo, Documental, HSE
+
+### Sprint 8 — Inteligência Artificial
+- [ ] Sugestão causa raiz, classificação automática, OCR, insights
+
+### Sprint 9 — Notificações
+- [ ] Sistema de notificações (email + in-app)
+
+### Sprint 10 — Integrações
+- [ ] Scaffolds para SAP, CRM, Outlook, Teams
 
 ---
 
@@ -209,6 +285,7 @@ src/
 │       ├── complaints/       # NPS / Reclamações
 │       ├── documents/        # Documentos ISO
 │       ├── audits/           # Auditorias
+│       ├── pending/          # Minhas pendências
 │       └── admin/            # Administração
 │   └── api/                  # Route handlers
 ├── components/
@@ -219,18 +296,19 @@ src/
 │   ├── hazards/              # Componentes Hazard
 │   ├── complaints/           # Componentes NPS
 │   ├── documents/            # Componentes Documentos
+│   ├── audits/               # Componentes Auditorias
 │   ├── dashboard/            # Charts, KPI Cards
 │   ├── timeline/             # Timeline visual
 │   └── workflow/             # Componentes Workflow
 ├── lib/
-│   ├── supabase/             # Client (browser) + Server (SSR)
+│   ├── supabase/             # Client + Server
 │   ├── auth/                 # Middleware, permissões RBAC
 │   ├── types/                # TypeScript types + enums
 │   ├── utils/                # Helpers, ID generator
-│   ├── validators/           # Validação de formulários (Zod)
+│   ├── validators/           # Validação (Zod)
 │   ├── workflow/             # Workflow engine
 │   ├── notifications/        # Sistema de notificações
-│   └── integrations/         # Integrações (SAP, CRM, etc.)
+│   └── integrations/         # Integrações futuras
 └── styles/                   # CSS global
 
 supabase/
@@ -239,77 +317,14 @@ supabase/
 └── rls/                      # Row Level Security
 
 docs/
-├── schema/                   # Database schema
+├── schema/                   # Database + RBAC
 ├── workflows/                # Fluxos de cada módulo
 ├── dashboards/               # Arquitetura de dashboards
 ├── api/                      # Documentação de API
 ├── admin-guide/              # Guia de administração
-└── ai-agents/                # Tarefas para agentes de IA
+├── ai-agents/                # Tarefas para agentes de IA
+└── open-points.md            # Validações pendentes
 ```
-
----
-
-## 🛠️ Próximos Passos (Roadmap)
-
-### Sprint 0 — Foundation
-- [ ] Setup Base (Next.js, Supabase, Auth, Layout, Database)
-- [ ] Design System (cores, tipografia, componentes)
-- [ ] CI/CD com GitHub Actions
-
-### Sprint 1 — Non Conformity (MVP)
-- [ ] Registro NC (formulário completo)
-- [ ] Detalhe NC (timeline, workflow)
-- [ ] Dashboard NC (KPIs, charts)
-- [ ] Ação Imediata e Corretiva
-- [ ] Eficácia e Reabertura
-- [ ] Admin de Módulos NC
-
-### Sprint 2 — Hazard / HSE
-- [ ] Registro Hazard (mobile first)
-- [ ] Dashboard HSE
-- [ ] Heatmap de risco
-
-### Sprint 3 — Documents
-- [ ] Gestão Documental ISO
-- [ ] Controle de revisão e validade
-- [ ] Alertas automáticos
-
-### Sprint 4 — NPS
-- [ ] Reclamações de Clientes
-- [ ] SLA
-- [ ] Dashboard NPS
-
-### Sprint 5 — Audits
-- [ ] Gestão de Auditorias
-- [ ] Vinculação com NC
-
-### Sprint 6 — Workflow Engine
-- [ ] Motor de workflow centralizado
-- [ ] Regras condicionais
-- [ ] Escalonamento automático
-
-### Sprint 7 — Dashboards Avançados
-- [ ] Dashboard Executivo
-- [ ] Dashboard Documental
-- [ ] Dashboard Treinamentos
-
-### Sprint 8 — Inteligência Artificial
-- [ ] Sugestão automática de causa raiz
-- [ ] Classificação automática
-- [ ] OCR de imagens
-- [ ] Insights preditivos
-
-### Sprint 9 — Notificações
-- [ ] Sistema de notificações (email + in-app)
-
-### Sprint 10 — Integrações
-- [ ] Scaffolds para SAP, CRM, Outlook, Teams
-
----
-
-## 📄 Licença
-
-MIT — Copyright (c) 2026 Gabriel Pantojinho
 
 ---
 
@@ -319,9 +334,7 @@ MIT — Copyright (c) 2026 Gabriel Pantojinho
 
 ## 🤝 Contribuindo
 
-Este é um projeto corporativo fechado. Contributions devem ser aprovadas pelo responsável.
-
----
+Projeto corporativo fechado. Contributions devem ser aprovadas pelo responsável.
 
 ## 📞 Contato
 
@@ -332,4 +345,4 @@ Este é um projeto corporativo fechado. Contributions devem ser aprovadas pelo r
 
 ---
 
-**Status:** 🚧 Em planejamento — kick-off concluído
+**Status:** 🚧 Em planejamento — kick-off concluído, documentação v0.1 consolidada
