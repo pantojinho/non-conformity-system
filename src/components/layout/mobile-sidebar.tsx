@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -41,11 +41,11 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
   const isAdminActive = pathname.startsWith("/admin");
   const shouldShowAdminSubItems = adminOpen || isAdminActive;
 
+  // Update title when route changes (would be done via context, not implemented yet)
+
   const handleLinkClick = () => {
     onClose();
   };
-
-  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 lg:hidden">

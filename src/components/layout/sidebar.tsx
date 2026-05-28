@@ -1,14 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { DesktopSidebar } from "./desktop-sidebar";
 import { MobileSidebar } from "./mobile-sidebar";
 import { MobileHeader } from "./mobile-header";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Bell, User } from "lucide-react";
 
 export function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileTitle, setMobileTitle] = useState("Dashboard");
   const pathname = usePathname();
 
   const getPageTitle = () => {
@@ -19,6 +20,7 @@ export function Sidebar() {
     if (pathname.startsWith("/documents")) return "Documentos";
     if (pathname.startsWith("/audits")) return "Auditorias";
     if (pathname.startsWith("/admin")) return "Administração";
+    if (pathname.startsWith("/pending")) return "Pendências";
     return "Robotics Hub";
   };
 
@@ -43,7 +45,7 @@ export function Sidebar() {
               </svg>
             </button>
             <span className="text-lg font-semibold text-gray-900 dark:text-white">
-              {getPageTitle()}
+              {mobileTitle}
             </span>
           </div>
 
