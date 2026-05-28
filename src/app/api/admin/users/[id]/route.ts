@@ -1,60 +1,6 @@
+import { verifyAdmin } from "@/lib/auth/verify-admin";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
-
-// Helper: verify admin
-async function verifyAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
-
-  if (authError || !user) {
-    return { authorized: false, error: "Não autenticado", status: 401 };
-  }
-
-  const { data: userProfile, error: profileError } = await supabase
-    .from("users")
-    .select("role_id, is_active, roles(name)")
-    .eq("auth_user_id", user.id)
-    .single();
-
-  if (profileError || !userProfile) {
-    return { authorized: false, error: "Perfil não encontrado", status: 403 };
-  }
-
-  if (!userProfile.is_active) {
-    return { authorized: false, error: "Usuário inativo", status: 403 };
-  }
-
-  const roleName = (userProfile.roles as unknown as { name: string })?.name;
-  if (roleName !== "admin" && roleName !== "super_admin") {
-    const { data: adminRole } = await supabase
-      .from("roles")
-      .select("id")
-      .eq("name", "admin")
-      .single();
-
-    const { data: superAdminRole } = await supabase
-      .from("roles")
-      .select("id")
-      .eq("name", "super_admin")
-      .single();
-
-    const allowedIds = [adminRole?.id, superAdminRole?.id].filter(Boolean);
-
-    if (!allowedIds.includes(userProfile.role_id)) {
-      return {
-        authorized: false,
-        error: "Acesso negado — requer perfil administrador",
-        status: 403,
-      };
-    }
-  }
-
-  return { authorized: true, userId: user.id };
-}
 
 // PATCH /api/admin/users/[id] — Update user
 export async function PATCH(

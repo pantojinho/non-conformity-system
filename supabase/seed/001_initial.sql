@@ -198,25 +198,29 @@ INSERT INTO public.workflows (tipo_registro, status_origem, status_destino, perf
 ON CONFLICT DO NOTHING;
 
 -- ============================================================
--- 10. ADMIN USER (para setup inicial)
+-- 10. SETUP DO PRIMEIRO ADMIN
 -- ============================================================
-
--- NOTA: O usuário admin real é criado via Supabase Auth (signup).
--- Depois de criar o auth user, rode:
--- UPDATE public.users SET role_id = 'b0000000-0000-0000-0000-000000000004' WHERE email = 'admin@abb.com';
-
--- Usuário placeholder (será substituído pelo fluxo de signup)
-INSERT INTO public.users (id, email, name, role_id, organization_id, country, unit, is_active)
-VALUES (
-  'd0000000-0000-0000-0000-000000000001',
-  'admin@robotics-hub.local',
-  'Admin Setup',
-  'b0000000-0000-0000-0000-000000000004',
-  'a0000000-0000-0000-0000-000000000001',
-  'brasil',
-  'Sorocaba',
-  true
-) ON CONFLICT DO NOTHING;
+--
+-- O fluxo correto é:
+--
+-- OPÇÃO A — Via Supabase Dashboard (recomendado para setup):
+--   1. Ir em Authentication > Users > Add user
+--   2. Criar com email/senha (ex: admin@abb.com)
+--   3. O trigger on_auth_user_created (migration 002) cria automaticamente
+--      o perfil em public.users com role 'usuario'
+--   4. Promover a admin via SQL:
+--      UPDATE public.users
+--      SET role_id = 'b0000000-0000-0000-0000-000000000004'
+--      WHERE email = 'admin@abb.com';
+--
+-- OPÇÃO B — Via tela de signup do app:
+--   1. Acessar /signup e criar conta
+--   2. Trigger auto-cria perfil com role 'usuario'
+--   3. Promover via SQL direto no banco (mesmo UPDATE acima)
+--
+-- NOTA: NÃO inserimos um placeholder fixo porque o auth_user_id
+-- é gerado pelo Supabase Auth no momento do signup e não pode ser
+-- pré-determinado. O trigger da migration 002 resolve isso.
 
 -- ============================================================
 -- FIM DOS SEEDS
