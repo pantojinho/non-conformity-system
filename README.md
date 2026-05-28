@@ -19,7 +19,6 @@ Sistema unificado para gestão de:
 - ✅ Não Conformidades
 - ✅ Hazard / SOT
 - ✅ Gestão Documental ISO
-- ✅ Treinamentos
 - ✅ Controle de EPI
 - ✅ Reclamações de Clientes (NPS)
 - ✅ Gestão de Auditorias
@@ -96,16 +95,7 @@ Ver [docs/dashboards/architecture.md](docs/dashboards/architecture.md) para deta
 
 **Features:** ✅ Controle de revisão ✅ Controle de validade ✅ Aprovação documental ✅ Histórico completo ✅ Alertas automáticos ✅ Expiração automática ✅ Vinculação com normas ✅ Vinculação com NC
 
-### 4. Treinamentos
-- Certificados automáticos PDF
-- Avaliações e assinaturas
-- Controle de validade
-- Reciclagem automática
-- QR code certificado
-
-**Features:** ✅ Certificados PDF ✅ Assinatura instrutor ✅ Avaliações ✅ Controle validade ✅ Reciclagem ✅ Vinculação com NC ✅ Dashboard treinamentos ✅ Compliance normativo
-
-### 5. NPS / Reclamações de Clientes
+### 4. NPS / Reclamações de Clientes
 - Centralização de reclamações, feedbacks, incidentes
 - SLA por cliente
 - Geração automática NC a partir de reclamação
@@ -113,25 +103,25 @@ Ver [docs/dashboards/architecture.md](docs/dashboards/architecture.md) para deta
 
 **Features:** ✅ SLA cliente ✅ Workflow atendimento ✅ Analytics cliente ✅ Tendência satisfação ✅ Escalonamento ✅ Geração automática NC ✅ Dashboard cliente ✅ Indicadores qualidade
 
-### 6. Controle de EPI
+### 5. Controle de EPI
 - Gestão de entrega, assinaturas, matrizes
 - Controle de validade
 - Histórico completo
 - Auditorias
 
-### 7. Controle de Acessos
+### 6. Controle de Acessos
 - Portaria, acessos, visitantes
 - Aprovações de entrada/saída
 - Log de entradas e saídas (Sorocaba + São Paulo + Argentina)
 
-### 8. Saída de Materiais
+### 7. Saída de Materiais
 - Controle de saída de equipamentos
 - Aprovação
 - Portaria
 - Histórico
 - Transporte e justificativas
 
-### 9. Auditorias
+### 8. Auditorias
 - Gestão de auditorias internas e externas
 - Constatações
 - Observações
@@ -215,12 +205,6 @@ Motor de workflow unificado com:
 - Atrasos
 - Compliance
 
-### Dashboard Treinamentos
-- Treinamentos vencendo
-- Compliance
-- Certificados
-- Pendências
-
 ### Dashboard NPS
 - Reclamações por cliente/projeto
 - SLA
@@ -241,7 +225,6 @@ src/
 │       ├── hazards/          # Hazard / SOT
 │       ├── complaints/       # NPS / Reclamações
 │       ├── documents/        # Documentos ISO
-│       ├── training/         # Treinamentos
 │       ├── epi/              # Controle de EPI
 │       ├── access-control/   # Controle de Acessos
 │       ├── material-exit/    # Saída de Materiais
@@ -256,7 +239,6 @@ src/
 │   ├── hazards/              # Componentes Hazard
 │   ├── complaints/           # Componentes NPS
 │   ├── documents/            # Componentes Documentos
-│   ├── training/             # Componentes Treinamentos
 │   ├── dashboard/            # Charts, KPI Cards
 │   ├── timeline/             # Timeline visual
 │   └── workflow/             # Componentes Workflow
@@ -312,48 +294,43 @@ docs/
 - [ ] Controle de revisão e validade
 - [ ] Alertas automáticos
 
-### Sprint 4 — Training
-- [ ] Gestão de Treinamentos
-- [ ] Certificados PDF
-- [ ] Avaliações e assinaturas
-
-### Sprint 5 — NPS
+### Sprint 4 — NPS
 - [ ] Reclamações de Clientes
 - [ ] SLA
 - [ ] Dashboard NPS
 
-### Sprint 6 — Access Control
+### Sprint 5 — Access Control
 - [ ] Controle de Acessos
 - [ ] Log de entradas/saídas
 
-### Sprint 7 — Material Exit
+### Sprint 6 — Material Exit
 - [ ] Saída de Materiais
 - [ ] Aprovação e histórico
 
-### Sprint 8 — Audits
+### Sprint 7 — Audits
 - [ ] Gestão de Auditorias
 - [ ] Vinculação com NC
 
-### Sprint 9 — Workflow Engine
+### Sprint 8 — Workflow Engine
 - [ ] Motor de workflow centralizado
 - [ ] Regras condicionais
 - [ ] Escalonamento automático
 
-### Sprint 10 — Dashboards Avançados
+### Sprint 9 — Dashboards Avançados
 - [ ] Dashboard Executivo
 - [ ] Dashboard Documental
 - [ ] Dashboard Treinamentos
 
-### Sprint 11 — Inteligência Artificial
+### Sprint 10 — Inteligência Artificial
 - [ ] Sugestão automática de causa raiz
 - [ ] Classificação automática
 - [ ] OCR de imagens
 - [ ] Insights preditivos
 
-### Sprint 12 — Notificações
+### Sprint 11 — Notificações
 - [ ] Sistema de notificações (email + in-app)
 
-### Sprint 13 — Integrações
+### Sprint 12 — Integrações
 - [ ] Scaffolds para SAP, CRM, Outlook, Teams
 
 ---

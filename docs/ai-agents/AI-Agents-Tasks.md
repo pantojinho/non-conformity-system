@@ -1,6 +1,8 @@
 # AI Agents Tasks — Robotics Hub
 
 > Lista de tarefas detalhadas e possíveis bugs para agentes de IA implementarem.
+>
+> **Nota:** Módulo de Treinamentos **não faz parte** deste projeto — já existe uma base própria.
 
 ## Visão Geral
 
@@ -60,7 +62,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 - `src/app/layout.tsx`
 
 **Tarefas:**
-- [ ] Criar Sidebar com navegação modular (9 módulos)
+- [ ] Criar Sidebar com navegação modular (8 módulos)
 - [ ] Criar Header com dados do usuário e ações globais
 - [ ] Criar Home Buttons (grandes botões de entrada)
 - [ ] Implementar navegação dinâmica
@@ -83,7 +85,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 - `supabase/seed/001_initial.sql`
 
 **Tarefas:**
-- [ ] Criar tabelas: users, roles, permissions, nc_records, hazards, documents, trainings, audit_logs, attachments
+- [ ] Criar tabelas: users, roles, permissions, nc_records, hazards, documents, audit_logs, attachments
 - [ ] Criar índices para performance
 - [ ] Criar foreign keys com cascade delete
 - [ ] Criar seeds com dados iniciais (normas, processos, status)
@@ -377,36 +379,9 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 🎓 Sprint 4 — Training
+## 📊 Sprint 4 — NPS / Reclamações
 
-### 15. Gestão de Treinamentos
-
-**Arquivos necessários:**
-- `src/app/(app)/training/page.tsx`
-- `src/app/(app)/training/\[id\]/page.tsx`
-- `src/components/training/training-card.tsx`
-- `src/lib/workflow/training-workflow.ts`
-- `src/app/api/training/*`
-
-**Tarefas:**
-- [ ] Criar CRUD de treinamentos
-- [ ] Implementar certificados automáticos PDF
-- [ ] Implementar avaliação e assinatura do instrutor
-- [ ] Implementar controle de validade
-- [ ] Implementar reciclagem
-- [ ] Implementar QR code certificado
-
-**Possíveis Bugs:**
-- Certificado PDF não gerar
-- Assinatura não salvar
-- Validade não calcular
-- QR code não funcionar
-
----
-
-## 📊 Sprint 5 — NPS / Reclamações
-
-### 16. NPS e Reclamações
+### 15. NPS e Reclamações
 
 **Arquivos necessários:**
 - `src/app/(app)/complaints/page.tsx`
@@ -429,9 +404,9 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 🔐 Sprint 6 — Access Control
+## 🔐 Sprint 5 — Access Control
 
-### 17. Controle de Acesso
+### 16. Controle de Acesso
 
 **Arquivos necessários:**
 - `src/app/(app)/access-control/page.tsx`
@@ -452,9 +427,9 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 📤 Sprint 7 — Material Exit
+## 📤 Sprint 6 — Material Exit
 
-### 18. Saída de Materiais
+### 17. Saída de Materiais
 
 **Arquivos necessários:**
 - `src/app/(app)/material-exit/page.tsx`
@@ -474,9 +449,9 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 🔍 Sprint 8 — Audits
+## 🔍 Sprint 7 — Audits
 
-### 19. Gestão de Auditorias
+### 18. Gestão de Auditorias
 
 **Arquivos necessários:**
 - `src/app/(app)/audits/page.tsx`
@@ -496,7 +471,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## ⚙️ Sprint 9 — Workflow Engine
+## ⚙️ Sprint 8 — Workflow Engine
 
 ### 20. Motor de Workflow Centralizado
 
@@ -561,25 +536,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-### 23. Dashboard Treinamentos
-
-**Arquivos necessários:**
-- `src/components/dashboard/training-dashboard.tsx`
-- `src/components/dashboard/charts/training-expiring.tsx`
-- `src/components/dashboard/charts/training-compliance.tsx`
-
-**Tarefas:**
-- [ ] Criar KPIs de treinamentos
-- [ ] Criar gráficos de vencimento
-- [ ] Criar gráficos de compliance
-
-**Possíveis Bugs:**
-- Treinamentos vencendo não alertarem
-- Gráficos não renderizarem
-
----
-
-## 🤖 Sprint 11 — Inteligência Artificial
+## 🤖 Sprint 9 — Inteligência Artificial
 
 ### 24. Sugestão Automática de Causa Raiz
 
@@ -650,7 +607,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 📞 Sprint 12 — Notificações
+## 📞 Sprint 10 — Notificações
 
 ### 28. Sistema de Notificações
 
@@ -672,7 +629,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 🔧 Sprint 13 — Integrações
+## 🔧 Sprint 11 — Integrações
 
 ### 29. Integrações Futuras
 
