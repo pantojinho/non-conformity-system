@@ -313,17 +313,23 @@ MIT — Copyright (c) 2026 Gabriel Pantojinho
 
 ---
 
+## 🏢 Empresa
+
+**ABB Robotics Brasil** — Unidade Robotics BR/AR
+
 ## 🤝 Contribuindo
 
-Este é um projeto corporativo fechado. Contributions devem ser aprovadas por Gabriel (Pantojo).
+Este é um projeto corporativo fechado. Contributions devem ser aprovadas pelo responsável.
 
 ---
 
 ## 📞 Contato
 
-**Responsável Estratégico:** Time Robotics BR/AR
-**Coordenador:** Gabriel Pantojinho
+**Responsável Estratégico:** Gabriel Ciandrini
+**E-mail:** gabriel.ciandrini@br.abb.com
+**Empresa:** ABB Robotics Brasil
+**Unidades:** Sorocaba (fábrica), São Paulo (escritório), Argentina
 
 ---
 
-**Status:** 🚧 Em desenvolvimento (MVP Sprint 1)
+**Status:** 🚧 Em planejamento — kick-off concluído
