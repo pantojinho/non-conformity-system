@@ -1,23 +1,23 @@
-import { ClipboardCheck, Plus } from "lucide-react";
+import { FileWarning, Plus } from "lucide-react";
 import Link from "next/link";
 
-export default function AuditsPage() {
+export default function NCPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <ClipboardCheck className="h-6 w-6" style={{ color: "#8b5cf6" }} />
+          <FileWarning className="h-6 w-6" style={{ color: "var(--destructive)" }} />
           <h1 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>
-            Auditorias
+            Não Conformidades
           </h1>
         </div>
         <Link
-          href="/audits/new"
+          href="/nc/new"
           className="flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white"
           style={{ background: "var(--primary)" }}
         >
           <Plus className="h-4 w-4" />
-          Nova Auditoria
+          Nova NC
         </Link>
       </div>
 
@@ -26,7 +26,7 @@ export default function AuditsPage() {
         style={{ background: "var(--background)", borderColor: "var(--border)" }}
       >
         <p style={{ color: "var(--muted-foreground)" }}>
-          Nenhuma auditoria registrada. Clique em &quot;Nova Auditoria&quot; para começar.
+          Nenhuma não conformidade registrada. Clique em &quot;Nova NC&quot; para começar.
         </p>
       </div>
     </div>
