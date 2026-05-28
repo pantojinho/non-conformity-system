@@ -15,14 +15,11 @@
 |-----------|-----------|
 | [README.md](README.md) | Visão geral do projeto (este arquivo) |
 | [docs/schema/database.md](docs/schema/database.md) | Schema completo do banco (16+ tabelas) |
-| [docs/schema/rbac.md](docs/schema/rbac.md) | Perfis de acesso e permissões detalhados |
-| [docs/workflows/nc-flow.md](docs/workflows/nc-flow.md) | Fluxo NC completo em 9 etapas |
-| [docs/workflows/hazard-flow.md](docs/workflows/hazard-flow.md) | Fluxo Hazard / SOT simplificado |
-| [docs/workflows/complaint-flow.md](docs/workflows/complaint-flow.md) | Fluxo NPS / Reclamações |
+| [docs/schema/rbac.md](docs/schema/rbac.md) | 8 perfis de acesso, permissões e admin guide |
+| [docs/workflows.md](docs/workflows.md) | Fluxos NC, Hazard, NPS (consolidado) |
 | [docs/dashboards/architecture.md](docs/dashboards/architecture.md) | Dashboards sem Power BI |
-| [docs/admin-guide/README.md](docs/admin-guide/README.md) | Guia de administração |
-| [docs/ai-agents/AI-Agents-Tasks.md](docs/ai-agents/AI-Agents-Tasks.md) | Tarefas e bugs para agentes de IA |
-| [docs/open-points.md](docs/open-points.md) | Pontos em aberto para validação |
+| [docs/decisions.md](docs/decisions.md) | Decisões tomadas + validações pendentes |
+| [docs/ai-agents/AI-Agents-Tasks.md](docs/ai-agents/AI-Agents-Tasks.md) | Sprints e tarefas detalhadas |
 
 **Documentação base:** Documentação do Projeto — Sistema Integrado de Registro e Gestão de Não Conformidades v0.1 (28/05/2026)
 
@@ -58,7 +55,7 @@ Criar uma **plataforma corporativa moderna, escalável e independente** para sub
 | **Charts** | Recharts | Dashboards nativos sem Power BI |
 | **Backend** | Vercel Serverless Functions | Deploy automático, escalabilidade |
 | **Banco de Dados** | Supabase (PostgreSQL) | RLS, Auth, Realtime, Storage |
-| **Auth** | Supabase Auth + RBAC | Email/senha, 7 perfis granulares |
+| **Auth** | Supabase Auth + RBAC | Email/senha, 8 perfis granulares |
 | **Storage** | Supabase Storage | Anexos, documentos, certificados |
 | **Forms** | React Hook Form + Zod | Validação robusta |
 | **Query** | TanStack Query | Cache, stale-while-revalidate |
@@ -228,7 +225,7 @@ Ver [docs/open-points.md](docs/open-points.md) para a lista completa de validaç
 - [x] Next.js 15 + TypeScript + Tailwind CSS
 - [x] Supabase client (browser + server + admin)
 - [x] Auth (login/signup/callback via Supabase Auth)
-- [x] RBAC com 7 perfis + permissões granulares
+- [x] RBAC com 8 perfis + permissões granulares
 - [x] Middleware protegendo rotas
 - [x] Layout (sidebar + header)
 - [x] Database schema (16+ tabelas via SQL migrations)
@@ -293,7 +290,7 @@ src/
 │   │   └── admin/            # Administração (users, normas, processos)
 │   ├── api/
 │   │   ├── auth/callback/    # Supabase code exchange
-│   │   └── admin/users/      # CRUD de usuários
+│   │   └── admin/users/      # CRUD de usuários (+ [id] para PATCH/DELETE)
 │   ├── layout.tsx            # Root layout
 │   ├── globals.css           # Tailwind global
 │   ├── loading.tsx           # Global loading
@@ -306,7 +303,7 @@ src/
 │   └── providers.tsx         # QueryClient provider
 ├── lib/
 │   ├── supabase/             # Client (browser) + Server (cookies) + Admin (service role)
-│   ├── auth/                 # RBAC, permissions, middleware helper
+│   ├── auth/                 # verify-admin (shared), RBAC, permissions, middleware helper
 │   ├── types/                # TypeScript types + enums
 │   ├── utils/                # cn(), ID generator, helpers
 │   ├── validators/           # Zod schemas (NC, Hazard, Complaint)
@@ -314,15 +311,15 @@ src/
 └── middleware.ts             # Route protection + session refresh
 
 supabase/
-├── migrations/               # Schema SQL versionado (001_initial.sql)
+├── migrations/               # Schema SQL versionado (001_initial + 002_auto_profile)
 └── seed/                     # Dados iniciais (001_initial.sql)
 
 docs/
-├── decisions.md           # Validações pendentes + decisões tomadas
+├── decisions.md           # Decisões tomadas + validações pendentes
 ├── workflows.md           # Fluxos NC, Hazard, NPS (consolidado)
 ├── schema/
 │   ├── database.md        # 16+ tabelas detalhadas
-│   └── rbac.md            # 7 perfis + permissões + admin guide
+│   └── rbac.md            # 8 perfis + permissões + admin guide
 ├── dashboards/
 │   └── architecture.md    # Stack Recharts (sem Power BI)
 └── ai-agents/
@@ -352,4 +349,4 @@ Projeto corporativo fechado. Contributions devem ser aprovadas pelo responsável
 
 ---
 
-**Status:** ✅ Sprint 0 concluído — plataforma online, autenticação funcional, CRUD de usuários operacional
+**Status:** ✅ Sprint 0 DONE — Deploy live, auth funcional, CRUD users operacional, RLS corrigido. Pronto para Sprint 1 (NC Core).

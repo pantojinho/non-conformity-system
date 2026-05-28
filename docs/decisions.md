@@ -17,6 +17,9 @@
 | — | Power Apps | Pode ser usado como stopgap/MVP temporário, mas a base definitiva é a plataforma própria |
 | — | Fora do escopo | Treinamentos, EPI, Acessos, Saída de Materiais (sistemas próprios existem) |
 | — | Perfis | Usar papéis funcionais (não nomes) para escalabilidade |
+| — | RLS | Admin endpoints usam service-role client (bypass RLS) para verificar perfil |
+| — | Auto-profile | Trigger `on_auth_user_created` cria perfil automaticamente no signup |
+| — | Roles | 8 roles (adicionado `super_admin` na migration 002) |
 
 **Decisões tomadas por:** Gabriel Ciandrini — 28/05/2026
 

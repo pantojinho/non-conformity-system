@@ -10,14 +10,17 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 
 ---
 
-## 📦 Sprint 0 — Foundation
+## 📦 Sprint 0 — Foundation ✅ DONE
 
-> Sprint 0 is substantially complete. Items marked `[ ]` are deferred to backlog or Sprint 1.
+> **Fechado em:** 28/05/2026
+> **Commit:** `4d3cfc8` (último fix — verifyAdmin RLS bypass)
+>
+> Tudo que está abaixo está 100% funcional em produção.
 
 ### 1. Setup Base — ✅ DONE
 
 **Stack atual (instalado e configurado):**
-- Next.js 15 + React 19 + TypeScript
+- Next.js 15.3.8 + React 19 + TypeScript
 - Tailwind CSS 4
 - Supabase client (browser + server + admin)
 - @tanstack/react-query
@@ -32,7 +35,7 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 - [x] `.env.example` configurado
 
 **Deferido:**
-- [ ] shadcn/ui setup → Sprint 1
+- [ ] shadcn/ui setup → Sprint 1 (Task 13)
 - [ ] CI/CD com GitHub Actions → Backlog
 - [ ] Dark mode toggle → Backlog
 
@@ -49,22 +52,22 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 - [x] Navegação dinâmica
 - [x] Protected routes via middleware
 
-**Deferido:**
-- [ ] Dark mode toggle → Backlog
-
 ---
 
 ### 3. Banco de Dados — ✅ DONE
 
-**Arquivos:** `supabase/migrations/`, `supabase/seeds/`
+**Arquivos:** `supabase/migrations/001_initial.sql`, `002_auto_profile_and_superadmin.sql`
 
 **Checklist:**
-- [x] 16+ tabelas via SQL migrations (users, roles, permissions, nc_records, hazards, documents, audit_logs, attachments, etc.)
-- [x] Índices para performance
+- [x] 16+ tabelas via SQL migrations
+- [x] Índices para performance (~25 índices)
 - [x] Foreign keys com cascade delete
 - [x] Seeds com dados iniciais (roles, orgs, normas, processos, business)
 - [x] Enum types (status, risk_level, categories)
 - [x] Row level security policies
+- [x] Trigger auto-profile on signup (migration 002)
+- [x] Role `super_admin` adicionada (migration 002)
+- [x] Connection via psql testada e funcional
 
 ---
 
@@ -77,22 +80,45 @@ Este documento descreve todas as tarefas de implementação do **Robotics Hub** 
 - [x] Signup com verificação de email
 - [x] Callback route para Supabase Auth
 - [x] Perfis de usuário (role_id)
-- [x] RBAC com 7 roles + permissões granulares (por módulo)
+- [x] RBAC com 8 roles + permissões granulares (por módulo)
 - [x] Middleware protegendo rotas
 - [x] Helper `hasPermission(role, permission)`
+- [x] `verifyAdmin()` com service-role client (bypass RLS) — shared lib
 
 ---
 
 ### 5. User Management CRUD — ✅ DONE
 
+**Arquivos:** `src/app/api/admin/users/route.ts`, `src/app/api/admin/users/[id]/route.ts`, `src/components/admin/`
+
 **Checklist:**
 - [x] CRUD de usuários (admin)
-- [x] Atribuição de roles
+- [x] Atribuição de roles (8 perfis incluindo super_admin)
 - [x] Filtros e busca
+- [x] Ban/unban automático de auth user ao desativar/reativar
+- [x] Reset de senha via admin
+- [x] Admin real configurado: gabriel.ciandrini@br.abb.com (role admin, org ABB BR)
 
 ---
 
-## 🚀 Sprint 1 — Non Conformity (MVP)
+### 6. Deploy e Infra — ✅ DONE
+
+**Checklist:**
+- [x] GitHub repo: `pantojinho/non-conformity-system`
+- [x] Vercel: non-conformity-system.vercel.app (auto-deploy from master)
+- [x] Supabase Pro: project `nqrqsrdugsuvrdqaiail`, MICRO compute, Americas
+- [x] GitHub integration vinculada ao Supabase
+- [x] Env vars configuradas no Vercel (SUPABASE_URL, ANON_KEY, SERVICE_ROLE_KEY)
+- [x] Domínio roboticsportal.com.br pendente DNS (próximo passo)
+- [x] Auto-migrate via GitHub Actions workflow
+
+---
+
+## 🚀 Sprint 1 — Non Conformity (MVP) ← PRÓXIMO
+
+> **Status:** Pronto para iniciar
+> **Dependências:** Sprint 0 ✅ concluído, shadcn/ui será instalado nesta sprint (Task 13)
+> **Ordem sugerida:** 13 → 6 → 7 → 8 → 9 → 10 → 11 → 12
 
 ### 6. Registro NC — Formulário Completo
 
