@@ -349,4 +349,4 @@ Projeto corporativo fechado. Contributions devem ser aprovadas pelo responsável
 
 ---
 
-**Status:** ✅ Sprint 0 DONE — Deploy live, auth funcional, CRUD users operacional, RLS corrigido. Pronto para Sprint 1 (NC Core).
+**Status:** ✅ Sprint 0 DONE — Deploy live, auth funcional, CRUD users operacional, RLS corrigido, **mobile-first UI** (sidebar responsivo, cards ao invés de tabelas). Pronto para Sprint 1 (NC Core).
