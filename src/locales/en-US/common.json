@@ -350,7 +350,8 @@
       "department": "Responsible Department",
       "attachments": "Attachments",
       "comments": "Comments",
-      "internalNotes": "Internal Notes"
+      "internalNotes": "Internal Notes",
+      "occurrenceDate": "Occurrence Date"
     },
     "statuses": {
       "new": "New",
@@ -402,7 +403,11 @@
       "changeStatus": "Change Status",
       "exportPdf": "Export PDF",
       "print": "Print",
-      "viewHistory": "View History"
+      "viewHistory": "View History",
+      "edit": "Edit",
+      "escalate": "Escalate",
+      "title": "Corrective Actions",
+      "add_comment_placeholder": "Write a comment..."
     },
     "messages": {
       "createSuccess": "Complaint created successfully.",

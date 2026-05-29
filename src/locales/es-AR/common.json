@@ -350,7 +350,8 @@
       "department": "Departamento Responsable",
       "attachments": "Adjuntos",
       "comments": "Comentarios",
-      "internalNotes": "Notas Internas"
+      "internalNotes": "Notas Internas",
+      "occurrenceDate": "Fecha Ocurrencia"
     },
     "statuses": {
       "new": "Nueva",
@@ -402,7 +403,11 @@
       "changeStatus": "Cambiar Estado",
       "exportPdf": "Exportar PDF",
       "print": "Imprimir",
-      "viewHistory": "Ver Historial"
+      "viewHistory": "Ver Historial",
+      "edit": "Editar",
+      "escalate": "Escalar",
+      "title": "Acciones Correctivas",
+      "add_comment_placeholder": "Escriba un comentario..."
     },
     "messages": {
       "createSuccess": "Reclamación creada exitosamente.",
