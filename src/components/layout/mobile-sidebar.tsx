@@ -4,13 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard,
-  FileWarning,
-  ShieldAlert,
-  MessageSquareWarning,
-  FileText,
-  ClipboardCheck,
-  Settings,
+  Gauge,
+  AlertTriangle,
+  ShieldOff,
+  MessageCircle,
+  FolderOpen,
+  ClipboardList,
+  UserCog,
   X,
   ChevronDown,
   Users,
@@ -32,12 +32,12 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
   const shouldShowAdminSubItems = adminOpen || isAdminActive;
 
   const navItems = [
-    { href: "/dashboard", label: t("nav.dashboard"), icon: LayoutDashboard },
-    { href: "/nc", label: t("nav.nc"), icon: FileWarning },
-    { href: "/hazards", label: t("nav.hazards"), icon: ShieldAlert },
-    { href: "/complaints", label: t("nav.complaints"), icon: MessageSquareWarning },
-    { href: "/documents", label: t("nav.documents"), icon: FileText },
-    { href: "/audits", label: t("nav.audits"), icon: ClipboardCheck },
+    { href: "/dashboard", label: t("nav.dashboard"), icon: Gauge },
+    { href: "/nc", label: t("nav.nc"), icon: AlertTriangle },
+    { href: "/hazards", label: t("nav.hazards"), icon: ShieldOff },
+    { href: "/complaints", label: t("nav.complaints"), icon: MessageCircle },
+    { href: "/documents", label: t("nav.documents"), icon: FolderOpen },
+    { href: "/audits", label: t("nav.audits"), icon: ClipboardList },
   ];
 
   const adminSubItems = [
@@ -114,7 +114,7 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                   )}
                 >
                   <div className="flex items-center gap-3">
-                    <Settings className="h-5 w-5 shrink-0" />
+                    <UserCog className="h-5 w-5 shrink-0" />
                     <span>{t("nav.admin")}</span>
                   </div>
                   <ChevronDown
