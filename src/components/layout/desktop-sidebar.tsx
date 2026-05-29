@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -34,17 +34,29 @@ const adminSubItems = [
 export function DesktopSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
   const pathname = usePathname();
   const isAdminActive = pathname.startsWith("/admin");
   const shouldShowAdminSubItems = adminOpen || isAdminActive;
 
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    setVisible(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setVisible(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  if (!visible) return null;
+
   return (
     <aside
       className={cn(
-        "hidden lg:flex h-full flex-col transition-all duration-300 border-r",
+        "h-full flex-col transition-all duration-300 border-r",
         collapsed ? "w-20" : "w-64",
         "bg-gradient-to-b from-slate-900 to-slate-950"
       )}
+      style={{ display: "flex" }}
     >
       {/* Logo */}
       <div className="flex h-16 items-center justify-between px-4 border-b border-white/10">
