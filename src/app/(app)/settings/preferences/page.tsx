@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
-import { locales, localeFlags, localeNames, type Locale } from "@/i18n/config";
+import { locales, localeFlags, localeLabels, type Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
 import { Sun, Moon, Monitor, Globe, Palette } from "lucide-react";
 import { useLocale } from "next-intl";
@@ -103,7 +103,7 @@ export default function PreferencesSettingsPage() {
                   >
                     <span className="text-lg">{localeFlags[loc]}</span>
                     <span className="font-medium">
-                      {localeNames[loc]}
+                      {localeLabels[loc]}
                     </span>
                     {isActive && (
                       <svg
