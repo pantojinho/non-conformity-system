@@ -101,7 +101,8 @@
     "inactive": "Inativo",
     "total": "Total",
     "registeredUsers": "usuário cadastrado",
-    "registeredUsersPlural": "usuários cadastrados"
+    "registeredUsersPlural": "usuários cadastrados",
+    "tryAgain": "Tentar novamente"
   },
   "settings": {
     "preferences": "Preferências",
@@ -145,7 +146,36 @@
     "norms": "Normas",
     "normsDesc": "Gerencie as normas e regulamentos",
     "status": "Status do Sistema",
-    "statusDesc": "Monitore o status do sistema"
+    "statusDesc": "Monitore o status do sistema",
+    "userManagement": "Gerenciamento de Usuários",
+    "newUser": "Novo Usuário",
+    "searchPlaceholder": "Buscar usuários...",
+    "allProfiles": "Todos os perfis",
+    "noUsersRegistered": "Nenhum usuário cadastrado",
+    "noUsersFiltered": "Nenhum usuário encontrado com este filtro",
+    "loadDataError": "Erro ao carregar dados",
+    "loadUsersError": "Erro ao carregar usuários",
+    "editUser": "Editar Usuário",
+    "createUser": "Criar Usuário",
+    "deactivateUser": "Desativar Usuário",
+    "deactivateConfirm": "Tem certeza que deseja desativar o usuário",
+    "deactivateDesc": "O usuário será marcado como inativo e não poderá mais acessar o sistema. Esta ação pode ser revertida editando o usuário.",
+    "deactivate": "Desativar",
+    "nameLabel": "Nome",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Senha",
+    "newPasswordOptional": "Nova Senha (deixe vazio para manter)",
+    "passwordMin": "Mínimo 6 caracteres",
+    "profileLabel": "Perfil",
+    "selectProfile": "Selecione um perfil",
+    "orgLabel": "Organização",
+    "selectOrg": "Selecione uma organização",
+    "countryLabel": "País",
+    "unitLabel": "Unidade",
+    "unitPlaceholder": "Ex: Fábrica Sorocaba",
+    "saveChanges": "Salvar Alterações",
+    "requiredFields": "Campos obrigatórios: email, senha, nome, perfil, organização",
+    "passwordRequired": "Senha é obrigatória para novos usuários"
   },
   "errors": {
     "404": "Página não encontrada",
@@ -165,5 +195,15 @@
     "ptBR": "Português",
     "enUS": "English",
     "esAR": "Español"
+  },
+  "roles": {
+    "super_admin": "Super Admin",
+    "admin": "Administrador",
+    "diretor": "Diretor",
+    "gestor": "Gestor",
+    "qualidade_hse": "Qualidade/HSE",
+    "resolvedor": "Resolvedor",
+    "auditor": "Auditor",
+    "usuario": "Usuário"
   }
 }

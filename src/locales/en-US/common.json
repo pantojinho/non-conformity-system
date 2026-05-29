@@ -101,7 +101,8 @@
     "inactive": "Inactive",
     "total": "Total",
     "registeredUsers": "registered user",
-    "registeredUsersPlural": "registered users"
+    "registeredUsersPlural": "registered users",
+    "tryAgain": "Try again"
   },
   "settings": {
     "preferences": "Preferences",
@@ -145,7 +146,36 @@
     "norms": "Standards",
     "normsDesc": "Manage standards and regulations",
     "status": "System Status",
-    "statusDesc": "Monitor system status"
+    "statusDesc": "Monitor system status",
+    "userManagement": "User Management",
+    "newUser": "New User",
+    "searchPlaceholder": "Search users...",
+    "allProfiles": "All profiles",
+    "noUsersRegistered": "No users registered",
+    "noUsersFiltered": "No users found with this filter",
+    "loadDataError": "Error loading data",
+    "loadUsersError": "Error loading users",
+    "editUser": "Edit User",
+    "createUser": "Create User",
+    "deactivateUser": "Deactivate User",
+    "deactivateConfirm": "Are you sure you want to deactivate user",
+    "deactivateDesc": "The user will be marked as inactive and will no longer be able to access the system. This action can be reverted by editing the user.",
+    "deactivate": "Deactivate",
+    "nameLabel": "Name",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Password",
+    "newPasswordOptional": "New Password (leave empty to keep current)",
+    "passwordMin": "Minimum 6 characters",
+    "profileLabel": "Profile",
+    "selectProfile": "Select a profile",
+    "orgLabel": "Organization",
+    "selectOrg": "Select an organization",
+    "countryLabel": "Country",
+    "unitLabel": "Unit",
+    "unitPlaceholder": "e.g. Sorocaba Factory",
+    "saveChanges": "Save Changes",
+    "requiredFields": "Required fields: email, password, name, profile, organization",
+    "passwordRequired": "Password is required for new users"
   },
   "errors": {
     "404": "Page not found",
@@ -165,5 +195,15 @@
     "ptBR": "Português",
     "enUS": "English",
     "esAR": "Español"
+  },
+  "roles": {
+    "super_admin": "Super Admin",
+    "admin": "Administrator",
+    "diretor": "Director",
+    "gestor": "Manager",
+    "qualidade_hse": "Quality/HSE",
+    "resolvedor": "Resolver",
+    "auditor": "Auditor",
+    "usuario": "User"
   }
 }

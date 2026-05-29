@@ -101,7 +101,8 @@
     "inactive": "Inactivo",
     "total": "Total",
     "registeredUsers": "usuario registrado",
-    "registeredUsersPlural": "usuarios registrados"
+    "registeredUsersPlural": "usuarios registrados",
+    "tryAgain": "Intentar de nuevo"
   },
   "settings": {
     "preferences": "Preferencias",
@@ -145,7 +146,36 @@
     "norms": "Normas",
     "normsDesc": "Gestiona las normas y regulaciones",
     "status": "Estado del Sistema",
-    "statusDesc": "Monitorea el estado del sistema"
+    "statusDesc": "Monitorea el estado del sistema",
+    "userManagement": "Gestión de Usuarios",
+    "newUser": "Nuevo Usuario",
+    "searchPlaceholder": "Buscar usuarios...",
+    "allProfiles": "Todos los perfiles",
+    "noUsersRegistered": "No hay usuarios registrados",
+    "noUsersFiltered": "No se encontraron usuarios con este filtro",
+    "loadDataError": "Error al cargar datos",
+    "loadUsersError": "Error al cargar usuarios",
+    "editUser": "Editar Usuario",
+    "createUser": "Crear Usuario",
+    "deactivateUser": "Desactivar Usuario",
+    "deactivateConfirm": "¿Está seguro que desea desactivar el usuario",
+    "deactivateDesc": "El usuario será marcado como inactivo y no podrá acceder al sistema. Esta acción puede revertirse editando el usuario.",
+    "deactivate": "Desactivar",
+    "nameLabel": "Nombre",
+    "emailLabel": "Correo electrónico",
+    "passwordLabel": "Contraseña",
+    "newPasswordOptional": "Nueva Contraseña (dejar vacío para mantener)",
+    "passwordMin": "Mínimo 6 caracteres",
+    "profileLabel": "Perfil",
+    "selectProfile": "Seleccionar perfil",
+    "orgLabel": "Organización",
+    "selectOrg": "Seleccionar organización",
+    "countryLabel": "País",
+    "unitLabel": "Unidad",
+    "unitPlaceholder": "Ej: Fábrica Sorocaba",
+    "saveChanges": "Guardar Cambios",
+    "requiredFields": "Campos obligatorios: correo, contraseña, nombre, perfil, organización",
+    "passwordRequired": "La contraseña es obligatoria para nuevos usuarios"
   },
   "errors": {
     "404": "Página no encontrada",
@@ -165,5 +195,15 @@
     "ptBR": "Português",
     "enUS": "English",
     "esAR": "Español"
+  },
+  "roles": {
+    "super_admin": "Super Admin",
+    "admin": "Administrador",
+    "diretor": "Director",
+    "gestor": "Gerente",
+    "qualidade_hse": "Calidad/HSE",
+    "resolvedor": "Resolvedor",
+    "auditor": "Auditor",
+    "usuario": "Usuario"
   }
 }

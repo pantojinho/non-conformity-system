@@ -68,6 +68,9 @@ export async function GET() {
 }
 
 // POST /api/admin/users — Create a new user
+// NOTE: The trigger on_auth_user_created auto-creates a public.users row
+// with role 'usuario' when an auth user is created. We UPDATE that row
+// instead of inserting a new one to avoid duplicate key errors.
 export async function POST(request: Request) {
   const auth = await verifyAdmin();
   if (!auth.authorized) {
@@ -91,12 +94,13 @@ export async function POST(request: Request) {
 
     const adminClient = createAdminClient();
 
-    // 1. Create auth user
+    // 1. Create auth user (triggers on_auth_user_created → auto-creates public.users row)
     const { data: authData, error: authError } =
       await adminClient.auth.admin.createUser({
         email,
         password,
         email_confirm: true,
+        user_metadata: { name },
       });
 
     if (authError) {
@@ -111,12 +115,10 @@ export async function POST(request: Request) {
 
     const authUserId = authData.user.id;
 
-    // 2. Insert into public.users
-    const { data: userData, error: insertError } = await adminClient
+    // 2. UPDATE the profile auto-created by the trigger
+    const { data: userData, error: updateError } = await adminClient
       .from("users")
-      .insert({
-        auth_user_id: authUserId,
-        email,
+      .update({
         name,
         role_id,
         organization_id,
@@ -124,6 +126,7 @@ export async function POST(request: Request) {
         unit: unit ?? null,
         is_active: true,
       })
+      .eq("auth_user_id", authUserId)
       .select(
         `
         id,
@@ -141,32 +144,64 @@ export async function POST(request: Request) {
       )
       .single();
 
-    if (insertError) {
-      console.error("Error inserting user:", insertError);
-      // Cleanup: delete the auth user if public insert fails
+    if (updateError) {
+      console.error("Error updating auto-created profile:", updateError);
+      // Cleanup: delete the auth user if profile update fails
       await adminClient.auth.admin.deleteUser(authUserId);
       return NextResponse.json(
-        { error: `Erro ao criar perfil: ${insertError.message}` },
+        { error: `Erro ao criar perfil: ${updateError.message}` },
         { status: 400 }
       );
     }
 
-    const user = {
-      id: userData.id,
-      email: userData.email,
-      name: userData.name,
-      role_id: userData.role_id,
-      role_name: (userData.roles as unknown as { name: string })?.name ?? "-",
-      organization_id: userData.organization_id,
-      organization_name:
-        (userData.organizations as unknown as { name: string })?.name ?? "-",
-      country: userData.country,
-      unit: userData.unit,
-      is_active: userData.is_active,
-      created_at: userData.created_at,
-    };
+    // Edge case: trigger didn't create profile (unlikely but handle it)
+    if (!userData) {
+      console.warn("Trigger didn't create profile, inserting manually...");
+      const { data: insertData, error: insertError } = await adminClient
+        .from("users")
+        .insert({
+          auth_user_id: authUserId,
+          email,
+          name,
+          role_id,
+          organization_id,
+          country: country ?? "brasil",
+          unit: unit ?? null,
+          is_active: true,
+        })
+        .select(
+          `
+          id,
+          email,
+          name,
+          role_id,
+          organization_id,
+          country,
+          unit,
+          is_active,
+          created_at,
+          roles(name),
+          organizations(name)
+        `
+        )
+        .single();
 
-    return NextResponse.json({ user }, { status: 201 });
+      if (insertError) {
+        console.error("Error inserting user manually:", insertError);
+        await adminClient.auth.admin.deleteUser(authUserId);
+        return NextResponse.json(
+          { error: `Erro ao criar perfil: ${insertError.message}` },
+          { status: 400 }
+        );
+      }
+
+      return NextResponse.json(
+        { user: formatUser(insertData) },
+        { status: 201 }
+      );
+    }
+
+    return NextResponse.json({ user: formatUser(userData) }, { status: 201 });
   } catch (err) {
     console.error("Unexpected error in POST /api/admin/users:", err);
     return NextResponse.json(
@@ -174,4 +209,21 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+}
+
+function formatUser(userData: Record<string, unknown>) {
+  return {
+    id: userData.id,
+    email: userData.email,
+    name: userData.name,
+    role_id: userData.role_id,
+    role_name: (userData.roles as unknown as { name: string })?.name ?? "-",
+    organization_id: userData.organization_id,
+    organization_name:
+      (userData.organizations as unknown as { name: string })?.name ?? "-",
+    country: userData.country,
+    unit: userData.unit,
+    is_active: userData.is_active,
+    created_at: userData.created_at,
+  };
 }

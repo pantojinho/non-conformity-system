@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { X, Loader2 } from "lucide-react";
+import { useTranslations } from "@/i18n";
 
 export interface Role {
   id: string;
@@ -42,6 +43,7 @@ export function UserFormModal({
   onClose,
   onSuccess,
 }: UserFormModalProps) {
+  const t = useTranslations();
   const isEditing = !!user;
 
   const [name, setName] = useState(user?.name ?? "");
@@ -80,11 +82,11 @@ export function UserFormModal({
 
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.error ?? "Erro ao atualizar usuário");
+          throw new Error(data.error ?? t("admin.loadUsersError"));
         }
       } else {
         if (!password) {
-          throw new Error("Senha é obrigatória para novos usuários");
+          throw new Error(t("admin.passwordRequired"));
         }
 
         const res = await fetch("/api/admin/users", {
@@ -103,13 +105,13 @@ export function UserFormModal({
 
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.error ?? "Erro ao criar usuário");
+          throw new Error(data.error ?? t("admin.loadUsersError"));
         }
       }
 
       onSuccess();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro desconhecido");
+      setError(err instanceof Error ? err.message : t("admin.loadUsersError"));
     } finally {
       setLoading(false);
     }
@@ -121,7 +123,7 @@ export function UserFormModal({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6 py-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {isEditing ? "Editar Usuário" : "Novo Usuário"}
+            {isEditing ? t("admin.editUser") : t("admin.createUser")}
           </h2>
           <button
             onClick={onClose}
@@ -141,7 +143,7 @@ export function UserFormModal({
 
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Nome *
+              {t("admin.nameLabel")} *
             </label>
             <input
               type="text"
@@ -149,13 +151,13 @@ export function UserFormModal({
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400"
-              placeholder="Nome completo"
+              placeholder={t("admin.nameLabel")}
             />
           </div>
 
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Email *
+              {t("admin.emailLabel")} *
             </label>
             <input
               type="email"
@@ -170,7 +172,7 @@ export function UserFormModal({
 
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              {isEditing ? "Nova Senha (deixe vazio para manter)" : "Senha *"}
+              {isEditing ? t("admin.newPasswordOptional") : `${t("admin.passwordLabel")} *`}
             </label>
             <input
               type="password"
@@ -179,13 +181,13 @@ export function UserFormModal({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400"
-              placeholder="Mínimo 6 caracteres"
+              placeholder={t("admin.passwordMin")}
             />
           </div>
 
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Perfil *
+              {t("admin.profileLabel")} *
             </label>
             <select
               required
@@ -193,7 +195,7 @@ export function UserFormModal({
               onChange={(e) => setRoleId(e.target.value)}
               className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
             >
-              <option value="">Selecione um perfil</option>
+              <option value="">{t("admin.selectProfile")}</option>
               {roles.map((r) => (
                 <option key={r.id} value={r.id}>
                   {r.name}
@@ -204,7 +206,7 @@ export function UserFormModal({
 
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Organização *
+              {t("admin.orgLabel")} *
             </label>
             <select
               required
@@ -212,7 +214,7 @@ export function UserFormModal({
               onChange={(e) => setOrganizationId(e.target.value)}
               className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
             >
-              <option value="">Selecione uma organização</option>
+              <option value="">{t("admin.selectOrg")}</option>
               {organizations.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.name}
@@ -223,7 +225,7 @@ export function UserFormModal({
 
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              País
+              {t("admin.countryLabel")}
             </label>
             <select
               value={country}
@@ -237,14 +239,14 @@ export function UserFormModal({
 
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Unidade
+              {t("admin.unitLabel")}
             </label>
             <input
               type="text"
               value={unit}
               onChange={(e) => setUnit(e.target.value)}
               className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
-              placeholder="Ex: Fábrica Sorocaba"
+              placeholder={t("admin.unitPlaceholder")}
             />
           </div>
         </form>
@@ -256,7 +258,7 @@ export function UserFormModal({
             onClick={onClose}
             className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
           >
-            Cancelar
+            {t("common.cancel")}
           </button>
           <button
             onClick={(e) => {
@@ -264,10 +266,10 @@ export function UserFormModal({
               if (form) form.requestSubmit();
             }}
             disabled={loading}
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-lg bg-[#FF000F] px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
           >
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            {isEditing ? "Salvar Alterações" : "Criar Usuário"}
+            {isEditing ? t("admin.saveChanges") : t("admin.createUser")}
           </button>
         </div>
       </div>

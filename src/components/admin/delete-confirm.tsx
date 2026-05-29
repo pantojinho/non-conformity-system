@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AlertTriangle, Loader2, X } from "lucide-react";
+import { useTranslations } from "@/i18n";
 import type { UserTableRow } from "./user-form-modal";
 
 interface DeleteConfirmProps {
@@ -11,6 +12,7 @@ interface DeleteConfirmProps {
 }
 
 export function DeleteConfirm({ user, onClose, onSuccess }: DeleteConfirmProps) {
+  const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,12 +27,12 @@ export function DeleteConfirm({ user, onClose, onSuccess }: DeleteConfirmProps) 
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error ?? "Erro ao desativar usuário");
+        throw new Error(data.error ?? t("admin.loadUsersError"));
       }
 
       onSuccess();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro desconhecido");
+      setError(err instanceof Error ? err.message : t("admin.loadUsersError"));
     } finally {
       setLoading(false);
     }
@@ -45,7 +47,7 @@ export function DeleteConfirm({ user, onClose, onSuccess }: DeleteConfirmProps) 
               <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
             </div>
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Desativar Usuário
+              {t("admin.deactivateUser")}
             </h2>
           </div>
           <button
@@ -63,13 +65,12 @@ export function DeleteConfirm({ user, onClose, onSuccess }: DeleteConfirmProps) 
             </div>
           )}
           <p className="text-sm text-gray-600 dark:text-gray-300">
-            Tem certeza que deseja desativar o usuário{" "}
+            {t("admin.deactivateConfirm")}{" "}
             <span className="font-semibold text-gray-900 dark:text-white">{user.name}</span>{" "}
             ({user.email})?
           </p>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-            O usuário será marcado como inativo e não poderá mais acessar o
-            sistema. Esta ação pode ser revertida editando o usuário.
+            {t("admin.deactivateDesc")}
           </p>
         </div>
 
@@ -78,15 +79,15 @@ export function DeleteConfirm({ user, onClose, onSuccess }: DeleteConfirmProps) 
             onClick={onClose}
             className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
           >
-            Cancelar
+            {t("common.cancel")}
           </button>
           <button
             onClick={handleDelete}
             disabled={loading}
-            className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-lg bg-[#FF000F] px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
           >
             {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-            Desativar
+            {t("admin.deactivate")}
           </button>
         </div>
       </div>
