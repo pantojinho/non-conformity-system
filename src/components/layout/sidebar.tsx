@@ -6,6 +6,7 @@ import { MobileSidebar } from "./mobile-sidebar";
 import { usePathname } from "next/navigation";
 import { Sun, Moon, LogOut, User, Settings, ChevronDown } from "lucide-react";
 import { useTranslations } from "@/i18n";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
@@ -119,6 +120,9 @@ export function Sidebar() {
             >
               {isDark ? <Sun className="h-4.5 w-4.5" /> : <Moon className="h-4.5 w-4.5" />}
             </button>
+
+            {/* Language Switcher */}
+            <LanguageSwitcher />
 
             {/* User avatar dropdown */}
             <div ref={userMenuRef} className="relative">

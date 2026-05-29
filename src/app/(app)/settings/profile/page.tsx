@@ -8,8 +8,10 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/toast";
 import { createClient } from "@/lib/supabase/client";
 import { Camera, Loader2 } from "lucide-react";
+import { useTranslations } from "@/i18n";
 
 export default function ProfileSettingsPage() {
+  const t = useTranslations();
   const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [fetchingUser, setFetchingUser] = useState(true);
@@ -55,14 +57,14 @@ export default function ProfileSettingsPage() {
       if (error) throw error;
       showToast({
         type: "success",
-        title: "Perfil atualizado",
-        message: "Suas informações foram salvas com sucesso.",
+        title: t("settings.profileUpdated") || "Perfil atualizado",
+        message: t("settings.profileUpdatedMsg") || "Suas informações foram salvas com sucesso.",
       });
     } catch {
       showToast({
         type: "error",
-        title: "Erro ao salvar",
-        message: "Não foi possível atualizar seu perfil. Tente novamente.",
+        title: t("settings.saveError") || "Erro ao salvar",
+        message: t("settings.saveErrorMsg") || "Não foi possível atualizar seu perfil. Tente novamente.",
       });
     } finally {
       setLoading(false);
@@ -81,10 +83,10 @@ export default function ProfileSettingsPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Perfil
+          {t("settings.profile")}
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Gerencie suas informações pessoais
+          {t("settings.profileDesc")}
         </p>
       </div>
 
@@ -108,20 +110,20 @@ export default function ProfileSettingsPage() {
                 <button
                   type="button"
                   className="absolute -bottom-1 -right-1 rounded-full bg-white p-1.5 shadow-sm border border-gray-200 text-gray-600 hover:text-gray-900 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white transition-colors"
-                  aria-label="Alterar foto"
+                  aria-label={t("settings.changePhoto") || "Alterar foto"}
                 >
                   <Camera className="h-3.5 w-3.5" />
                 </button>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900 dark:text-white">
-                  Foto de perfil
+                  {t("settings.profilePhoto") || "Foto de perfil"}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                  JPG, PNG ou GIF. Máximo 2MB.
+                  {t("settings.photoHint") || "JPG, PNG ou GIF. Máximo 2MB."}
                 </p>
                 <Button variant="outline" size="sm" className="mt-2">
-                  Alterar foto
+                  {t("settings.changePhoto") || "Alterar foto"}
                 </Button>
               </div>
             </div>
@@ -129,23 +131,23 @@ export default function ProfileSettingsPage() {
             {/* Form fields */}
             <div className="grid gap-4 sm:grid-cols-2">
               <Input
-                label="Nome completo"
+                label={t("settings.fullName")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Seu nome"
+                placeholder={t("settings.fullName")}
               />
               <Input
-                label="E-mail"
+                label={t("settings.email") || "E-mail"}
                 value={email}
                 disabled
-                helperText="O e-mail não pode ser alterado"
+                helperText={t("settings.emailCannotChange") || "O e-mail não pode ser alterado"}
               />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Função
+                  {t("settings.role") || "Função"}
                 </label>
                 <Badge variant="primary" size="lg">
                   {role}
@@ -156,7 +158,7 @@ export default function ProfileSettingsPage() {
             {/* Save button */}
             <div className="flex justify-end pt-4 border-t border-gray-200 dark:border-gray-700">
               <Button onClick={handleSave} isLoading={loading}>
-                Salvar alterações
+                {t("settings.updateProfile")}
               </Button>
             </div>
           </div>

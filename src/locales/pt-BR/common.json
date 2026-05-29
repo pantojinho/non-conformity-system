@@ -129,7 +129,17 @@
     "fullName": "Nome completo",
     "department": "Departamento",
     "unit": "Unidade",
-    "updateProfile": "Atualizar Perfil"
+    "updateProfile": "Atualizar Perfil",
+    "profileUpdated": "Perfil atualizado",
+    "profileUpdatedMsg": "Suas informações foram salvas com sucesso.",
+    "saveError": "Erro ao salvar",
+    "saveErrorMsg": "Não foi possível atualizar seu perfil. Tente novamente.",
+    "profilePhoto": "Foto de perfil",
+    "photoHint": "JPG, PNG ou GIF. Máximo 2MB.",
+    "changePhoto": "Alterar foto",
+    "email": "E-mail",
+    "emailCannotChange": "O e-mail não pode ser alterado",
+    "role": "Função"
   },
   "admin": {
     "users": "Gerenciamento de Usuários",
@@ -351,7 +361,7 @@
       "attachments": "Anexos",
       "comments": "Comentários",
       "internalNotes": "Notas Internas",
-    "occurrenceDate": "Data Ocorrência"
+      "occurrenceDate": "Data Ocorrência"
     },
     "statuses": {
       "new": "Nova",
@@ -404,10 +414,10 @@
       "exportPdf": "Exportar PDF",
       "print": "Imprimir",
       "viewHistory": "Ver Histórico",
-    "edit": "Editar",
-    "escalate": "Escalonar",
-    "title": "Ações Corretivas",
-    "add_comment_placeholder": "Escreva um comentário..."
+      "edit": "Editar",
+      "escalate": "Escalonar",
+      "title": "Ações Corretivas",
+      "add_comment_placeholder": "Escreva um comentário..."
     },
     "messages": {
       "createSuccess": "Reclamação criada com sucesso.",

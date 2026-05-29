@@ -129,7 +129,17 @@
     "fullName": "Full name",
     "department": "Department",
     "unit": "Unit",
-    "updateProfile": "Update Profile"
+    "updateProfile": "Update Profile",
+    "profileUpdated": "Profile updated",
+    "profileUpdatedMsg": "Your information has been saved successfully.",
+    "saveError": "Save error",
+    "saveErrorMsg": "Could not update your profile. Please try again.",
+    "profilePhoto": "Profile photo",
+    "photoHint": "JPG, PNG or GIF. Max 2MB.",
+    "changePhoto": "Change photo",
+    "email": "Email",
+    "emailCannotChange": "Email cannot be changed",
+    "role": "Role"
   },
   "admin": {
     "users": "User Management",

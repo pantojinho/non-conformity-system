@@ -129,7 +129,17 @@
     "fullName": "Nombre completo",
     "department": "Departamento",
     "unit": "Unidad",
-    "updateProfile": "Actualizar Perfil"
+    "updateProfile": "Actualizar Perfil",
+    "profileUpdated": "Perfil actualizado",
+    "profileUpdatedMsg": "Su información se guardó correctamente.",
+    "saveError": "Error al guardar",
+    "saveErrorMsg": "No se pudo actualizar su perfil. Intente nuevamente.",
+    "profilePhoto": "Foto de perfil",
+    "photoHint": "JPG, PNG o GIF. Máximo 2MB.",
+    "changePhoto": "Cambiar foto",
+    "email": "Correo electrónico",
+    "emailCannotChange": "El correo no puede ser cambiado",
+    "role": "Función"
   },
   "admin": {
     "users": "Gestión de Usuarios",
