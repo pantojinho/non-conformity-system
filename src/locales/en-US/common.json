@@ -175,6 +175,7 @@
     "unitPlaceholder": "e.g. Sorocaba Factory",
     "saveChanges": "Save Changes",
     "requiredFields": "Required fields: email, password, name, profile, organization",
+    "registeredUsers": "registered users",
     "passwordRequired": "Password is required for new users"
   },
   "errors": {
@@ -205,5 +206,261 @@
     "resolvedor": "Resolver",
     "auditor": "Auditor",
     "usuario": "User"
+  },
+  "complaintForm": {
+    "title": "New Complaint",
+    "subtitle": "Register a new complaint, suggestion, or customer feedback",
+    "sections": {
+      "clientInfo": "Client Information",
+      "clientInfoDesc": "Identify the customer who filed the complaint",
+      "classification": "Classification",
+      "classificationDesc": "Categorize the complaint type and severity",
+      "details": "Details",
+      "detailsDesc": "Describe the complaint in detail",
+      "sla": "SLA & Response",
+      "slaDesc": "Set priority, deadline, and responsible team",
+      "evidence": "Evidence & Attachments",
+      "evidenceDesc": "Upload supporting documents, images, or files"
+    },
+    "fields": {
+      "clientName": "Client Name",
+      "clientEmail": "Client Email",
+      "clientPhone": "Phone Number",
+      "clientCompany": "Company",
+      "complaintType": "Complaint Type",
+      "severity": "Severity",
+      "processArea": "Process Area",
+      "subject": "Subject",
+      "description": "Description",
+      "rootCause": "Possible Root Cause",
+      "priority": "Priority",
+      "dueDate": "Due Date",
+      "assignedTo": "Assign To"
+    },
+    "placeholders": {
+      "clientName": "John Doe",
+      "clientEmail": "john@example.com",
+      "clientPhone": "+1 (555) 000-0000",
+      "clientCompany": "Acme Corp",
+      "selectType": "Select a type...",
+      "selectSeverity": "Select severity...",
+      "selectProcessArea": "Select process area...",
+      "subject": "Brief summary of the complaint",
+      "description": "Describe what happened, when, and the impact...",
+      "rootCause": "If known, describe the probable cause...",
+      "selectPriority": "Select priority...",
+      "selectAssignee": "Select assignee..."
+    },
+    "types": {
+      "nps": "NPS Score",
+      "complaint": "Complaint",
+      "suggestion": "Suggestion",
+      "praise": "Praise"
+    },
+    "severity": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "critical": "Critical"
+    },
+    "processAreas": {
+      "production": "Production",
+      "quality": "Quality",
+      "logistics": "Logistics",
+      "engineering": "Engineering",
+      "commercial": "Commercial",
+      "afterSales": "After-Sales"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "assignee": {
+      "autoAssign": "Auto-assign",
+      "qualityTeam": "Quality Team",
+      "productionTeam": "Production Team",
+      "engineeringTeam": "Engineering Team",
+      "commercialTeam": "Commercial Team"
+    },
+    "actions": {
+      "submit": "Submit Complaint"
+    },
+    "errors": {
+      "required": "This field is required",
+      "minDescription": "Description must be at least 10 characters",
+      "submitFailed": "Failed to submit. Please try again."
+    },
+    "helpers": {
+      "rootCause": "Optional. Helps with initial triage and analysis."
+    },
+    "messages": {
+      "criticalWarning": "Critical severity complaints require immediate attention and will be escalated to management automatically.",
+      "dropFiles": "Click to upload or drag and drop",
+      "fileLimit": "PNG, JPG, PDF, DOC, XLS up to 10MB each"
+    }
+  },
+  "complaints": {
+    "title": "NPS & Complaints",
+    "description": "Manage customer complaints and NPS",
+    "newComplaint": "New Complaint",
+    "editComplaint": "Edit Complaint",
+    "complaintDetails": "Complaint Details",
+    "complaintNumber": "Complaint #{{number}}",
+    "createComplaint": "Create Complaint",
+    "saveComplaint": "Save Complaint",
+    "deleteComplaint": "Delete Complaint",
+    "complaintList": "Complaint List",
+    "noComplaints": "No complaints found",
+    "noComplaintsDesc": "There are no complaints registered at this time.",
+    "totalComplaints": "Total Complaints",
+    "openComplaints": "Open Complaints",
+    "resolvedComplaints": "Resolved Complaints",
+    "closedComplaints": "Closed Complaints",
+    "searchPlaceholder": "Search complaints...",
+    "filterStatus": "Filter by status",
+    "filterPriority": "Filter by priority",
+    "filterCategory": "Filter by category",
+    "filterDate": "Filter by date",
+    "allStatuses": "All statuses",
+    "allPriorities": "All priorities",
+    "allCategories": "All categories",
+    "sortByDate": "Sort by date",
+    "sortByPriority": "Sort by priority",
+    "fields": {
+      "customerName": "Customer Name",
+      "customerEmail": "Customer Email",
+      "customerPhone": "Customer Phone",
+      "company": "Company",
+      "subject": "Subject",
+      "description": "Description",
+      "category": "Category",
+      "priority": "Priority",
+      "status": "Status",
+      "assignedTo": "Assigned To",
+      "resolution": "Resolution",
+      "resolutionDate": "Resolution Date",
+      "createdAt": "Created At",
+      "updatedAt": "Updated At",
+      "closedAt": "Closed At",
+      "npsScore": "NPS Score",
+      "feedback": "Customer Feedback",
+      "source": "Source",
+      "department": "Responsible Department",
+      "attachments": "Attachments",
+      "comments": "Comments",
+      "internalNotes": "Internal Notes"
+    },
+    "statuses": {
+      "new": "New",
+      "open": "Open",
+      "in_progress": "In Progress",
+      "under_review": "Under Review",
+      "resolved": "Resolved",
+      "closed": "Closed",
+      "reopened": "Reopened",
+      "cancelled": "Cancelled"
+    },
+    "priorities": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "critical": "Critical"
+    },
+    "categories": {
+      "product_quality": "Product Quality",
+      "customer_service": "Customer Service",
+      "delivery": "Delivery",
+      "billing": "Billing",
+      "technical_support": "Technical Support",
+      "warranty": "Warranty",
+      "communication": "Communication",
+      "documentation": "Documentation",
+      "safety": "Safety",
+      "other": "Other"
+    },
+    "sources": {
+      "email": "Email",
+      "phone": "Phone",
+      "website": "Website",
+      "social_media": "Social Media",
+      "in_person": "In Person",
+      "internal": "Internal",
+      "chat": "Chat",
+      "survey": "Survey"
+    },
+    "actions": {
+      "assign": "Assign",
+      "resolve": "Resolve",
+      "close": "Close",
+      "reopen": "Reopen",
+      "cancel": "Cancel",
+      "addComment": "Add Comment",
+      "addAttachment": "Add Attachment",
+      "changePriority": "Change Priority",
+      "changeStatus": "Change Status",
+      "exportPdf": "Export PDF",
+      "print": "Print",
+      "viewHistory": "View History"
+    },
+    "messages": {
+      "createSuccess": "Complaint created successfully.",
+      "createError": "Error creating complaint.",
+      "updateSuccess": "Complaint updated successfully.",
+      "updateError": "Error updating complaint.",
+      "deleteSuccess": "Complaint deleted successfully.",
+      "deleteError": "Error deleting complaint.",
+      "resolveSuccess": "Complaint resolved successfully.",
+      "resolveError": "Error resolving complaint.",
+      "closeSuccess": "Complaint closed successfully.",
+      "closeError": "Error closing complaint.",
+      "reopenSuccess": "Complaint reopened successfully.",
+      "reopenError": "Error reopening complaint.",
+      "assignSuccess": "Complaint assigned successfully.",
+      "assignError": "Error assigning complaint.",
+      "deleteConfirm": "Are you sure you want to delete this complaint?",
+      "closeConfirm": "Are you sure you want to close this complaint?",
+      "cancelConfirm": "Are you sure you want to cancel this complaint?",
+      "requiredFields": "Required fields: customer name, subject, description, category, and priority.",
+      "loadError": "Error loading complaints.",
+      "noResults": "No complaints found with the applied filters.",
+      "resolvingPrompt": "Describe the resolution applied to the complaint."
+    },
+    "nps": {
+      "title": "NPS - Net Promoter Score",
+      "score": "NPS Score",
+      "promoters": "Promoters",
+      "passives": "Passives",
+      "detractors": "Detractors",
+      "average": "NPS Average",
+      "trend": "Trend",
+      "noScore": "No score",
+      "selectScore": "Select a score from 0 to 10"
+    },
+    "timeline": {
+      "title": "Timeline",
+      "created": "Complaint created",
+      "assigned": "Assigned to {{user}}",
+      "statusChanged": "Status changed from {{from}} to {{to}}",
+      "priorityChanged": "Priority changed from {{from}} to {{to}}",
+      "commentAdded": "Comment added",
+      "attachmentAdded": "Attachment added",
+      "resolved": "Complaint resolved",
+      "closed": "Complaint closed",
+      "reopened": "Complaint reopened"
+    },
+    "table": {
+      "number": "#",
+      "customer": "Customer",
+      "subject": "Subject",
+      "category": "Category",
+      "priority": "Priority",
+      "status": "Status",
+      "assignedTo": "Assigned To",
+      "date": "Date",
+      "nps": "NPS",
+      "actions": "Actions"
+    }
   }
 }

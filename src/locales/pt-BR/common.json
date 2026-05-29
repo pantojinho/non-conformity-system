@@ -175,6 +175,7 @@
     "unitPlaceholder": "Ex: Fábrica Sorocaba",
     "saveChanges": "Salvar Alterações",
     "requiredFields": "Campos obrigatórios: email, senha, nome, perfil, organização",
+    "registeredUsers": "usuários cadastrados",
     "passwordRequired": "Senha é obrigatória para novos usuários"
   },
   "errors": {
@@ -205,5 +206,261 @@
     "resolvedor": "Resolvedor",
     "auditor": "Auditor",
     "usuario": "Usuário"
+  },
+  "complaintForm": {
+    "title": "Nova Reclamação",
+    "subtitle": "Registre uma nova reclamação, sugestão ou feedback do cliente",
+    "sections": {
+      "clientInfo": "Informações do Cliente",
+      "clientInfoDesc": "Identifique o cliente que registrou a reclamação",
+      "classification": "Classificação",
+      "classificationDesc": "Categorize o tipo e a gravidade da reclamação",
+      "details": "Detalhes",
+      "detailsDesc": "Descreva a reclamação em detalhes",
+      "sla": "SLA & Atendimento",
+      "slaDesc": "Defina prioridade, prazo e equipe responsável",
+      "evidence": "Evidências & Anexos",
+      "evidenceDesc": "Envie documentos, imagens ou arquivos de apoio"
+    },
+    "fields": {
+      "clientName": "Nome do Cliente",
+      "clientEmail": "E-mail do Cliente",
+      "clientPhone": "Telefone",
+      "clientCompany": "Empresa",
+      "complaintType": "Tipo de Reclamação",
+      "severity": "Gravidade",
+      "processArea": "Área / Processo",
+      "subject": "Assunto",
+      "description": "Descrição",
+      "rootCause": "Possível Causa Raiz",
+      "priority": "Prioridade",
+      "dueDate": "Prazo",
+      "assignedTo": "Atribuir Para"
+    },
+    "placeholders": {
+      "clientName": "João da Silva",
+      "clientEmail": "joao@exemplo.com",
+      "clientPhone": "+55 (11) 99999-0000",
+      "clientCompany": "Empresa XYZ",
+      "selectType": "Selecione um tipo...",
+      "selectSeverity": "Selecione a gravidade...",
+      "selectProcessArea": "Selecione a área...",
+      "subject": "Resumo breve da reclamação",
+      "description": "Descreva o que aconteceu, quando e o impacto...",
+      "rootCause": "Se conhecida, descreva a provável causa...",
+      "selectPriority": "Selecione a prioridade...",
+      "selectAssignee": "Selecione o responsável..."
+    },
+    "types": {
+      "nps": "Nota NPS",
+      "complaint": "Reclamação",
+      "suggestion": "Sugestão",
+      "praise": "Elogio"
+    },
+    "severity": {
+      "low": "Baixa",
+      "medium": "Média",
+      "high": "Alta",
+      "critical": "Crítica"
+    },
+    "processAreas": {
+      "production": "Produção",
+      "quality": "Qualidade",
+      "logistics": "Logística",
+      "engineering": "Engenharia",
+      "commercial": "Comercial",
+      "afterSales": "Pós-Venda"
+    },
+    "priority": {
+      "low": "Baixa",
+      "medium": "Média",
+      "high": "Alta",
+      "urgent": "Urgente"
+    },
+    "assignee": {
+      "autoAssign": "Atribuição Automática",
+      "qualityTeam": "Equipe de Qualidade",
+      "productionTeam": "Equipe de Produção",
+      "engineeringTeam": "Equipe de Engenharia",
+      "commercialTeam": "Equipe Comercial"
+    },
+    "actions": {
+      "submit": "Enviar Reclamação"
+    },
+    "errors": {
+      "required": "Este campo é obrigatório",
+      "minDescription": "A descrição deve ter no mínimo 10 caracteres",
+      "submitFailed": "Falha ao enviar. Tente novamente."
+    },
+    "helpers": {
+      "rootCause": "Opcional. Ajuda na triagem e análise inicial."
+    },
+    "messages": {
+      "criticalWarning": "Reclamações com gravidade crítica exigem atenção imediata e serão escaladas automaticamente para a gestão.",
+      "dropFiles": "Clique para enviar ou arraste e solte",
+      "fileLimit": "PNG, JPG, PDF, DOC, XLS até 10MB cada"
+    }
+  },
+  "complaints": {
+    "title": "NPS & Reclamações",
+    "description": "Gerencie as reclamações e o NPS de clientes",
+    "newComplaint": "Nova Reclamação",
+    "editComplaint": "Editar Reclamação",
+    "complaintDetails": "Detalhes da Reclamação",
+    "complaintNumber": "Reclamação #{{number}}",
+    "createComplaint": "Criar Reclamação",
+    "saveComplaint": "Salvar Reclamação",
+    "deleteComplaint": "Excluir Reclamação",
+    "complaintList": "Lista de Reclamações",
+    "noComplaints": "Nenhuma reclamação encontrada",
+    "noComplaintsDesc": "Não há reclamações registradas no momento.",
+    "totalComplaints": "Total de Reclamações",
+    "openComplaints": "Reclamações Abertas",
+    "resolvedComplaints": "Reclamações Resolvidas",
+    "closedComplaints": "Reclamações Encerradas",
+    "searchPlaceholder": "Buscar reclamações...",
+    "filterStatus": "Filtrar por status",
+    "filterPriority": "Filtrar por prioridade",
+    "filterCategory": "Filtrar por categoria",
+    "filterDate": "Filtrar por data",
+    "allStatuses": "Todos os status",
+    "allPriorities": "Todas as prioridades",
+    "allCategories": "Todas as categorias",
+    "sortByDate": "Ordenar por data",
+    "sortByPriority": "Ordenar por prioridade",
+    "fields": {
+      "customerName": "Nome do Cliente",
+      "customerEmail": "E-mail do Cliente",
+      "customerPhone": "Telefone do Cliente",
+      "company": "Empresa",
+      "subject": "Assunto",
+      "description": "Descrição",
+      "category": "Categoria",
+      "priority": "Prioridade",
+      "status": "Status",
+      "assignedTo": "Atribuído a",
+      "resolution": "Resolução",
+      "resolutionDate": "Data de Resolução",
+      "createdAt": "Criado em",
+      "updatedAt": "Atualizado em",
+      "closedAt": "Encerrado em",
+      "npsScore": "Nota NPS",
+      "feedback": "Feedback do Cliente",
+      "source": "Origem",
+      "department": "Departamento Responsável",
+      "attachments": "Anexos",
+      "comments": "Comentários",
+      "internalNotes": "Notas Internas"
+    },
+    "statuses": {
+      "new": "Nova",
+      "open": "Aberta",
+      "in_progress": "Em Andamento",
+      "under_review": "Em Revisão",
+      "resolved": "Resolvida",
+      "closed": "Encerrada",
+      "reopened": "Reaberta",
+      "cancelled": "Cancelada"
+    },
+    "priorities": {
+      "low": "Baixa",
+      "medium": "Média",
+      "high": "Alta",
+      "critical": "Crítica"
+    },
+    "categories": {
+      "product_quality": "Qualidade do Produto",
+      "customer_service": "Atendimento ao Cliente",
+      "delivery": "Entrega",
+      "billing": "Faturamento",
+      "technical_support": "Suporte Técnico",
+      "warranty": "Garantia",
+      "communication": "Comunicação",
+      "documentation": "Documentação",
+      "safety": "Segurança",
+      "other": "Outro"
+    },
+    "sources": {
+      "email": "E-mail",
+      "phone": "Telefone",
+      "website": "Website",
+      "social_media": "Redes Sociais",
+      "in_person": "Presencial",
+      "internal": "Interno",
+      "chat": "Chat",
+      "survey": "Pesquisa"
+    },
+    "actions": {
+      "assign": "Atribuir",
+      "resolve": "Resolver",
+      "close": "Encerrar",
+      "reopen": "Reabrir",
+      "cancel": "Cancelar",
+      "addComment": "Adicionar Comentário",
+      "addAttachment": "Adicionar Anexo",
+      "changePriority": "Alterar Prioridade",
+      "changeStatus": "Alterar Status",
+      "exportPdf": "Exportar PDF",
+      "print": "Imprimir",
+      "viewHistory": "Ver Histórico"
+    },
+    "messages": {
+      "createSuccess": "Reclamação criada com sucesso.",
+      "createError": "Erro ao criar reclamação.",
+      "updateSuccess": "Reclamação atualizada com sucesso.",
+      "updateError": "Erro ao atualizar reclamação.",
+      "deleteSuccess": "Reclamação excluída com sucesso.",
+      "deleteError": "Erro ao excluir reclamação.",
+      "resolveSuccess": "Reclamação resolvida com sucesso.",
+      "resolveError": "Erro ao resolver reclamação.",
+      "closeSuccess": "Reclamação encerrada com sucesso.",
+      "closeError": "Erro ao encerrar reclamação.",
+      "reopenSuccess": "Reclamação reaberta com sucesso.",
+      "reopenError": "Erro ao reabrir reclamação.",
+      "assignSuccess": "Reclamação atribuída com sucesso.",
+      "assignError": "Erro ao atribuir reclamação.",
+      "deleteConfirm": "Tem certeza que deseja excluir esta reclamação?",
+      "closeConfirm": "Tem certeza que deseja encerrar esta reclamação?",
+      "cancelConfirm": "Tem certeza que deseja cancelar esta reclamação?",
+      "requiredFields": "Campos obrigatórios: nome do cliente, assunto, descrição, categoria e prioridade.",
+      "loadError": "Erro ao carregar reclamações.",
+      "noResults": "Nenhuma reclamação encontrada com os filtros aplicados.",
+      " resolvingPrompt": "Descreva a resolução aplicada à reclamação."
+    },
+    "nps": {
+      "title": "NPS - Net Promoter Score",
+      "score": "Nota NPS",
+      "promoters": "Promotores",
+      "passives": "Neutros",
+      "detractors": "Detratores",
+      "average": "Média NPS",
+      "trend": "Tendência",
+      "noScore": "Sem nota",
+      "selectScore": "Selecione uma nota de 0 a 10"
+    },
+    "timeline": {
+      "title": "Linha do Tempo",
+      "created": "Reclamação criada",
+      "assigned": "Atribuída a {{user}}",
+      "statusChanged": "Status alterado de {{from}} para {{to}}",
+      "priorityChanged": "Prioridade alterada de {{from}} para {{to}}",
+      "commentAdded": "Comentário adicionado",
+      "attachmentAdded": "Anexo adicionado",
+      "resolved": "Reclamação resolvida",
+      "closed": "Reclamação encerrada",
+      "reopened": "Reclamação reaberta"
+    },
+    "table": {
+      "number": "#",
+      "customer": "Cliente",
+      "subject": "Assunto",
+      "category": "Categoria",
+      "priority": "Prioridade",
+      "status": "Status",
+      "assignedTo": "Atribuído a",
+      "date": "Data",
+      "nps": "NPS",
+      "actions": "Ações"
+    }
   }
 }
