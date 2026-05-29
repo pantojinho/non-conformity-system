@@ -20,8 +20,15 @@
 | — | RLS | Admin endpoints usam service-role client (bypass RLS) para verificar perfil |
 | — | Auto-profile | Trigger `on_auth_user_created` cria perfil automaticamente no signup |
 | — | Roles | 8 roles (adicionado `super_admin` na migration 002) |
+| — | Paleta ABB | #FF000F primária, #1A1A2E sidebar/login, Inter font |
+| — | Dark mode | Tailwind v4 @custom-variant dark, toggle Sun/Moon no header |
+| — | Sidebar | SEMPRE escura (#1A1A2E) em ambos os temas (design decision) |
+| — | Login | SEM Google OAuth, SEM signup — plataforma interna, admin regista users |
+| — | i18n | next-intl SEM middleware próprio, locale lido de cookie NEXT_LOCALE |
+| — | Idiomas | pt-BR (default), en-US, es-AR — 3 línguas desde o MVP |
 
 **Decisões tomadas por:** Gabriel Ciandrini — 28/05/2026
+**Atualizado:** 29/05/2026 (Sprint 0.2 completa)
 
 ---
 
@@ -323,15 +330,14 @@
 
 ---
 
-### 20. Países, Unidades e Idioma ❓
+### 20. Países, Unidades e Idioma ✅ (parcialmente decidido)
 
+- [x] pt-BR, en-US, es-AR desde o MVP (trilíngue)
 - [ ] Quais unidades entram na primeira fase? ___
 - [ ] Apenas Brasil e Argentina ou mais locais no futuro? ___
-- [ ] pt-BR no início, es-AR depois? ___
-- [ ] Ou bilíngue desde o MVP? ___
 - [ ] Os fluxos serão iguais nos dois países? ___
 
-**Recomendação:** Começar pt-BR, preparar estrutura para es-AR
+**Decidido:** 3 idiomas desde o MVP (pt-BR default, en-US, es-AR) — next-intl + cookie NEXT_LOCALE
 **Impacto:** i18n, multi-tenant, formulários por país, seeds
 
 ---
