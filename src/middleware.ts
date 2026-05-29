@@ -1,8 +1,8 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  // Refresh the Supabase session
+  // Refresh the Supabase session — this returns a response with cookies set
   const response = await updateSession(request);
 
   const { pathname } = request.nextUrl;
@@ -36,21 +36,7 @@ export async function middleware(request: NextRequest) {
     return Response.redirect(loginUrl);
   }
 
-  // Handle locale cookie for next-intl (non-invasive)
-  const locale = request.cookies.get("NEXT_LOCALE")?.value || "pt-BR";
-  if (!["pt-BR", "en-US", "es-AR"].includes(locale)) {
-    // invalid locale, just continue
-  }
-
-  // Set locale in request headers so next-intl can read it server-side
-  const requestHeaders = new Headers(response.headers);
-  requestHeaders.set("x-next-intl-locale", locale);
-
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
+  return response;
 }
 
 export const config = {
