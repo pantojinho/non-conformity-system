@@ -11,13 +11,19 @@ import {
   FolderOpen,
   ClipboardList,
   UserCog,
+  SlidersHorizontal,
   X,
   ChevronDown,
   Users,
   Bot,
+  User,
+  Settings,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "@/i18n";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 interface MobileSidebarProps {
   isOpen: boolean;
@@ -26,6 +32,7 @@ interface MobileSidebarProps {
 
 export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
   const t = useTranslations();
+  const router = useRouter();
   const [adminOpen, setAdminOpen] = useState(false);
   const pathname = usePathname();
   const isAdminActive = pathname.startsWith("/admin");
@@ -44,11 +51,19 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
     { href: "/admin/users", label: t("nav.users"), icon: Users },
   ];
 
+  async function handleLogout() {
+    onClose();
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 lg:hidden">
-      {/* Backdrop - click to close */}
+      {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
@@ -147,9 +162,46 @@ export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
                     })}
                   </div>
                 )}
+
+                {/* Settings & Config */}
+                <div className="mt-2 space-y-1">
+                  <Link
+                    href="/settings/profile"
+                    onClick={onClose}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all",
+                      pathname.startsWith("/settings")
+                        ? "bg-[#FF000F]/20 text-rose-400"
+                        : "text-gray-300 hover:bg-white/5 hover:text-white"
+                    )}
+                  >
+                    <SlidersHorizontal className="h-5 w-5 shrink-0" />
+                    <span>{t("nav.settings")}</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </nav>
+
+          {/* User section at bottom */}
+          <div className="border-t border-white/10 px-4 py-3">
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-9 shrink-0 rounded-full bg-[#FF000F] flex items-center justify-center text-white text-sm font-bold">
+                G
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-white truncate">Gabriel Ciandrini</p>
+                <p className="text-[11px] text-gray-400 truncate">gabriel.ciandrini@br.abb.com</p>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="rounded-lg p-2 text-gray-400 hover:bg-white/10 hover:text-red-400 transition-colors"
+                title={t("common.logout")}
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
 
           {/* ABB red bottom line */}
           <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF000F]" />
