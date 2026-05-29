@@ -5,6 +5,27 @@ import { Loader2, Plus } from "lucide-react";
 import { UserFormModal, type UserTableRow, type Role, type Organization } from "@/components/admin/user-form-modal";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 
+const ROLE_CONFIG: Record<string, { label: string; bg: string; text: string; dot: string }> = {
+  super_admin: { label: "Super Admin", bg: "bg-purple-100 dark:bg-purple-900/30", text: "text-purple-700 dark:text-purple-300", dot: "bg-purple-500" },
+  admin:       { label: "Admin",       bg: "bg-red-100 dark:bg-red-900/30",       text: "text-red-700 dark:text-red-300",       dot: "bg-red-500" },
+  diretor:     { label: "Diretor",     bg: "bg-amber-100 dark:bg-amber-900/30",   text: "text-amber-700 dark:text-amber-300",   dot: "bg-amber-500" },
+  gestor:      { label: "Gestor",      bg: "bg-orange-100 dark:bg-orange-900/30", text: "text-orange-700 dark:text-orange-300", dot: "bg-orange-500" },
+  qualidade_hse: { label: "Qualidade/HSE", bg: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-700 dark:text-emerald-300", dot: "bg-emerald-500" },
+  resolvedor:  { label: "Resolvedor",  bg: "bg-blue-100 dark:bg-blue-900/30",     text: "text-blue-700 dark:text-blue-300",     dot: "bg-blue-500" },
+  auditor:     { label: "Auditor",     bg: "bg-cyan-100 dark:bg-cyan-900/30",     text: "text-cyan-700 dark:text-cyan-300",     dot: "bg-cyan-500" },
+  usuario:     { label: "Usuário",     bg: "bg-gray-100 dark:bg-gray-800",        text: "text-gray-600 dark:text-gray-400",     dot: "bg-gray-400" },
+};
+
+function RoleBadge({ roleName }: { roleName: string }) {
+  const config = ROLE_CONFIG[roleName] ?? ROLE_CONFIG.usuario;
+  return (
+    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${config.bg} ${config.text}`}>
+      <span className={`mr-1.5 h-1.5 w-1.5 rounded-full ${config.dot}`} />
+      {config.label}
+    </span>
+  );
+}
+
 export default function UsersPage() {
   const [users, setUsers] = useState<UserTableRow[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
@@ -157,13 +178,11 @@ export default function UsersPage() {
 
                 {/* User Info */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                  <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-2">
                     <div className="truncate text-base font-semibold text-gray-900 dark:text-white sm:text-sm">
                       {user.name}
                     </div>
-                    <div className="text-xs text-blue-600 dark:text-blue-400 font-medium">
-                      {user.role_name}
-                    </div>
+                    <RoleBadge roleName={user.role_name} />
                   </div>
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3 sm:text-xs">
                     <span className="truncate text-gray-600 dark:text-gray-400">{user.email}</span>
