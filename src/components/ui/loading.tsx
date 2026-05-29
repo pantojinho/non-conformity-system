@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { Card } from "./card";
 
 export function Spinner({ size = "md", className }: { size?: "sm" | "md" | "lg"; className?: string }) {
   const sizeClasses = {
@@ -55,7 +56,7 @@ export function LoadingPage({ message = "Carregando..." }: LoadingPageProps) {
   return (
     <div className="flex min-h-[400px] items-center justify-center">
       <div className="text-center">
-        <Spinner size="lg" className="mx-auto mb-4 text-blue-600 dark:text-blue-400" />
+        <Spinner size="lg" className="mx-auto mb-4 text-rose-600 dark:text-rose-400" />
         <p className="text-gray-600 dark:text-gray-400">{message}</p>
       </div>
     </div>
@@ -76,5 +77,3 @@ export function LoadingCard({ count = 1 }: LoadingCardProps) {
     </Card>
   );
 }
-
-import { Card } from "./card";

@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Users,
   ChevronDown,
+  Cog,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -157,6 +158,23 @@ export function DesktopSidebar() {
             <Settings className="h-5 w-5 shrink-0" />
           </Link>
         )}
+
+        {/* Configurações */}
+        <div className="mt-4 pt-4 border-t border-white/10">
+          <Link
+            href="/settings"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
+              pathname.startsWith("/settings")
+                ? "bg-blue-600 text-white shadow-lg"
+                : "text-gray-300 hover:bg-white/5 hover:text-white"
+            )}
+            title={collapsed ? "Configurações" : undefined}
+          >
+            <Cog className="h-5 w-5 shrink-0" />
+            {!collapsed && <span>Configurações</span>}
+          </Link>
+        </div>
       </nav>
     </aside>
   );

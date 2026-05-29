@@ -33,7 +33,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             "bg-white dark:bg-gray-800",
             "border-gray-300 dark:border-gray-600",
             "text-gray-900 dark:text-white",
-            "focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none",
+            "focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 focus:outline-none",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             error && "border-red-500 focus:border-red-500 focus:ring-red-500/20",
             className

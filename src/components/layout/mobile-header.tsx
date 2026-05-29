@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { Menu } from "lucide-react";
-import { MobileSidebar } from "./mobile-sidebar";
-import { cn } from "@/lib/utils";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 export function MobileHeader({ onMenuClick }: { onMenuClick: () => void }) {
   return (
@@ -22,7 +20,7 @@ export function MobileHeader({ onMenuClick }: { onMenuClick: () => void }) {
           </span>
         </div>
 
-        <div className="w-10" /> {/* Spacer for balance */}
+        <LanguageSwitcher />
       </div>
     </header>
   );

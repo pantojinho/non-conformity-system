@@ -1,6 +1,8 @@
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
+
 export function Header() {
   return (
-    <div className="hidden lg:block h-16 items-center justify-between px-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+    <div className="hidden lg:flex h-16 items-center justify-between px-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
       <div className="flex items-center gap-3">
         <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
           Robotics Hub
@@ -15,6 +17,8 @@ export function Header() {
             className="w-64 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400"
           />
         </div>
+
+        <LanguageSwitcher />
 
         <button className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white transition-colors">
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
