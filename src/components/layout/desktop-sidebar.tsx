@@ -16,6 +16,7 @@ import {
   Users,
   ChevronDown,
   Cog,
+  Bot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -53,16 +54,28 @@ export function DesktopSidebar() {
   return (
     <aside
       className={cn(
-        "h-full flex-col transition-all duration-300 border-r",
+        "h-full flex-col transition-all duration-300 border-r border-white/10 relative",
         collapsed ? "w-20" : "w-64",
-        "bg-gradient-to-b from-slate-900 to-slate-950"
+        "bg-[#1A1A2E]"
       )}
       style={{ display: "flex" }}
     >
-      {/* Logo */}
+      {/* Logo — ABB branding */}
       <div className="flex h-16 items-center justify-between px-4 border-b border-white/10">
-        {!collapsed && (
-          <span className="text-lg font-bold text-white">Robotics Hub</span>
+        {!collapsed ? (
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded bg-[#FF000F]">
+              <Bot className="h-5 w-5 text-white" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-extrabold leading-tight text-white">ABB</span>
+              <span className="text-[10px] font-medium leading-tight text-gray-400">Robotics Hub</span>
+            </div>
+          </div>
+        ) : (
+          <div className="flex h-8 w-8 items-center justify-center rounded bg-[#FF000F]">
+            <Bot className="h-5 w-5 text-white" />
+          </div>
         )}
         <button
           onClick={() => setCollapsed(!collapsed)}
@@ -87,7 +100,7 @@ export function DesktopSidebar() {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
                 isActive
-                  ? "bg-blue-600 text-white shadow-lg"
+                  ? "bg-[#FF000F] text-white shadow-lg shadow-[#FF000F]/25"
                   : "text-gray-300 hover:bg-white/5 hover:text-white"
               )}
               title={collapsed ? item.label : undefined}
@@ -106,7 +119,7 @@ export function DesktopSidebar() {
               className={cn(
                 "flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all mt-4",
                 isAdminActive
-                  ? "bg-blue-600/20 text-blue-400"
+                  ? "bg-[#FF000F]/20 text-rose-400"
                   : "text-gray-300 hover:bg-white/5 hover:text-white"
               )}
             >
@@ -132,7 +145,7 @@ export function DesktopSidebar() {
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",
                         isActive
-                          ? "bg-blue-600 text-white shadow-lg"
+                          ? "bg-[#FF000F] text-white shadow-lg shadow-[#FF000F]/25"
                           : "text-gray-300 hover:bg-white/5 hover:text-white"
                       )}
                     >
@@ -150,7 +163,7 @@ export function DesktopSidebar() {
             className={cn(
               "flex items-center justify-center rounded-lg px-3 py-2.5 text-sm font-medium transition-all mt-4",
               isAdminActive
-                ? "bg-blue-600 text-white shadow-lg"
+                ? "bg-[#FF000F] text-white shadow-lg shadow-[#FF000F]/25"
                 : "text-gray-300 hover:bg-white/5 hover:text-white"
             )}
             title="Administração"
@@ -166,7 +179,7 @@ export function DesktopSidebar() {
             className={cn(
               "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
               pathname.startsWith("/settings")
-                ? "bg-blue-600 text-white shadow-lg"
+                ? "bg-[#FF000F] text-white shadow-lg shadow-[#FF000F]/25"
                 : "text-gray-300 hover:bg-white/5 hover:text-white"
             )}
             title={collapsed ? "Configurações" : undefined}
@@ -176,6 +189,9 @@ export function DesktopSidebar() {
           </Link>
         </div>
       </nav>
+
+      {/* ABB red bottom line */}
+      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF000F]" />
     </aside>
   );
 }

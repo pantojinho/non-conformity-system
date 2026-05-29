@@ -1,110 +1,76 @@
 "use client";
 
-import { useState, useRef, useEffect, useTransition } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLocale } from "next-intl";
-import { useRouter } from "next/navigation";
-import { locales, localeNames, localeFlags, type Locale } from "@/i18n/config";
-import { cn } from "@/lib/utils";
+import { locales, localeLabels, type Locale } from "@/i18n/config";
 import { Globe, ChevronDown, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function LanguageSwitcher({ className }: { className?: string }) {
   const currentLocale = useLocale() as Locale;
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+    function onClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
-  function handleChange(newLocale: Locale) {
-    if (newLocale === currentLocale) {
-      setIsOpen(false);
-      return;
-    }
-    localStorage.setItem("locale", newLocale);
-    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${60 * 60 * 24 * 365}`;
+  const handleChange = (newLocale: Locale) => {
+    // Set cookie for next-intl server-side detection
+    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
     setIsOpen(false);
-    startTransition(() => {
-      router.refresh();
-    });
-  }
-
-  // Parse flag and label from localeNames (format: "🇧🇷 Português")
-  const currentFlag = localeFlags[currentLocale] || "🌐";
-  const currentLabel = localeNames[currentLocale]?.replace(/^[^\w]+/, "").trim() || currentLocale;
+    // Reload to apply the new locale
+    window.location.reload();
+  };
 
   return (
-    <div ref={dropdownRef} className={cn("relative", className)}>
-      {/* Desktop: Dropdown */}
-      <div className="hidden sm:block">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          disabled={isPending}
+    <div ref={ref} className={cn("relative", className)}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/10 transition-colors"
+        aria-label="Change language"
+      >
+        <Globe className="h-4 w-4" />
+        <span className="hidden sm:inline">{localeLabels[currentLocale]}</span>
+        <span className="sm:hidden">{currentLocale.split("-")[0]}</span>
+        <ChevronDown
           className={cn(
-            "flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-sm font-medium transition-colors",
-            "border-gray-300 text-gray-700 hover:bg-gray-50",
-            "dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800",
-            isPending && "opacity-50"
+            "h-3 w-3 transition-transform",
+            isOpen && "rotate-180"
           )}
-          aria-label="Alterar idioma"
-          aria-expanded={isOpen}
-        >
-          <Globe className="h-4 w-4" />
-          <span className="text-base">{currentFlag}</span>
-          <span className="hidden md:inline">{currentLabel}</span>
-          <ChevronDown className={cn("h-3 w-3 transition-transform", isOpen && "rotate-180")} />
-        </button>
+        />
+      </button>
 
-        {isOpen && (
-          <div className="absolute right-0 mt-1 w-48 rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800 z-50">
-            {locales.map((loc) => {
-              const isActive = loc === currentLocale;
-              const flag = localeFlags[loc];
-              const label = localeNames[loc]?.replace(/^[^\w]+/, "").trim();
-              return (
-                <button
-                  key={loc}
-                  onClick={() => handleChange(loc)}
-                  className={cn(
-                    "flex w-full items-center gap-2.5 px-3 py-2.5 text-sm transition-colors",
-                    isActive
-                      ? "bg-rose-50 text-rose-700 dark:bg-rose-900/20 dark:text-rose-300"
-                      : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700"
-                  )}
-                >
-                  <span className="text-base">{flag}</span>
-                  <span>{label}</span>
-                  {isActive && <Check className="ml-auto h-4 w-4" />}
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Mobile: Native select */}
-      <div className="sm:hidden">
-        <select
-          value={currentLocale}
-          onChange={(e) => handleChange(e.target.value as Locale)}
-          disabled={isPending}
-          className="rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
-        >
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-44 rounded-lg border border-gray-200 bg-white py-1 shadow-xl dark:border-white/10 dark:bg-[#1A1A2E] z-50">
           {locales.map((loc) => (
-            <option key={loc} value={loc}>
-              {localeFlags[loc]} {localeNames[loc]?.replace(/^[^\w]+/, "").trim()}
-            </option>
+            <button
+              key={loc}
+              onClick={() => handleChange(loc)}
+              className={cn(
+                "flex w-full items-center gap-2 px-3 py-2.5 text-sm transition-colors",
+                loc === currentLocale
+                  ? "bg-rose-50 text-rose-700 dark:bg-rose-600/20 dark:text-rose-400"
+                  : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-white/5"
+              )}
+            >
+              <span className="w-8 text-xs font-medium">
+                {loc.split("-")[0].toUpperCase()}
+              </span>
+              <span className="flex-1 text-left">{localeLabels[loc]}</span>
+              {loc === currentLocale && (
+                <Check className="h-4 w-4 text-rose-600 dark:text-rose-400" />
+              )}
+            </button>
           ))}
-        </select>
-      </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,16 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { LanguageSwitcher } from "@/components/ui/language-switcher";
-import { locales, localeFlags, localeLabels, type Locale } from "@/i18n/config";
+import { locales, localeLabels, type Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
-import { Sun, Moon, Monitor, Globe, Palette } from "lucide-react";
+import { Sun, Moon, Monitor, Globe, Palette, Check } from "lucide-react";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 
 type Theme = "light" | "dark" | "system";
 
-const themes: { value: Theme; label: string; icon: typeof Sun }[] = [
+const themeOptions: { value: Theme; label: string; icon: typeof Sun }[] = [
   { value: "light", label: "Claro", icon: Sun },
   { value: "dark", label: "Escuro", icon: Moon },
   { value: "system", label: "Sistema", icon: Monitor },
@@ -19,11 +18,16 @@ const themes: { value: Theme; label: string; icon: typeof Sun }[] = [
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
-  if (theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+  if (
+    theme === "dark" ||
+    (theme === "system" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
     root.classList.add("dark");
   } else {
     root.classList.remove("dark");
   }
+  localStorage.setItem("theme", theme);
 }
 
 export default function PreferencesSettingsPage() {
@@ -45,15 +49,13 @@ export default function PreferencesSettingsPage() {
 
   function handleThemeChange(newTheme: Theme) {
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
     applyTheme(newTheme);
   }
 
   function handleLocaleChange(newLocale: Locale) {
     if (newLocale === currentLocale) return;
-    localStorage.setItem("locale", newLocale);
-    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${60 * 60 * 24 * 365}`;
-    router.refresh();
+    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
+    window.location.reload();
   }
 
   if (!mounted) return null;
@@ -101,24 +103,12 @@ export default function PreferencesSettingsPage() {
                         : "border-gray-200 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
                     )}
                   >
-                    <span className="text-lg">{localeFlags[loc]}</span>
-                    <span className="font-medium">
-                      {localeLabels[loc]}
+                    <span className="w-8 text-xs font-semibold tracking-wide">
+                      {loc.split("-")[0].toUpperCase()}
                     </span>
+                    <span className="font-medium">{localeLabels[loc]}</span>
                     {isActive && (
-                      <svg
-                        className="ml-auto h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
+                      <Check className="ml-auto h-4 w-4" />
                     )}
                   </button>
                 );
@@ -147,7 +137,7 @@ export default function PreferencesSettingsPage() {
             </div>
 
             <div className="grid grid-cols-3 gap-3">
-              {themes.map(({ value, label, icon: Icon }) => {
+              {themeOptions.map(({ value, label, icon: Icon }) => {
                 const isActive = theme === value;
                 return (
                   <button
@@ -171,8 +161,8 @@ export default function PreferencesSettingsPage() {
               {theme === "system"
                 ? "O tema seguirá a configuração do seu sistema operacional."
                 : theme === "dark"
-                ? "O tema escuro está ativado."
-                : "O tema claro está ativado."}
+                  ? "O tema escuro está ativado."
+                  : "O tema claro está ativado."}
             </p>
           </div>
         </CardContent>

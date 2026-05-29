@@ -6,7 +6,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Robotics Hub — Governança Corporativa",
-  description: "Plataforma de governança corporativa para gestão de não conformidades, riscos, auditorias e mais.",
+  description:
+    "Plataforma de governança corporativa para gestão de não conformidades, riscos, auditorias e mais.",
 };
 
 export default async function RootLayout({
@@ -18,6 +19,24 @@ export default async function RootLayout({
 
   return (
     <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>
