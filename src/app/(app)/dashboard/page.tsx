@@ -27,6 +27,7 @@ export default function DashboardPage() {
       icon: FileWarning,
       color: "from-red-500 to-red-600",
       bgColor: "bg-red-50 dark:bg-red-950/30",
+      iconColor: "text-red-600 dark:text-red-400",
     },
     {
       title: t("dashboard.hazards"),
@@ -37,6 +38,7 @@ export default function DashboardPage() {
       icon: AlertTriangle,
       color: "from-orange-500 to-orange-600",
       bgColor: "bg-orange-50 dark:bg-orange-950/30",
+      iconColor: "text-orange-600 dark:text-orange-400",
     },
     {
       title: t("dashboard.nps"),
@@ -47,6 +49,7 @@ export default function DashboardPage() {
       icon: MessageSquareWarning,
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50 dark:bg-blue-950/30",
+      iconColor: "text-blue-600 dark:text-blue-400",
     },
     {
       title: t("dashboard.documents"),
@@ -57,6 +60,7 @@ export default function DashboardPage() {
       icon: FileText,
       color: "from-green-500 to-green-600",
       bgColor: "bg-green-50 dark:bg-green-950/30",
+      iconColor: "text-green-600 dark:text-green-400",
     },
     {
       title: t("dashboard.audits"),
@@ -67,6 +71,7 @@ export default function DashboardPage() {
       icon: ClipboardCheck,
       color: "from-purple-500 to-purple-600",
       bgColor: "bg-purple-50 dark:bg-purple-950/30",
+      iconColor: "text-purple-600 dark:text-purple-400",
     },
   ];
 
@@ -116,8 +121,8 @@ export default function DashboardPage() {
           >
             <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 transition-opacity group-hover:opacity-5`} />
             <div className="relative">
-              <div className={`mb-3 inline-flex rounded-lg ${stat.bgColor} p-3`}>
-                <stat.icon className={`h-5 w-5 sm:h-6 sm:w-6 bg-gradient-to-br ${stat.color} bg-clip-text text-transparent`} />
+              <div className={`mb-3 inline-flex rounded-lg p-3 ${stat.bgColor}`}>
+                <stat.icon className={`h-5 w-5 sm:h-6 sm:w-6 ${stat.iconColor}`} />
               </div>
               <div className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
                 {stat.value}
