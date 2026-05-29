@@ -42,7 +42,7 @@ export function Sidebar() {
       <MobileSidebar isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
 
       {/* Mobile Header bar */}
-      <div className="lg:hidden sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+      <div className="lg:hidden shrink-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
             <button
