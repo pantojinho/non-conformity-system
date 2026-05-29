@@ -1,10 +1,14 @@
 "use client";
 
+import { useTranslations } from "@/i18n";
+
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations();
+
   return (
     <div className="flex min-h-screen">
       {/* Left Panel — ABB Branding */}
@@ -64,14 +68,13 @@ export default function AuthLayout({
               </h2>
               <div className="w-16 h-1 bg-[#FF000F] rounded-full" />
               <p className="text-lg text-white/50 font-light">
-                Governança Corporativa
+                {t("app.tagline")}
               </p>
             </div>
 
             {/* Description */}
             <p className="max-w-md text-sm text-white/30 leading-relaxed">
-              Plataforma integrada de governança e gestão de não conformidades
-              para operações de robótica industrial ABB.
+              {t("app.welcomeSub")}
             </p>
           </div>
         </div>

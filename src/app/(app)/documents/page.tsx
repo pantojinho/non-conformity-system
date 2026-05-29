@@ -1,14 +1,18 @@
+"use client";
+
 import { FileText, Plus } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "@/i18n";
 
 export default function DocumentsPage() {
+  const t = useTranslations();
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <FileText className="h-6 w-6" style={{ color: "var(--success)" }} />
           <h1 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>
-            Documentos
+            {t("documents.title")}
           </h1>
         </div>
         <Link
@@ -17,7 +21,7 @@ export default function DocumentsPage() {
           style={{ background: "var(--primary)" }}
         >
           <Plus className="h-4 w-4" />
-          Novo Documento
+          {t("documents.newDocument")}
         </Link>
       </div>
 
@@ -26,7 +30,7 @@ export default function DocumentsPage() {
         style={{ background: "var(--background)", borderColor: "var(--border)" }}
       >
         <p style={{ color: "var(--muted-foreground)" }}>
-          Nenhum documento registrado. Clique em &quot;Novo Documento&quot; para começar.
+          {t("documents.empty")}
         </p>
       </div>
     </div>

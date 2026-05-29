@@ -5,16 +5,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { locales, localeLabels, type Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
 import { Sun, Moon, Monitor, Globe, Palette, Check } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 type Theme = "light" | "dark" | "system";
-
-const themeOptions: { value: Theme; label: string; icon: typeof Sun }[] = [
-  { value: "light", label: "Claro", icon: Sun },
-  { value: "dark", label: "Escuro", icon: Moon },
-  { value: "system", label: "Sistema", icon: Monitor },
-];
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
@@ -33,8 +27,15 @@ function applyTheme(theme: Theme) {
 export default function PreferencesSettingsPage() {
   const currentLocale = useLocale() as Locale;
   const router = useRouter();
+  const t = useTranslations();
   const [theme, setTheme] = useState<Theme>("system");
   const [mounted, setMounted] = useState(false);
+
+  const themeOptions: { value: Theme; label: string; icon: typeof Sun }[] = [
+    { value: "light", label: t("settings.light"), icon: Sun },
+    { value: "dark", label: t("settings.dark"), icon: Moon },
+    { value: "system", label: t("settings.system"), icon: Monitor },
+  ];
 
   useEffect(() => {
     setMounted(true);
@@ -64,10 +65,10 @@ export default function PreferencesSettingsPage() {
     <div className="space-y-6">
       <div>
         <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Preferências
+          {t("settings.preferences")}
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Personalize idioma e aparência da aplicação
+          {t("settings.preferencesDesc")}
         </p>
       </div>
 
@@ -81,10 +82,10 @@ export default function PreferencesSettingsPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900 dark:text-white">
-                  Idioma
+                  {t("settings.language")}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Escolha o idioma da interface
+                  {t("settings.languageDesc")}
                 </p>
               </div>
             </div>
@@ -128,10 +129,10 @@ export default function PreferencesSettingsPage() {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900 dark:text-white">
-                  Tema
+                  {t("settings.theme")}
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Escolha a aparência da interface
+                  {t("settings.themeDesc")}
                 </p>
               </div>
             </div>
@@ -159,10 +160,10 @@ export default function PreferencesSettingsPage() {
 
             <p className="text-xs text-gray-500 dark:text-gray-400">
               {theme === "system"
-                ? "O tema seguirá a configuração do seu sistema operacional."
+                ? t("settings.systemActive")
                 : theme === "dark"
-                  ? "O tema escuro está ativado."
-                  : "O tema claro está ativado."}
+                  ? t("settings.darkActive")
+                  : t("settings.lightActive")}
             </p>
           </div>
         </CardContent>

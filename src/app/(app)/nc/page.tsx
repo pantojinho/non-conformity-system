@@ -2,8 +2,11 @@
 
 import { FileWarning, Plus, AlertTriangle, Clock, CheckCircle2, Search, Filter } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "@/i18n";
 
 export default function NCPage() {
+  const t = useTranslations();
+
   const statusCounts = {
     aberta: 3,
     em_analise: 2,
@@ -16,6 +19,13 @@ export default function NCPage() {
     em_analise: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
     em_andamento: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
     finalizada: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+  };
+
+  const statusLabels: Record<string, string> = {
+    aberta: t("status.aberta"),
+    em_analise: t("status.em_analise"),
+    em_andamento: t("status.em_andamento"),
+    finalizada: t("status.finalizada"),
   };
 
   const statusIcons = {
@@ -35,10 +45,10 @@ export default function NCPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
-              Não Conformidades
+              {t("nc.title")}
             </h1>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-              {Object.values(statusCounts).reduce((a, b) => a + b, 0)} não conformidades
+              {Object.values(statusCounts).reduce((a, b) => a + b, 0)} {t("nc.countLabel")}
             </p>
           </div>
         </div>
@@ -49,7 +59,7 @@ export default function NCPage() {
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
-          Nova NC
+          {t("nc.newNC")}
         </Link>
       </div>
 
@@ -65,7 +75,7 @@ export default function NCPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-xl font-bold text-gray-900 dark:text-white">{count}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 capitalize">{status}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">{statusLabels[status]}</div>
                 </div>
               </div>
             </div>
@@ -81,7 +91,7 @@ export default function NCPage() {
           </svg>
           <input
             type="text"
-            placeholder="Buscar por descrição, ID..."
+            placeholder={t("nc.searchPlaceholder")}
             className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 pl-10 pr-4 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500"
           />
         </div>
@@ -90,11 +100,11 @@ export default function NCPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
           </svg>
           <select className="w-full sm:w-auto rounded-lg border border-gray-300 bg-white px-4 py-2.5 pl-10 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
-            <option value="">Todos os status</option>
-            <option value="aberta">Aberta</option>
-            <option value="em_analise">Em análise</option>
-            <option value="em_andamento">Em andamento</option>
-            <option value="finalizada">Finalizada</option>
+            <option value="">{t("status.allStatus")}</option>
+            <option value="aberta">{t("status.aberta")}</option>
+            <option value="em_analise">{t("status.em_analise")}</option>
+            <option value="em_andamento">{t("status.em_andamento")}</option>
+            <option value="finalizada">{t("status.finalizada")}</option>
           </select>
         </div>
       </div>
@@ -111,18 +121,18 @@ export default function NCPage() {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
                   <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                    NC-2024-001: Falha na calibração do robô
+                    {t("nc.demo1Title")}
                   </h3>
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Calibração do robô de solda fora das especificações...
+                    {t("nc.demo1Desc")}
                   </p>
                 </div>
                 <span className="inline-flex shrink-0 rounded-full px-2.5 py-1 text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
-                  Aberta
+                  {t("status.aberta")}
                 </span>
               </div>
               <div className="mt-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3 sm:text-xs">
-                <span className="text-gray-500 dark:text-gray-500">Criada em 28/05/2024</span>
+                <span className="text-gray-500 dark:text-gray-500">{t("nc.createdOn")} 28/05/2024</span>
                 <span className="text-gray-500 dark:text-gray-500">•</span>
                 <span className="text-gray-500 dark:text-gray-500">Unidade de Manutenção</span>
               </div>
@@ -139,18 +149,18 @@ export default function NCPage() {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div>
                   <h3 className="text-base font-semibold text-gray-900 dark:text-white">
-                    NC-2024-002: Problema no sistema de segurança
+                    {t("nc.demo2Title")}
                   </h3>
                   <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Sistema de proteção desabilitado por engano...
+                    {t("nc.demo2Desc")}
                   </p>
                 </div>
                 <span className="inline-flex shrink-0 rounded-full px-2.5 py-1 text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
-                  Em andamento
+                  {t("status.em_andamento")}
                 </span>
               </div>
               <div className="mt-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3 sm:text-xs">
-                <span className="text-gray-500 dark:text-gray-500">Criada em 27/05/2024</span>
+                <span className="text-gray-500 dark:text-gray-500">{t("nc.createdOn")} 27/05/2024</span>
                 <span className="text-gray-500 dark:text-gray-500">•</span>
                 <span className="text-gray-500 dark:text-gray-500">Segurança Industrial</span>
               </div>

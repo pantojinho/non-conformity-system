@@ -7,8 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Alert } from "@/components/ui/alert";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "@/i18n";
 
 export default function LoginPage() {
+  const t = useTranslations();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +33,7 @@ export default function LoginPage() {
     if (error) {
       setError(
         error.message === "Invalid login credentials"
-          ? "E-mail ou senha inválidos."
+          ? t("auth.invalidCredentials")
           : error.message
       );
       setLoading(false);
@@ -46,16 +48,16 @@ export default function LoginPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Entrar
+          {t("auth.loginTitle")}
         </h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Acesse sua conta no Robotics Hub
+          {t("auth.loginSubtitle")}
         </p>
       </div>
 
       {/* Error Alert */}
       {error && (
-        <Alert variant="danger" title="Erro ao entrar">
+        <Alert variant="danger" title={t("auth.loginErrorTitle")}>
           {error}
         </Alert>
       )}
@@ -82,7 +84,7 @@ export default function LoginPage() {
           <Input
             id="email"
             type="email"
-            label="E-mail"
+            label={t("auth.email")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -111,7 +113,7 @@ export default function LoginPage() {
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            label="Senha"
+            label={t("auth.password")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -170,14 +172,14 @@ export default function LoginPage() {
               className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-[#FF000F] focus:ring-[#FF000F]/20 focus:ring-offset-0"
             />
             <span className="text-sm text-gray-600 dark:text-gray-400">
-              Lembrar de mim
+              {t("auth.rememberMe")}
             </span>
           </label>
           <Link
             href="/forgot-password"
             className="text-sm font-medium text-[#FF000F] hover:text-[#E0000D] dark:text-[#FF3333] dark:hover:text-[#FF000F] transition-colors"
           >
-            Esqueceu a senha?
+            {t("auth.forgotPassword")}
           </Link>
         </div>
 
@@ -188,7 +190,7 @@ export default function LoginPage() {
           className="w-full"
           size="lg"
         >
-          {loading ? "Entrando..." : "Entrar"}
+          {loading ? t("auth.loginning") : t("auth.login")}
         </Button>
       </form>
     </div>

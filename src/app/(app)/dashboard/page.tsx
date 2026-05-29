@@ -12,13 +12,16 @@ import {
   Clock,
   Calendar,
 } from "lucide-react";
+import { useTranslations } from "@/i18n";
 
 export default function DashboardPage() {
+  const t = useTranslations();
+
   const stats = [
     {
-      title: "Não Conformidades",
+      title: t("dashboard.nc"),
       value: "12",
-      change: "+2 esta semana",
+      change: `+2 ${t("dashboard.thisWeek")}`,
       changeType: "up",
       href: "/nc",
       icon: FileWarning,
@@ -26,9 +29,9 @@ export default function DashboardPage() {
       bgColor: "bg-red-50 dark:bg-red-950/30",
     },
     {
-      title: "Perigos & Riscos",
+      title: t("dashboard.hazards"),
       value: "5",
-      change: "+1 esta semana",
+      change: `+1 ${t("dashboard.thisWeek")}`,
       changeType: "up",
       href: "/hazards",
       icon: AlertTriangle,
@@ -36,9 +39,9 @@ export default function DashboardPage() {
       bgColor: "bg-orange-50 dark:bg-orange-950/30",
     },
     {
-      title: "NPS & Reclamações",
+      title: t("dashboard.nps"),
       value: "94%",
-      change: "+2 pts",
+      change: `+2 ${t("dashboard.pts")}`,
       changeType: "up",
       href: "/complaints",
       icon: MessageSquareWarning,
@@ -46,9 +49,9 @@ export default function DashboardPage() {
       bgColor: "bg-blue-50 dark:bg-blue-950/30",
     },
     {
-      title: "Documentos",
+      title: t("dashboard.documents"),
       value: "24",
-      change: "+3 esta semana",
+      change: `+3 ${t("dashboard.thisWeek")}`,
       changeType: "up",
       href: "/documents",
       icon: FileText,
@@ -56,9 +59,9 @@ export default function DashboardPage() {
       bgColor: "bg-green-50 dark:bg-green-950/30",
     },
     {
-      title: "Auditorias",
+      title: t("dashboard.audits"),
       value: "2",
-      change: "0 esta semana",
+      change: `0 ${t("dashboard.thisWeek")}`,
       changeType: "neutral",
       href: "/audits",
       icon: ClipboardCheck,
@@ -70,24 +73,24 @@ export default function DashboardPage() {
   const recentActivity = [
     {
       type: "nc",
-      title: "NC-2024-001 criada",
+      title: `NC-2024-001 ${t("dashboard.created")}`,
       description: "Falha na calibração do robô",
       time: "28/05 às 09:30",
-      status: "Aberta",
+      status: t("status.aberta"),
     },
     {
       type: "nc",
-      title: "NC-2024-002 finalizada",
+      title: `NC-2024-002 ${t("dashboard.finalized")}`,
       description: "Problema no sistema de segurança",
       time: "27/05 às 16:45",
-      status: "Finalizada",
+      status: t("status.finalizada"),
     },
     {
       type: "complaint",
-      title: "Nova reclamação recebida",
+      title: t("dashboard.newComplaintReceived"),
       description: "Qualidade do serviço - NPS 5",
       time: "26/05 às 14:20",
-      status: "Nova",
+      status: t("status.new"),
     },
   ];
 
@@ -96,10 +99,10 @@ export default function DashboardPage() {
       {/* Welcome Section */}
       <div className="space-y-2 sm:space-y-3">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-          Bem-vindo ao Robotics Hub
+          {t("dashboard.welcome")}
         </h1>
         <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-          Plataforma de governança corporativa
+          {t("dashboard.subtitle")}
         </p>
       </div>
 
@@ -149,7 +152,7 @@ export default function DashboardPage() {
             </svg>
           </div>
           <div className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Nova NC
+            {t("dashboard.newNC")}
           </div>
         </Link>
 
@@ -163,7 +166,7 @@ export default function DashboardPage() {
             </svg>
           </div>
           <div className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Novo Perigo
+            {t("dashboard.newHazard")}
           </div>
         </Link>
 
@@ -177,7 +180,7 @@ export default function DashboardPage() {
             </svg>
           </div>
           <div className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Nova Reclamação
+            {t("dashboard.newComplaint")}
           </div>
         </Link>
 
@@ -191,7 +194,7 @@ export default function DashboardPage() {
             </svg>
           </div>
           <div className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-            Documentos
+            {t("nav.documents")}
           </div>
         </Link>
       </div>
@@ -201,7 +204,7 @@ export default function DashboardPage() {
         <div className="flex items-center gap-2 mb-4">
           <Clock className="h-5 w-5 text-gray-500 dark:text-gray-400" />
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Atividade Recente
+            {t("dashboard.recentActivity")}
           </h2>
         </div>
         <div className="space-y-3">
@@ -234,7 +237,7 @@ export default function DashboardPage() {
                 </div>
               </div>
               <span className={`inline-flex shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
-                activity.status === "Finalizada"
+                activity.status === t("status.finalizada")
                   ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                   : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
               }`}>

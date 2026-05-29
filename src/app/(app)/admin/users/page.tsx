@@ -4,29 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import { Loader2, Plus } from "lucide-react";
 import { UserFormModal, type UserTableRow, type Role, type Organization } from "@/components/admin/user-form-modal";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
-
-const ROLE_CONFIG: Record<string, { label: string; bg: string; text: string; dot: string }> = {
-  super_admin: { label: "Super Admin", bg: "bg-purple-100 dark:bg-purple-900/30", text: "text-purple-700 dark:text-purple-300", dot: "bg-purple-500" },
-  admin:       { label: "Admin",       bg: "bg-red-100 dark:bg-red-900/30",       text: "text-red-700 dark:text-red-300",       dot: "bg-red-500" },
-  diretor:     { label: "Diretor",     bg: "bg-amber-100 dark:bg-amber-900/30",   text: "text-amber-700 dark:text-amber-300",   dot: "bg-amber-500" },
-  gestor:      { label: "Gestor",      bg: "bg-orange-100 dark:bg-orange-900/30", text: "text-orange-700 dark:text-orange-300", dot: "bg-orange-500" },
-  qualidade_hse: { label: "Qualidade/HSE", bg: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-700 dark:text-emerald-300", dot: "bg-emerald-500" },
-  resolvedor:  { label: "Resolvedor",  bg: "bg-blue-100 dark:bg-blue-900/30",     text: "text-blue-700 dark:text-blue-300",     dot: "bg-blue-500" },
-  auditor:     { label: "Auditor",     bg: "bg-cyan-100 dark:bg-cyan-900/30",     text: "text-cyan-700 dark:text-cyan-300",     dot: "bg-cyan-500" },
-  usuario:     { label: "Usuário",     bg: "bg-gray-100 dark:bg-gray-800",        text: "text-gray-600 dark:text-gray-400",     dot: "bg-gray-400" },
-};
-
-function RoleBadge({ roleName }: { roleName: string }) {
-  const config = ROLE_CONFIG[roleName] ?? ROLE_CONFIG.usuario;
-  return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${config.bg} ${config.text}`}>
-      <span className={`mr-1.5 h-1.5 w-1.5 rounded-full ${config.dot}`} />
-      {config.label}
-    </span>
-  );
-}
+import { useTranslations } from "@/i18n";
 
 export default function UsersPage() {
+  const t = useTranslations();
   const [users, setUsers] = useState<UserTableRow[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
   const [organizations, setOrganizations] = useState<Organization[]>([]);
@@ -42,6 +23,27 @@ export default function UsersPage() {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
 
+  const ROLE_CONFIG: Record<string, { label: string; bg: string; text: string; dot: string }> = {
+    super_admin: { label: t("roles.super_admin"), bg: "bg-purple-100 dark:bg-purple-900/30", text: "text-purple-700 dark:text-purple-300", dot: "bg-purple-500" },
+    admin:       { label: t("roles.admin"),       bg: "bg-red-100 dark:bg-red-900/30",       text: "text-red-700 dark:text-red-300",       dot: "bg-red-500" },
+    diretor:     { label: t("roles.diretor"),     bg: "bg-amber-100 dark:bg-amber-900/30",   text: "text-amber-700 dark:text-amber-300",   dot: "bg-amber-500" },
+    gestor:      { label: t("roles.gestor"),      bg: "bg-orange-100 dark:bg-orange-900/30", text: "text-orange-700 dark:text-orange-300", dot: "bg-orange-500" },
+    qualidade_hse: { label: t("roles.qualidade_hse"), bg: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-700 dark:text-emerald-300", dot: "bg-emerald-500" },
+    resolvedor:  { label: t("roles.resolvedor"),  bg: "bg-blue-100 dark:bg-blue-900/30",     text: "text-blue-700 dark:text-blue-300",     dot: "bg-blue-500" },
+    auditor:     { label: t("roles.auditor"),     bg: "bg-cyan-100 dark:bg-cyan-900/30",     text: "text-cyan-700 dark:text-cyan-300",     dot: "bg-cyan-500" },
+    usuario:     { label: t("roles.usuario"),     bg: "bg-gray-100 dark:bg-gray-800",        text: "text-gray-600 dark:text-gray-400",     dot: "bg-gray-400" },
+  };
+
+  function RoleBadge({ roleName }: { roleName: string }) {
+    const config = ROLE_CONFIG[roleName] ?? ROLE_CONFIG.usuario;
+    return (
+      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${config.bg} ${config.text}`}>
+        <span className={`mr-1.5 h-1.5 w-1.5 rounded-full ${config.dot}`} />
+        {config.label}
+      </span>
+    );
+  }
+
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
@@ -50,18 +52,18 @@ export default function UsersPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error ?? "Erro ao carregar dados");
+        throw new Error(data.error ?? t("admin.loadDataError"));
       }
 
       setUsers(data.users ?? []);
       setRoles(data.roles ?? []);
       setOrganizations(data.organizations ?? []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao carregar usuários");
+      setError(err instanceof Error ? err.message : t("admin.loadUsersError"));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     fetchData();
@@ -92,7 +94,7 @@ export default function UsersPage() {
           onClick={fetchData}
           className="mt-3 rounded-lg bg-red-100 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-300 dark:hover:bg-red-900/70"
         >
-          Tentar novamente
+          {t("common.tryAgain")}
         </button>
       </div>
     );
@@ -104,11 +106,10 @@ export default function UsersPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Gerenciamento de Usuários
+            {t("admin.userManagement")}
           </h1>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            {users.length} usuário{users.length !== 1 ? "s" : ""} cadastrado
-            {users.length !== 1 ? "s" : ""}
+            {users.length} {t("admin.registeredUsers")}
           </p>
         </div>
         <button
@@ -119,7 +120,7 @@ export default function UsersPage() {
           className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700 transition-colors sm:px-6 sm:py-3"
         >
           <Plus className="h-4 w-4" />
-          Novo Usuário
+          {t("admin.newUser")}
         </button>
       </div>
 
@@ -133,7 +134,7 @@ export default function UsersPage() {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar por nome ou email..."
+            placeholder={t("admin.searchPlaceholder")}
             className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 pl-10 pr-4 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500"
           />
         </div>
@@ -146,7 +147,7 @@ export default function UsersPage() {
             onChange={(e) => setRoleFilter(e.target.value)}
             className="w-full sm:w-auto rounded-lg border border-gray-300 bg-white px-4 py-2.5 pl-10 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
           >
-            <option value="">Todos os perfis</option>
+            <option value="">{t("admin.allProfiles")}</option>
             {roles.map((r) => (
               <option key={r.id} value={r.id}>{r.name}</option>
             ))}
@@ -163,8 +164,8 @@ export default function UsersPage() {
             </svg>
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               {users.length === 0
-                ? "Nenhum usuário cadastrado."
-                : "Nenhum usuário encontrado com os filtros aplicados."}
+                ? t("admin.noUsersRegistered")
+                : t("admin.noUsersFiltered")}
             </p>
           </div>
         ) : (
@@ -205,7 +206,7 @@ export default function UsersPage() {
                     <span className={`mr-1.5 h-1.5 w-1.5 rounded-full ${
                       user.is_active ? "bg-green-500" : "bg-gray-400"
                     }`} />
-                    {user.is_active ? "Ativo" : "Inativo"}
+                    {user.is_active ? t("common.active") : t("common.inactive")}
                   </span>
                   <button
                     onClick={() => {

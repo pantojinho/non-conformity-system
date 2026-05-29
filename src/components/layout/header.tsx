@@ -5,8 +5,10 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { LogOut, User, Settings, ChevronDown, Sun, Moon } from "lucide-react";
+import { useTranslations } from "@/i18n";
 
 export function Header() {
+  const t = useTranslations();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -53,7 +55,7 @@ export function Header() {
         <div className="relative">
           <input
             type="search"
-            placeholder="Buscar..."
+            placeholder={t("common.search")}
             className="w-64 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 placeholder:text-gray-500 focus:border-[#FF000F] focus:ring-2 focus:ring-[#FF000F]/20 dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-gray-400"
           />
         </div>
@@ -74,7 +76,7 @@ export function Header() {
             }
           }}
           className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white transition-colors"
-          title={isDark ? "Modo claro" : "Modo escuro"}
+          title={isDark ? t("header.lightMode") : t("header.darkMode")}
         >
           {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
         </button>
@@ -105,14 +107,14 @@ export function Header() {
                 className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-white/5 transition-colors"
               >
                 <User className="h-4 w-4" />
-                Meu Perfil
+                {t("nav.profile")}
               </button>
               <button
                 onClick={() => { setMenuOpen(false); router.push("/settings/preferences"); }}
                 className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-white/5 transition-colors"
               >
                 <Settings className="h-4 w-4" />
-                Configurações
+                {t("nav.settings")}
               </button>
               <div className="my-1 border-t border-gray-200 dark:border-white/10" />
               <button
@@ -120,7 +122,7 @@ export function Header() {
                 className="flex w-full items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 transition-colors"
               >
                 <LogOut className="h-4 w-4" />
-                Sair
+                {t("common.logout")}
               </button>
             </div>
           )}

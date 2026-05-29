@@ -19,27 +19,29 @@ import {
   Bot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/nc", label: "Não Conformidades", icon: FileWarning },
-  { href: "/hazards", label: "Perigos & Riscos", icon: ShieldAlert },
-  { href: "/complaints", label: "NPS & Reclamações", icon: MessageSquareWarning },
-  { href: "/documents", label: "Documentos", icon: FileText },
-  { href: "/audits", label: "Auditorias", icon: ClipboardCheck },
-];
-
-const adminSubItems = [
-  { href: "/admin/users", label: "Usuários", icon: Users },
-];
+import { useTranslations } from "@/i18n";
 
 export function DesktopSidebar() {
+  const t = useTranslations();
   const [collapsed, setCollapsed] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const pathname = usePathname();
   const isAdminActive = pathname.startsWith("/admin");
   const shouldShowAdminSubItems = adminOpen || isAdminActive;
+
+  const navItems = [
+    { href: "/dashboard", label: t("nav.dashboard"), icon: LayoutDashboard },
+    { href: "/nc", label: t("nav.nc"), icon: FileWarning },
+    { href: "/hazards", label: t("nav.hazards"), icon: ShieldAlert },
+    { href: "/complaints", label: t("nav.complaints"), icon: MessageSquareWarning },
+    { href: "/documents", label: t("nav.documents"), icon: FileText },
+    { href: "/audits", label: t("nav.audits"), icon: ClipboardCheck },
+  ];
+
+  const adminSubItems = [
+    { href: "/admin/users", label: t("nav.users"), icon: Users },
+  ];
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -125,7 +127,7 @@ export function DesktopSidebar() {
             >
               <div className="flex items-center gap-3">
                 <Settings className="h-5 w-5 shrink-0" />
-                <span>Administração</span>
+                <span>{t("nav.admin")}</span>
               </div>
               <ChevronDown
                 className={cn(
@@ -166,7 +168,7 @@ export function DesktopSidebar() {
                 ? "bg-[#FF000F] text-white shadow-lg shadow-[#FF000F]/25"
                 : "text-gray-300 hover:bg-white/5 hover:text-white"
             )}
-            title="Administração"
+            title={t("nav.admin")}
           >
             <Settings className="h-5 w-5 shrink-0" />
           </Link>
@@ -182,10 +184,10 @@ export function DesktopSidebar() {
                 ? "bg-[#FF000F] text-white shadow-lg shadow-[#FF000F]/25"
                 : "text-gray-300 hover:bg-white/5 hover:text-white"
             )}
-            title={collapsed ? "Configurações" : undefined}
+            title={collapsed ? t("nav.settings") : undefined}
           >
             <Cog className="h-5 w-5 shrink-0" />
-            {!collapsed && <span>Configurações</span>}
+            {!collapsed && <span>{t("nav.settings")}</span>}
           </Link>
         </div>
       </nav>
