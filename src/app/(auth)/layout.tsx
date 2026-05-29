@@ -44,18 +44,12 @@ export default function AuthLayout({
             {/* ABB Logo mark */}
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-[#FF000F] flex items-center justify-center shadow-lg shadow-[#FF000F]/20">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="w-7 h-7 text-white"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"
-                  />
+                <svg viewBox="0 0 24 24" fill="none" className="w-7 h-7 text-white" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 8V4H8" />
+                  <path d="M12 4h4" />
+                  <rect x="6" y="8" width="12" height="10" rx="2" />
+                  <circle cx="10" cy="14" r="1" fill="currentColor" />
+                  <circle cx="14" cy="14" r="1" fill="currentColor" />
                 </svg>
               </div>
             </div>
@@ -89,18 +83,12 @@ export default function AuthLayout({
         <div className="absolute top-0 left-0 right-0 lg:hidden">
           <div className="bg-[#1A1A2E] dark:bg-[#0D0D1A] px-6 py-8 flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-[#FF000F] flex items-center justify-center">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                className="w-5 h-5 text-white"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"
-                />
+              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-white" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 8V4H8" />
+                <path d="M12 4h4" />
+                <rect x="6" y="8" width="12" height="10" rx="2" />
+                <circle cx="10" cy="14" r="1" fill="currentColor" />
+                <circle cx="14" cy="14" r="1" fill="currentColor" />
               </svg>
             </div>
             <div>
