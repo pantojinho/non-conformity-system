@@ -375,7 +375,9 @@ export default function ComplaintDetailPage() {
   const npsScore = complaint.npsScore || 0;
   const slaDays = complaint.slaDays || 15;
   const slaRemaining = complaint.slaRemaining ?? 0;
-  const slaPercent = Math.max(0, ((slaDays - slaRemaining) / slaDays) * 100);
+  const slaPercent = slaDays > 0
+    ? Math.min(100, Math.max(0, ((slaDays - slaRemaining) / slaDays) * 100))
+    : 100;
   const complaintTitle = complaint.subject || complaint.title || complaint.id;
   const customer = complaint.customer || { name: "", contact: "", email: "", phone: "" };
   const displayCode = complaint.codigo || complaint.id;
