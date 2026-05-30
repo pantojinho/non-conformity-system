@@ -6,6 +6,29 @@ interface RouteContext {
   params: Promise<{ id: string }>;
 }
 
+/** Map raw MIME type to the DB `file_type` enum accepted by the CHECK constraint. */
+function mapMimeToCategory(mimeType: string): string {
+  if (mimeType.startsWith("image/")) return "foto";
+  if (mimeType.startsWith("video/")) return "video";
+  if (mimeType.startsWith("audio/")) return "audio";
+  if (mimeType === "application/pdf") return "pdf";
+  if (
+    mimeType.includes("presentation") ||
+    mimeType.includes("powerpoint") ||
+    mimeType.includes("ppt")
+  )
+    return "ppt";
+  if (
+    mimeType.includes("sheet") ||
+    mimeType.includes("excel") ||
+    mimeType.includes("xlsx") ||
+    mimeType.includes("xls") ||
+    mimeType.includes("csv")
+  )
+    return "excel";
+  return "print";
+}
+
 // GET /api/nps/[id]/attachments — List attachments
 export async function GET(
   _request: NextRequest,
@@ -133,7 +156,7 @@ export async function POST(
         nps_record_id: id,
         file_name: file.name,
         file_url: fileUrl,
-        file_type: file.type,
+        file_type: mapMimeToCategory(file.type),
         file_size: file.size,
         uploaded_by: user.id,
       })
