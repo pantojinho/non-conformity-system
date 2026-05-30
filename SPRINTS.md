@@ -527,20 +527,44 @@ scripts/
 
 ## 📝 Notas de Desenvolvimento
 
-### 30/05/2026 - Sessão de testes NPS
+### 30/05/2026 - Sessão de testes NPS + Documentação
+
+#### Feito:
 - ✅ Corrigiu mapeamento de campos (cliente/description/canal/nota_nps)
-- ✅ Adicionou botão de delete
+- ✅ Adicionou botão de delete com confirmação
 - ✅ Corrigiu dropdown de status (aberto/resolvido vs aberta/resolvida)
 - ✅ Migration 003 aplicada (canal, prioridade, severidade)
-- ⚠️ Upload de anexos precisa de implementação via signed URL
-- 📝 Criou scripts de dados de teste
-- 📝 Consolidou documentação (SPRINTS.md)
+- ✅ Consolidou documentação (SPRINTS.md)
+  - Mergedeu AI-Agents-Tasks.md + SPRINTS.md em único arquivo
+  - Removido docs/ai-agents/AI-Agents-Tasks.md (duplicado)
+  - Roadmap completo com 9 sprints detalhados
+- ✅ Criou scripts SQL:
+  - `scripts/fix-nps-codes.sql` — Gera códigos NPS-000001 para nulos
+  - `scripts/populate-nps-test-data-v2.sql` — Dados de teste simplificados
+  - `scripts/create-test-user.sql` — Cria perfil de usuário teste
+- ✅ Verificou endpoint de upload (`/api/nps/[id]/attachments`)
+  - Implementado com Supabase Storage bucket `nps-attachments`
+  - Validações: 10MB max, sanitização de nome
+  - Gera registro + log de atividade
 
-### Próximos passos imediatos:
-1. Implementar upload de anexos via signed URL
-2. Executar script de dados de teste no Supabase
+#### Issues Ativos:
+⚠️ Upload de anexos - Erro 500
+- Bucket `nps-attachments` existe (verificado)
+- Endpoint implementado corretamente
+- **Próximos passos:**
+  1. Criar usuário teste: test@abb.com / test123!
+  2. Executar script `scripts/create-test-user.sql`
+  3. Testar upload na produção com Console aberto (F12)
+
+#### Próximos passos imediatos:
+1. Testar upload de anexos (aguardando usuário teste)
+2. Executar scripts de dados de teste no Supabase
 3. Testar completo NPS: listar, criar, editar, excluir, comentários, anexos
 4. Iniciar desenvolvimento NC Core (Sprint 1, Task 7)
+
+### Histórico anterior:
+- ✅ 28/05/2026 - Sprint 0 concluída (100% funcional)
+- 🔄 30/05/2026 - Sessão de testes NPS (sessão anterior)
 
 ---
 
