@@ -27,6 +27,9 @@ import {
   ShieldAlert,
   Upload,
   RefreshCw,
+  Image,
+  Film,
+  Trash2,
 } from "lucide-react";
 import { useTranslations } from "@/i18n";
 import { useToast } from "@/components/ui/toast";
@@ -52,8 +55,13 @@ interface Evidence {
   id?: string;
   name: string;
   type: string;
-  size: string;
+  size: string | number;
   url?: string;
+  // DB fields (from nps_attachments table)
+  file_name?: string;
+  file_type?: string;
+  file_size?: number;
+  file_url?: string;
 }
 
 interface CorrectiveAction {
@@ -155,6 +163,12 @@ const actionStatusLabels: Record<string, string> = {
   in_progress: "Em andamento",
 };
 
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+}
+
 export default function ComplaintDetailPage() {
   const t = useTranslations();
   const { showToast } = useToast();
@@ -209,8 +223,28 @@ export default function ComplaintDetailPage() {
           phone: '',
         },
         comments: data.comments || [],
-        attachments: data.attachments || [],
-        evidences: data.attachments || [],
+        attachments: (data.attachments || []).map((a: any) => ({
+          id: a.id,
+          name: a.file_name || a.name || 'Arquivo',
+          type: a.file_type || a.type || 'file',
+          size: a.file_size ? formatFileSize(a.file_size) : (a.size || ''),
+          url: a.file_url || a.url || '',
+          file_name: a.file_name,
+          file_type: a.file_type,
+          file_size: a.file_size,
+          file_url: a.file_url,
+        })),
+        evidences: (data.attachments || []).map((a: any) => ({
+          id: a.id,
+          name: a.file_name || a.name || 'Arquivo',
+          type: a.file_type || a.type || 'file',
+          size: a.file_size ? formatFileSize(a.file_size) : (a.size || ''),
+          url: a.file_url || a.url || '',
+          file_name: a.file_name,
+          file_type: a.file_type,
+          file_size: a.file_size,
+          file_url: a.file_url,
+        })),
         correctiveActions: data.corrective_actions || [],
         actions: data.corrective_actions || [],
         timeline: data.activity_log || [],
@@ -272,6 +306,21 @@ export default function ComplaintDetailPage() {
     } finally {
       setUploadingFile(false);
       if (e.target) e.target.value = "";
+    }
+  }, [id, showToast, fetchComplaint]);
+
+  // Delete attachment
+  const handleDeleteAttachment = useCallback(async (attachmentId: string) => {
+    if (!confirm("Tem certeza que deseja excluir este anexo?")) return;
+    try {
+      const res = await fetch(`/api/nps/${id}/attachments?attachment_id=${attachmentId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Erro ao excluir anexo");
+      showToast({ type: "success", message: "Anexo excluído com sucesso." });
+      await fetchComplaint();
+    } catch {
+      showToast({ type: "error", message: "Erro ao excluir anexo." });
     }
   }, [id, showToast, fetchComplaint]);
 
@@ -618,20 +667,48 @@ export default function ComplaintDetailPage() {
           <p className="text-sm text-gray-500 dark:text-gray-400 italic">Nenhum anexo registrado.</p>
         ) : (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {evidences.map((ev, idx) => (
-              <div
-                key={ev.id || idx}
-                className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800 transition-colors cursor-pointer"
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30">
-                  <FileText className="h-5 w-5 text-red-600 dark:text-red-400" />
+            {evidences.map((ev, idx) => {
+              const fileType = (ev.type || ev.file_type || 'file') as string;
+              const fileIcon = fileType === 'foto' || fileType === 'image' ? Image
+                : fileType === 'video' ? Film
+                : fileType === 'pdf' ? FileText
+                : FileText;
+              const FileIcon = fileIcon;
+              const fileUrl = ev.url || ev.file_url || '';
+
+              return (
+                <div
+                  key={ev.id || idx}
+                  className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <a
+                    href={fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                  >
+                    <FileIcon className="h-5 w-5 text-red-600 dark:text-red-400" />
+                  </a>
+                  <div className="flex-1 min-w-0">
+                    <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-gray-900 dark:text-white hover:underline truncate block">
+                      {ev.name}
+                    </a>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {ev.size} • {fileType.toUpperCase()}
+                    </p>
+                  </div>
+                  {ev.id && (
+                    <button
+                      onClick={() => handleDeleteAttachment(ev.id!)}
+                      className="shrink-0 p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                      title="Excluir anexo"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{ev.name}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{ev.size} • {(ev.type || "file").toUpperCase()}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

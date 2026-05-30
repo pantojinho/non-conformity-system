@@ -195,3 +195,79 @@ export async function POST(
     );
   }
 }
+
+// DELETE /api/nps/[id]/attachments — Delete attachment
+export async function DELETE(
+  request: NextRequest,
+  context: RouteContext
+) {
+  try {
+    const supabase = await createClient();
+    const admin = createAdminClient();
+    const { id } = await context.params;
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const attachmentId = searchParams.get("attachment_id");
+
+    if (!attachmentId) {
+      return NextResponse.json(
+        { error: "attachment_id é obrigatório" },
+        { status: 400 }
+      );
+    }
+
+    // Get attachment info to delete from storage
+    const { data: attachment } = await admin
+      .from("nps_attachments")
+      .select("file_url")
+      .eq("id", attachmentId)
+      .eq("nps_record_id", id)
+      .single();
+
+    if (attachment?.file_url) {
+      // Extract file path from URL
+      try {
+        const url = new URL(attachment.file_url);
+        const filePath = decodeURIComponent(
+          url.pathname.split("/nps-attachments/")[1] || ""
+        );
+        if (filePath) {
+          await admin.storage.from("nps-attachments").remove([filePath]);
+        }
+      } catch {
+        // If URL parsing fails, continue with DB deletion
+        console.warn("Could not parse file URL for storage deletion");
+      }
+    }
+
+    // Delete record
+    const { error } = await admin
+      .from("nps_attachments")
+      .delete()
+      .eq("id", attachmentId)
+      .eq("nps_record_id", id);
+
+    if (error) {
+      console.error("NPS attachment DELETE error:", error);
+      return NextResponse.json(
+        { error: "Erro ao excluir anexo" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("NPS attachment DELETE error:", err);
+    return NextResponse.json(
+      { error: "Erro interno do servidor" },
+      { status: 500 }
+    );
+  }
+}
