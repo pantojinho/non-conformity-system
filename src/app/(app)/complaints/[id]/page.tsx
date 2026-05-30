@@ -373,7 +373,7 @@ export default function ComplaintDetailPage() {
           <div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
-                {complaint.id}
+                {customer.name}
               </h1>
               <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${statusConfig[status]?.bg} ${statusConfig[status]?.color}`}>
                 <StatusIcon className="h-3.5 w-3.5" />
@@ -384,7 +384,7 @@ export default function ComplaintDetailPage() {
               </span>
             </div>
             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-              {complaintTitle}
+              {complaint.id}
             </p>
           </div>
         </div>
