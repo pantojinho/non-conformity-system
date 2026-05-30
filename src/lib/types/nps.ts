@@ -32,12 +32,14 @@ export enum NPSChannel {
 }
 
 export enum NPSStatus {
-  ABERTA = "aberta",
+  ABERTO = "aberto",
   EM_ATENDIMENTO = "em_atendimento",
   EM_ANALISE = "em_analise",
-  RESOLVIDA = "resolvida",
-  ESCALONADA = "escalonada",
-  FECHADA = "fechada",
+  EM_ANDAMENTO = "em_andamento",
+  RESOLVIDO = "resolvido",
+  ESCALONADO = "escalonado",
+  FECHADO = "fechado",
+  CANCELADO = "cancelado",
 }
 
 export enum NPSCorrectiveActionStatus {

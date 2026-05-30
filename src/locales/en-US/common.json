@@ -60,7 +60,19 @@
     "newComplaintReceived": "New complaint received"
   },
   "status": {
+    "aberto": "Open",
     "aberta": "Open",
+    "em_analise": "In Analysis",
+    "em_andamento": "In Progress",
+    "em_atendimento": "In Service",
+    "resolvido": "Resolved",
+    "resolvida": "Resolved",
+    "escalonado": "Escalated",
+    "escalonada": "Escalated",
+    "fechado": "Closed",
+    "fechada": "Closed",
+    "cancelado": "Cancelled",
+    "cancelada": "Cancelled",
     "finalizada": "Finalized",
     "new": "New"
   },

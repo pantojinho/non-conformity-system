@@ -130,13 +130,19 @@ interface ComplaintData {
 }
 
 const statusConfig: Record<string, { color: string; bg: string; icon: typeof MessageCircle }> = {
-  aberta: { color: "text-red-700 dark:text-red-400", bg: "bg-red-100 dark:bg-red-900/30", icon: AlertCircle },
-  em_atendimento: { color: "text-blue-700 dark:text-blue-400", bg: "bg-blue-100 dark:bg-blue-900/30", icon: Clock },
+  aberto: { color: "text-red-700 dark:text-red-400", bg: "bg-red-100 dark:bg-red-900/30", icon: AlertCircle },
+  aberta: { color: "text-red-700 dark:text-red-400", bg: "bg-red-100 dark:bg-red-900/30", icon: AlertCircle }, // legacy alias
+  em_atendimento: { color: "text-indigo-700 dark:text-indigo-400", bg: "bg-indigo-100 dark:bg-indigo-900/30", icon: Clock },
   em_analise: { color: "text-yellow-700 dark:text-yellow-400", bg: "bg-yellow-100 dark:bg-yellow-900/30", icon: Clock },
   em_andamento: { color: "text-blue-700 dark:text-blue-400", bg: "bg-blue-100 dark:bg-blue-900/30", icon: TrendingUp },
-  resolvida: { color: "text-green-700 dark:text-green-400", bg: "bg-green-100 dark:bg-green-900/30", icon: CheckCircle2 },
-  escalonada: { color: "text-orange-700 dark:text-orange-400", bg: "bg-orange-100 dark:bg-orange-900/30", icon: AlertTriangle },
-  fechada: { color: "text-gray-700 dark:text-gray-400", bg: "bg-gray-100 dark:bg-gray-800", icon: CheckCircle2 },
+  resolvido: { color: "text-green-700 dark:text-green-400", bg: "bg-green-100 dark:bg-green-900/30", icon: CheckCircle2 },
+  resolvida: { color: "text-green-700 dark:text-green-400", bg: "bg-green-100 dark:bg-green-900/30", icon: CheckCircle2 }, // legacy alias
+  escalonado: { color: "text-orange-700 dark:text-orange-400", bg: "bg-orange-100 dark:bg-orange-900/30", icon: AlertTriangle },
+  escalonada: { color: "text-orange-700 dark:text-orange-400", bg: "bg-orange-100 dark:bg-orange-900/30", icon: AlertTriangle }, // legacy alias
+  fechado: { color: "text-gray-700 dark:text-gray-400", bg: "bg-gray-100 dark:bg-gray-800", icon: CheckCircle2 },
+  fechada: { color: "text-gray-700 dark:text-gray-400", bg: "bg-gray-100 dark:bg-gray-800", icon: CheckCircle2 }, // legacy alias
+  cancelado: { color: "text-gray-500 dark:text-gray-500", bg: "bg-gray-100 dark:bg-gray-800", icon: Clock },
+  cancelada: { color: "text-gray-500 dark:text-gray-500", bg: "bg-gray-100 dark:bg-gray-800", icon: Clock }, // legacy alias
 };
 
 const priorityConfig: Record<string, { color: string; bg: string }> = {
@@ -147,13 +153,19 @@ const priorityConfig: Record<string, { color: string; bg: string }> = {
 };
 
 const statusLabels: Record<string, string> = {
-  aberta: "Aberta",
+  aberto: "Aberto",
+  aberta: "Aberto",
   em_atendimento: "Em Atendimento",
   em_analise: "Em Análise",
   em_andamento: "Em Andamento",
-  resolvida: "Resolvida",
-  escalonada: "Escalonada",
-  fechada: "Fechada",
+  resolvido: "Resolvido",
+  resolvida: "Resolvido",
+  escalonado: "Escalonado",
+  escalonada: "Escalonado",
+  fechado: "Fechado",
+  fechada: "Fechado",
+  cancelado: "Cancelado",
+  cancelada: "Cancelado",
 };
 
 const actionStatusLabels: Record<string, string> = {
@@ -450,7 +462,7 @@ export default function ComplaintDetailPage() {
   }
 
   // Derived data with fallbacks
-  const status = complaint.status || "aberta";
+  const status = complaint.status || "aberto";
   const StatusIcon = statusConfig[status]?.icon || AlertCircle;
   const evidences = complaint.evidences || complaint.attachments || [];
   const correctiveActions = complaint.correctiveActions || complaint.actions || [];
@@ -505,8 +517,11 @@ export default function ComplaintDetailPage() {
             <option value="aberto">Aberto</option>
             <option value="em_analise">Em Análise</option>
             <option value="em_andamento">Em Andamento</option>
+            <option value="em_atendimento">Em Atendimento</option>
             <option value="resolvido">Resolvido</option>
+            <option value="escalonado">Escalonado</option>
             <option value="fechado">Fechado</option>
+            <option value="cancelado">Cancelado</option>
           </select>
           {/* Delete button */}
           <button
@@ -656,7 +671,7 @@ export default function ComplaintDetailPage() {
             <div className="flex justify-between">
               <span className="text-sm text-gray-500 dark:text-gray-400">{t("complaints.fields.resolutionDate") || "Resolução"}</span>
               <span className="text-sm text-gray-500 dark:text-gray-500 italic">
-                {status === "resolvida" || status === "fechada" ? (complaint as ComplaintData & { resolutionDate?: string }).resolutionDate || "—" : "Pendente"}
+                {(status === "resolvido" || status === "resolvida" || status === "fechado" || status === "fechada") ? (complaint as ComplaintData & { resolutionDate?: string }).resolutionDate || "—" : "Pendente"}
               </span>
             </div>
           </div>

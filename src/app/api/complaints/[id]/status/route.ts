@@ -2,15 +2,16 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { NextResponse } from "next/server";
 
-// Valid status transitions
+// Valid status transitions — canonical DB values (nps_status enum)
 const VALID_STATUSES = [
-  "aberta",
+  "aberto",
+  "em_atendimento",
   "em_analise",
   "em_andamento",
-  "aguardando_validacao",
-  "resolvida",
-  "encerrada",
-  "cancelada",
+  "resolvido",
+  "escalonado",
+  "fechado",
+  "cancelado",
 ] as const;
 
 type ValidStatus = (typeof VALID_STATUSES)[number];

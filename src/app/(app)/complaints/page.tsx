@@ -16,7 +16,7 @@ interface Complaint {
   cliente: string;
   departamento: string | null;
   created_at: string;
-  status: "aberto" | "em_analise" | "em_andamento" | "resolvido";
+  status: "aberto" | "em_analise" | "em_andamento" | "em_atendimento" | "resolvido" | "escalonado" | "fechado" | "cancelado";
   nota_nps: number;
   canal: string;
   prioridade: string | null;
@@ -66,6 +66,15 @@ const statusConfig: Record<string, {
     darkTextColor: "dark:text-blue-400",
     icon: TrendingUp,
   },
+  em_atendimento: {
+    label: "Em Atendimento",
+    color: "indigo",
+    bgColor: "bg-indigo-100",
+    darkBgColor: "dark:bg-indigo-900/30",
+    textColor: "text-indigo-700",
+    darkTextColor: "dark:text-indigo-400",
+    icon: MessageCircle,
+  },
   resolvido: {
     label: "Resolvido",
     color: "green",
@@ -74,6 +83,33 @@ const statusConfig: Record<string, {
     textColor: "text-green-700",
     darkTextColor: "dark:text-green-400",
     icon: CheckCircle2,
+  },
+  escalonado: {
+    label: "Escalonado",
+    color: "orange",
+    bgColor: "bg-orange-100",
+    darkBgColor: "dark:bg-orange-900/30",
+    textColor: "text-orange-700",
+    darkTextColor: "dark:text-orange-400",
+    icon: Star,
+  },
+  fechado: {
+    label: "Fechado",
+    color: "gray",
+    bgColor: "bg-gray-100",
+    darkBgColor: "dark:bg-gray-800",
+    textColor: "text-gray-700",
+    darkTextColor: "dark:text-gray-400",
+    icon: CheckCircle2,
+  },
+  cancelado: {
+    label: "Cancelado",
+    color: "gray",
+    bgColor: "bg-gray-100",
+    darkBgColor: "dark:bg-gray-800",
+    textColor: "text-gray-500",
+    darkTextColor: "dark:text-gray-500",
+    icon: Clock,
   },
 };
 
@@ -159,7 +195,7 @@ export default function ComplaintsPage() {
       const items: Complaint[] = Array.isArray(data) ? data : (data.data || data.complaints || []);
 
       const total = items.length;
-      const resolved = items.filter((c: Complaint) => c.status === "resolvido").length;
+      const resolved = items.filter((c: Complaint) => c.status === "resolvido" || c.status === "fechado").length;
       const avgNps = total > 0
         ? Math.round(items.reduce((sum: number, c: Complaint) => sum + (c.nota_nps || 0), 0) / total)
         : 0;
@@ -336,7 +372,11 @@ export default function ComplaintsPage() {
               <option value="aberto">Aberto</option>
               <option value="em_analise">Em Análise</option>
               <option value="em_andamento">Em Andamento</option>
+              <option value="em_atendimento">Em Atendimento</option>
               <option value="resolvido">Resolvido</option>
+              <option value="escalonado">Escalonado</option>
+              <option value="fechado">Fechado</option>
+              <option value="cancelado">Cancelado</option>
             </select>
           </div>
           <div className="relative">

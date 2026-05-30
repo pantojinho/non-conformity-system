@@ -60,7 +60,19 @@
     "newComplaintReceived": "Nueva reclamación recibida"
   },
   "status": {
-    "aberta": "Abierta",
+    "aberto": "Abierto",
+    "aberta": "Abierto",
+    "em_analise": "En Análisis",
+    "em_andamento": "En Progreso",
+    "em_atendimento": "En Atención",
+    "resolvido": "Resuelto",
+    "resolvida": "Resuelto",
+    "escalonado": "Escalado",
+    "escalonada": "Escalado",
+    "fechado": "Cerrado",
+    "fechada": "Cerrado",
+    "cancelado": "Cancelado",
+    "cancelada": "Cancelado",
     "finalizada": "Finalizada",
     "new": "Nueva"
   },

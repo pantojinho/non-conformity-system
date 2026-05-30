@@ -87,17 +87,16 @@ export async function GET(request: Request) {
         adminClient
           .from("nps_records")
           .select("*", { count: "exact", head: true })
-          .in("status", ["aberta", "em_analise", "em_andamento"]),
+          .in("status", ["aberto", "aberta", "em_analise", "em_andamento", "em_atendimento"]),
         adminClient
           .from("nps_records")
           .select("*", { count: "exact", head: true })
-          .eq("status", "resolvida"),
+          .in("status", ["resolvido", "resolvida"]),
         adminClient
           .from("nps_records")
           .select("*", { count: "exact", head: true })
           .lt("sla_data_limite", new Date().toISOString())
-          .not("status", "eq", "resolvida")
-          .not("status", "eq", "encerrada"),
+          .not("status", "in", '("resolvido","resolvida","fechado","fechada","encerrada","cancelado","cancelada")'),
       ]);
 
     return NextResponse.json({
@@ -218,7 +217,7 @@ export async function POST(request: Request) {
         sla_prazo_dias: prazoDias,
         sla_data_limite: slaDataLimite.toISOString(),
         nc_vinculada_id: nc_vinculada_id ?? null,
-        status: "aberta",
+        status: "aberto",
         prioridade: prioridade ?? "media",
         canal: canal ?? "interno",
         originador_id: userProfile?.id ?? null,
