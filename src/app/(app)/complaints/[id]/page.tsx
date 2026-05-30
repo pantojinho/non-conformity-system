@@ -180,7 +180,40 @@ export default function ComplaintDetailPage() {
       }
       const data = await res.json();
       // Support both direct object and nested data
-      const complaintData: ComplaintData = data.data || data.complaint || data;
+      const raw: Record<string, unknown> = data.data || data.complaint || data;
+      // Mapear campos do banco para o formato esperado pelo frontend
+      const complaintData: ComplaintData = {
+        id: (raw.id as string) || '',
+        status: (raw.status as string) || 'aberto',
+        priority: (raw.prioridade as string) || (raw.priority as string) || 'medium',
+        source: (raw.canal as string) || (raw.source as string) || 'portal',
+        category: (raw.categoria as string) || (raw.category as string) || '',
+        severity: (raw.severidade as string) || (raw.severity as string) || 'medium',
+        description: (raw.descricao as string) || (raw.description as string) || '',
+        subject: (raw.projeto as string) || (raw.subject as string) || '',
+        title: (raw.assunto as string) || (raw.title as string) || '',
+        impact: (raw.impacto as string) || (raw.impact as string) || '',
+        project: (raw.projeto as string) || '',
+        order: (raw.pedido as string) || '',
+        department: (raw.departamento as string) || '',
+        npsScore: (raw.nota_nps as number) || (raw.npsScore as number) || 0,
+        slaDays: (raw.sla_prazo_dias as number) || (raw.slaDays as number) || 0,
+        slaDeadline: (raw.sla_data_limite as string) || (raw.slaDeadline as string) || '',
+        slaRemaining: (raw.days_remaining as number) || (raw.slaRemaining as number) || 0,
+        customer: {
+          name: (raw.cliente as string) || '',
+          contact: '',
+          email: '',
+          phone: '',
+        },
+        comments: data.comments || [],
+        attachments: data.attachments || [],
+        evidences: data.attachments || [],
+        correctiveActions: data.corrective_actions || [],
+        actions: data.corrective_actions || [],
+        timeline: data.activity_log || [],
+        activity: data.activity_log || [],
+      };
       setComplaint(complaintData);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Erro ao carregar reclamação";

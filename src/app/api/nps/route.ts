@@ -153,7 +153,22 @@ export async function POST(request: NextRequest) {
     dataLimite.setDate(dataLimite.getDate() + prazoDias);
     const sla_data_limite = dataLimite.toISOString().split("T")[0];
 
-    const effectiveOriginador = originador_id || user.id;
+    // Buscar organization_id e validar originador na tabela users
+    const { data: appUser } = await admin
+      .from("users")
+      .select("id, organization_id")
+      .eq("auth_user_id", user.id)
+      .single();
+
+    const effectiveOriginador = appUser?.id || originador_id || user.id;
+    const effectiveOrgId = organization_id || appUser?.organization_id || null;
+
+    if (!effectiveOrgId) {
+      return NextResponse.json(
+        { error: "Usuário sem organização associada. Contate o administrador." },
+        { status: 400 }
+      );
+    }
 
     const insertData: Record<string, unknown> = {
       codigo,
@@ -175,7 +190,7 @@ export async function POST(request: NextRequest) {
       prioridade: prioridade || "medium",
       canal: canal || "nps",
       evidencias: evidencias || [],
-      organization_id: organization_id || null,
+      organization_id: effectiveOrgId,
     };
 
     const { data: newRecord, error } = await admin

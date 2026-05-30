@@ -400,7 +400,9 @@
       "in_person": "Presencial",
       "internal": "Interno",
       "chat": "Chat",
-      "survey": "Pesquisa"
+      "survey": "Pesquisa",
+      "nps": "NPS",
+      "portal": "Portal"
     },
     "actions": {
       "assign": "Atribuir",
