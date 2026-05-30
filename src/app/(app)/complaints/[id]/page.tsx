@@ -341,6 +341,24 @@ export default function ComplaintDetailPage() {
     }
   }, [id, showToast, fetchComplaint]);
 
+  // Download attachment (fetch as blob to force download instead of browser preview)
+  const handleDownloadAttachment = useCallback(async (url: string, fileName: string) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch {
+      showToast({ type: "error", message: "Erro ao baixar anexo." });
+    }
+  }, [showToast]);
+
   // Change status
   const handleStatusChange = useCallback(async (newStatus: string) => {
     if (!id) return;
@@ -698,18 +716,20 @@ export default function ComplaintDetailPage() {
                   key={ev.id || idx}
                   className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800 transition-colors"
                 >
-                  <a
-                    href={fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => handleDownloadAttachment(fileUrl, ev.name)}
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                    title="Baixar anexo"
                   >
                     <FileIcon className="h-5 w-5 text-red-600 dark:text-red-400" />
-                  </a>
+                  </button>
                   <div className="flex-1 min-w-0">
-                    <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-gray-900 dark:text-white hover:underline truncate block">
+                    <button
+                      onClick={() => handleDownloadAttachment(fileUrl, ev.name)}
+                      className="text-sm font-medium text-gray-900 dark:text-white hover:underline truncate block text-left"
+                    >
                       {ev.name}
-                    </a>
+                    </button>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
                       {ev.size} • {fileType.toUpperCase()}
                     </p>
@@ -717,14 +737,13 @@ export default function ComplaintDetailPage() {
                   {ev.id && (
                     <div className="flex items-center gap-1">
                       {fileUrl && (
-                        <a
-                          href={fileUrl}
-                          download
+                        <button
+                          onClick={() => handleDownloadAttachment(fileUrl, ev.name)}
                           className="shrink-0 p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                           title="Baixar anexo"
                         >
                           <Download className="h-4 w-4" />
-                        </a>
+                        </button>
                       )}
                       <button
                         onClick={() => handleDeleteAttachment(ev.id!)}
