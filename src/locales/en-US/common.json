@@ -139,7 +139,8 @@
     "changePhoto": "Change photo",
     "email": "Email",
     "emailCannotChange": "Email cannot be changed",
-    "role": "Role"
+    "role": "Role",
+    "settingsDesc": "Manage your account and preferences"
   },
   "admin": {
     "users": "User Management",

@@ -4,24 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { User, Shield, Settings } from "lucide-react";
-
-const settingsTabs = [
-  {
-    label: "Perfil",
-    href: "/settings/profile",
-    icon: User,
-  },
-  {
-    label: "Segurança",
-    href: "/settings/security",
-    icon: Shield,
-  },
-  {
-    label: "Preferências",
-    href: "/settings/preferences",
-    icon: Settings,
-  },
-];
+import { useTranslations } from "@/i18n";
 
 export default function SettingsLayout({
   children,
@@ -29,15 +12,34 @@ export default function SettingsLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const t = useTranslations();
+
+  const settingsTabs = [
+    {
+      label: t("settings.profile"),
+      href: "/settings/profile",
+      icon: User,
+    },
+    {
+      label: t("settings.security"),
+      href: "/settings/security",
+      icon: Shield,
+    },
+    {
+      label: t("settings.preferences"),
+      href: "/settings/preferences",
+      icon: Settings,
+    },
+  ];
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Configurações
+          {t("nav.settings")}
         </h1>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Gerencie sua conta e preferências
+          {t("settings.settingsDesc") || "Gerencie sua conta e preferências"}
         </p>
       </div>
 

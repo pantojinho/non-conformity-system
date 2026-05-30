@@ -139,7 +139,8 @@
     "changePhoto": "Alterar foto",
     "email": "E-mail",
     "emailCannotChange": "O e-mail não pode ser alterado",
-    "role": "Função"
+    "role": "Função",
+    "settingsDesc": "Gerencie sua conta e preferências"
   },
   "admin": {
     "users": "Gerenciamento de Usuários",
