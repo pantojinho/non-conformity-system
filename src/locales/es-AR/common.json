@@ -390,7 +390,12 @@
       "communication": "Comunicación",
       "documentation": "Documentación",
       "safety": "Seguridad",
-      "other": "Otro"
+      "other": "Otro",
+      "service": "Servicio",
+      "qualidade": "Calidad",
+      "atendimento": "Atención",
+      "prazo": "Plazo",
+      "instalacao": "Instalación"
     },
     "sources": {
       "email": "Correo",

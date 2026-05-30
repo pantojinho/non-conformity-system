@@ -393,7 +393,9 @@
       "communication": "Comunicação",
       "documentation": "Documentação",
       "safety": "Segurança",
-      "other": "Outro"
+      "other": "Outro",
+      "prazo": "Prazo",
+      "instalacao": "Instalação"
     },
     "sources": {
       "email": "E-mail",
