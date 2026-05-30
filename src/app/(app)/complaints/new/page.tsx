@@ -190,20 +190,55 @@ export default function NewComplaintPage() {
 
       setIsSubmitting(true);
       try {
+        // Mapear campos do frontend para o schema do backend
+        const complaintTypeToCategory: Record<string, string> = {
+          nps: 'service',
+          complaint: 'qualidade',
+          suggestion: 'atendimento',
+          praise: 'service',
+        };
+
+        const categoria = complaintTypeToCategory[complaintType] || 'service';
+
+        // Calcular SLA prazo em dias a partir da dueDate
+        let slaPrazoDias = 30; // default
+        if (dueDate) {
+          const today = new Date();
+          const due = new Date(dueDate);
+          const diffTime = due.getTime() - today.getTime();
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          if (diffDays > 0) {
+            slaPrazoDias = diffDays;
+          }
+        }
+
         const body = {
           cliente: clientName,
-          email: clientEmail,
-          telefone: clientPhone,
-          empresa: clientCompany,
-          tipo: complaintType,
-          gravidade: severity,
-          area_processo: processArea,
-          assunto: subject,
           descricao: description,
-          causa_raiz: rootCause,
-          prioridade: priority,
-          prazo: dueDate,
-          atribuido_para: assignedTo,
+          categoria,
+          projeto: subject, // usar 'assunto' como 'projeto' para não perder dado
+          pedido: null,
+          impacto: null,
+          area_responsavel_id: null,
+          responsavel_id: null, // TODO: mapear assignedTo para UUID real quando houver endpoint de usuários
+          data_ocorrencia: new Date().toISOString().split('T')[0],
+          sla_prazo_dias: slaPrazoDias,
+          nc_vinculada_id: null,
+          severidade: severity || 'medium',
+          prioridade: priority || 'medium',
+          canal: 'portal', // sempre cria via portal
+          evidencias: [],
+          organization_id: null, // TODO: buscar organization_id do usuário quando tiver
+          // Campos extras do frontend (não usados pelo backend mas podem ser úteis)
+          extra: {
+            email: clientEmail,
+            telefone: clientPhone,
+            empresa: clientCompany,
+            tipo: complaintType,
+            area_processo: processArea,
+            causa_raiz: rootCause,
+            atribuido_para: assignedTo,
+          },
         };
 
         const res = await fetch('/api/nps', {
