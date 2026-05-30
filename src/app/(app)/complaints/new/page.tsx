@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/toast';
 import {
   User,
   Tag,
@@ -16,7 +17,6 @@ import {
   Paperclip,
   Send,
   ArrowLeft,
-  Plus,
   X,
   Upload,
   AlertTriangle,
@@ -30,6 +30,7 @@ interface FilePreview {
 export default function NewComplaintPage() {
   const t = useTranslations();
   const router = useRouter();
+  const { showToast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Form state
@@ -105,26 +106,149 @@ export default function NewComplaintPage() {
 
       setIsSubmitting(true);
       try {
-        // TODO: API call to create complaint
-        // const formData = {
-        //   clientName, clientEmail, clientPhone, clientCompany,
-        //   complaintType, severity, processArea,
-        //   subject, description, rootCause,
-        //   priority, dueDate, assignedTo,
-        //   files: files.map(f => f.file),
-        // };
-        // await createComplaint(formData);
+        // Build the request body matching the API schema
+        const body = {
+          cliente: clientName,
+          email: clientEmail,
+          telefone: clientPhone,
+          empresa: clientCompany,
+          tipo: complaintType,
+          gravidade: severity,
+          area_processo: processArea,
+          assunto: subject,
+          descricao: description,
+          causa_raiz: rootCause,
+          prioridade: priority,
+          prazo: dueDate,
+          atribuido_para: assignedTo,
+        };
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        router.push('/complaints');
-      } catch {
-        setErrors({ submit: t('complaintForm.errors.submitFailed') });
+        const res = await fetch('/api/nps', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || errData.message || 'Failed to create complaint');
+        }
+
+        const created = await res.json();
+        const newId = created?.id || created?.data?.id;
+
+        showToast({
+          type: 'success',
+          message: t('complaints.messages.createSuccess') || 'Reclamação criada com sucesso.',
+        });
+
+        // Redirect to the new record's detail page
+        if (newId) {
+          router.push(`/complaints/${newId}`);
+        } else {
+          router.push('/complaints');
+        }
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : t('complaintForm.errors.submitFailed');
+        setErrors({ submit: message });
+        showToast({
+          type: 'error',
+          message: t('complaints.messages.createError') || 'Erro ao criar reclamação.',
+        });
       } finally {
         setIsSubmitting(false);
       }
     },
-    [validate, router, t]
+    [validate, router, t, showToast, clientName, clientEmail, clientPhone, clientCompany,
+     complaintType, severity, processArea, subject, description, rootCause, priority, dueDate, assignedTo],
+  );
+
+  // After successful creation, upload attachments if any
+  const uploadAttachments = useCallback(
+    async (complaintId: string) => {
+      for (const f of files) {
+        try {
+          const formData = new FormData();
+          formData.append('file', f.file);
+          await fetch(`/api/nps/${complaintId}/attachments`, {
+            method: 'POST',
+            body: formData,
+          });
+        } catch {
+          // Individual attachment upload failure is non-blocking
+        }
+      }
+    },
+    [files],
+  );
+
+  // Override handleSubmit to also upload attachments
+  const handleSubmitWithFiles = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!validate()) return;
+
+      setIsSubmitting(true);
+      try {
+        const body = {
+          cliente: clientName,
+          email: clientEmail,
+          telefone: clientPhone,
+          empresa: clientCompany,
+          tipo: complaintType,
+          gravidade: severity,
+          area_processo: processArea,
+          assunto: subject,
+          descricao: description,
+          causa_raiz: rootCause,
+          prioridade: priority,
+          prazo: dueDate,
+          atribuido_para: assignedTo,
+        };
+
+        const res = await fetch('/api/nps', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || errData.message || 'Failed to create complaint');
+        }
+
+        const created = await res.json();
+        const newId = created?.id || created?.data?.id;
+
+        // Upload attachments if we got an ID
+        if (newId && files.length > 0) {
+          await uploadAttachments(newId);
+        }
+
+        showToast({
+          type: 'success',
+          message: t('complaints.messages.createSuccess') || 'Reclamação criada com sucesso.',
+        });
+
+        if (newId) {
+          router.push(`/complaints/${newId}`);
+        } else {
+          router.push('/complaints');
+        }
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : t('complaintForm.errors.submitFailed');
+        setErrors({ submit: message });
+        showToast({
+          type: 'error',
+          message: t('complaints.messages.createError') || 'Erro ao criar reclamação.',
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [validate, router, t, showToast, uploadAttachments, clientName, clientEmail, clientPhone,
+     clientCompany, complaintType, severity, processArea, subject, description, rootCause,
+     priority, dueDate, assignedTo, files],
   );
 
   const complaintTypeOptions = [
@@ -187,7 +311,7 @@ export default function NewComplaintPage() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
+      <form onSubmit={handleSubmitWithFiles} className="space-y-6 max-w-4xl">
         {/* ─── Section 1: Client Info ─── */}
         <Card>
           <CardHeader>

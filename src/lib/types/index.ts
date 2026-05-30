@@ -140,18 +140,7 @@ export interface Document {
   updated_at: string;
 }
 
-export interface NPSRecord {
-  id: string;
-  type: ComplaintType;
-  score?: number;
-  comment?: string;
-  customer_name?: string;
-  customer_email?: string;
-  organization_id: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-}
+// NPSRecord moved to ./nps.ts — exported via re-export below.
 
 export interface Audit {
   id: string;
@@ -212,3 +201,9 @@ export interface CreateAuditInput {
   process_id?: string;
   scheduled_date: string;
 }
+
+// ============================================================
+// Re-export NPS / Complaints types
+// ============================================================
+
+export * from "./nps";
