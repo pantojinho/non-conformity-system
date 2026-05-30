@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     if (categoria) query = query.eq("categoria", categoria);
     if (search) {
       query = query.or(
-        `codigo.ilike.%${search}%,cliente.ilike.%${search}%,descricao.ilike.%${search}%,projeto.ilike.%${search}%`
+        `codigo.ilike.%${search}%,cliente.ilike.%${search}%,descricao.ilike.%${search}%,projeto.ilike.%${search}%,assunto.ilike.%${search}%,departamento.ilike.%${search}%`
       );
     }
 
@@ -120,6 +120,9 @@ export async function POST(request: NextRequest) {
       canal,
       evidencias,
       organization_id,
+      nota_nps,
+      departamento,
+      assunto,
     } = body;
 
     // Validate required fields
@@ -191,6 +194,9 @@ export async function POST(request: NextRequest) {
       canal: canal || "nps",
       evidencias: evidencias || [],
       organization_id: effectiveOrgId,
+      nota_nps: nota_nps ?? 0,
+      departamento: departamento || null,
+      assunto: assunto || null,
     };
 
     const { data: newRecord, error } = await admin

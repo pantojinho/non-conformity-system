@@ -176,6 +176,9 @@ export async function PATCH(
       "prioridade",
       "canal",
       "evidencias",
+      "nota_nps",
+      "departamento",
+      "assunto",
     ];
 
     const updateData: Record<string, unknown> = {
