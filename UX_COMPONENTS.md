@@ -395,3 +395,82 @@ export default function MyPage() {
 - [x] Responsivo (mobile-first)
 
 **Status:** ✅ Sprint 0 UX/Visual DONE — Todos os componentes base criados, prontos para uso na Sprint 1.
+
+---
+
+## 📦 Componentes Sprint 1 — NPS Module
+
+### 13. **NPS Complaint Card** (`src/app/(app)/complaints/page.tsx`)
+Card de reclamação NPS com KPIs visuais.
+
+**Features:**
+- Cliente, descrição, status, canal, NPS score
+- Dropdown de status: aberto, em_analise, em_andamento, resolvido, fechado
+- Botão de excluir registro (com confirmação modal)
+- Busca e filtros (por status, categoria, assunto, departamento)
+- KPI cards: NPS score, total, SLA, resolvidas
+- NPS score visual (10 dots com cores: vermelho/amarelo/verde)
+- Indicadores de canal com emojis (📧, 📞, 📊, 🌐, 💬)
+- Badges de status e prioridade
+- Barra de progresso SLA com clamp visual a 100%
+
+### 14. **NPS Detail Page** (`src/app/(app)/complaints/[id]/page.tsx`)
+Página de detalhes com todas as seções.
+
+**Features:**
+- Visão geral completa da reclamação
+- Seção de anexos com upload/download/delete
+- Seção de comentários com autor e data
+- Timeline de atividades (activity log)
+- Ações corretivas vinculadas
+- Edição inline de status
+
+### 15. **Attachment Card** (inline in complaints/[id])
+Card individual de anexo com ações.
+
+**Features:**
+- Nome do arquivo original (file_name)
+- Tamanho formatado (KB/MB)
+- Tipo com ícone (foto→📷, pdf→📄, video→🎬, etc.)
+- Botão de download (abre URL do Storage)
+- Botão de delete (com confirmação + activity log)
+- Upload via FormData → Supabase Storage bucket `nps-attachments`
+
+### 16. **Comment Section** (inline in complaints/[id])
+Seção de comentários com formulário.
+
+**Features:**
+- Lista de comentários com autor (nome + data)
+- Formulário de novo comentário (textarea + submit)
+- Mapeamento correto DB campo `conteudo`
+- Join com tabela `users` para nome do autor
+
+### 17. **Activity Timeline** (inline in complaints/[id])
+Timeline de atividades do registro NPS.
+
+**Features:**
+- Registra: created, status_changed, comment_added, attachment_added, assigned, escalated, updated
+- Cada entrada: ação + descrição + autor + data
+- Ordenação cronológica
+- Ícones por tipo de atividade
+
+---
+
+## 📊 Sprint 1 — Progresso UX
+
+### ✅ Implementado
+- [x] NPS Complaint Cards com todos os KPIs
+- [x] NPS Detail Page completa
+- [x] Attachment cards com download/delete
+- [x] Comment section com autor e data
+- [x] Activity timeline
+- [x] Upload de anexos funcional (MIME + FK fix)
+- [x] Barra SLA com clamp visual
+- [x] Busca ampliada (assunto, departamento)
+
+### ⏳ Pendente
+- [ ] Formulário criar nova reclamação (`/complaints/new`)
+- [ ] Charts do Dashboard (Recharts)
+- [ ] Date range picker
+- [ ] Export CSV/PDF
+- [ ] Paginação na lista de reclamações

@@ -143,8 +143,69 @@ Base de dados modular com 16+ tabelas, preparada para multi-tenant (`organizatio
 | nc_vinculada_id | FK → nc_records | NC gerada automaticamente |
 | status | ENUM | aberto, em_atendimento, resolvido, escalonado, fechado |
 | originador_id | FK → users | |
+| nota_nps | INTEGER | Score NPS 0-10 (migration 004) |
+| departamento | TEXT | Área responsável (migration 004) |
+| assunto | TEXT | Título/resumo curto (migration 004) |
+| severidade | TEXT | low, medium, high, critical (migration 003) |
+| prioridade | TEXT | low, medium, high, urgent (migration 003) |
+| canal | TEXT | email, telefone, nps, portal (migration 003) |
 | created_at | TIMESTAMPTZ | |
 | updated_at | TIMESTAMPTZ | |
+
+### `nps_comments`
+| Campo | Tipo | Descrição |
+|-------|------|------------|
+| id | UUID (PK) | |
+| nps_record_id | FK → nps_records (CASCADE) | Registro NPS |
+| conteudo | TEXT NOT NULL | Texto do comentário |
+| autor_id | FK → users (RESTRICT) | Autor do comentário |
+| created_at | TIMESTAMPTZ | |
+
+**RLS:** Enabled. Policies: SELECT/INSERT for authenticated users.  
+**Indexes:** idx_nps_comments_record (nps_record_id), idx_nps_comments_author (autor_id)
+
+### `nps_attachments`
+| Campo | Tipo | Descrição |
+|-------|------|------------|
+| id | UUID (PK) | |
+| nps_record_id | FK → nps_records (CASCADE) | Registro NPS |
+| file_name | TEXT NOT NULL | Nome original do arquivo |
+| file_url | TEXT NOT NULL | URL no Supabase Storage |
+| file_type | TEXT | foto, video, pdf, audio, ppt, excel, print |
+| file_size | BIGINT | Tamanho em bytes |
+| uploaded_by | FK → users (RESTRICT) | Usuário que fez upload |
+| created_at | TIMESTAMPTZ | |
+
+**RLS:** Enabled. Policies: SELECT/INSERT for authenticated users.  
+**Storage:** Bucket `nps-attachments` (public, 10MB limit, MIME types: jpeg, png, gif, webp, pdf, mp4, xls, xlsx)
+
+### `nps_activity_log`
+| Campo | Tipo | Descrição |
+|-------|------|------------|
+| id | UUID (PK) | |
+| nps_record_id | FK → nps_records (CASCADE) | Registro NPS |
+| acao | TEXT NOT NULL | created, status_changed, comment_added, attachment_added, assigned, escalated, updated |
+| descricao | TEXT | Descrição da atividade |
+| alterado_por | FK → users (SET NULL) | Usuário que executou a ação |
+| created_at | TIMESTAMPTZ | |
+
+**RLS:** Enabled. Policies: SELECT/INSERT for authenticated users.  
+**Indexes:** idx_nps_activity_record (nps_record_id)
+
+### `nps_corrective_actions`
+| Campo | Tipo | Descrição |
+|-------|------|------------|
+| id | UUID (PK) | |
+| nps_record_id | FK → nps_records (CASCADE) | Registro NPS |
+| descricao | TEXT NOT NULL | Descrição da ação |
+| responsavel | TEXT | Nome do responsável |
+| prazo | DATE | Data limite |
+| data_conclusao | DATE | Data de conclusão |
+| status | TEXT | pendente, em_andamento, concluida |
+| created_at | TIMESTAMPTZ | |
+
+**RLS:** Enabled. Policies: SELECT/INSERT/UPDATE for authenticated users.  
+**Indexes:** idx_nps_actions_record (nps_record_id)
 
 ### `audits`
 | Campo | Tipo | Descrição |

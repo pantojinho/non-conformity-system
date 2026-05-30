@@ -14,7 +14,7 @@
 - Dark/Light theme
 
 **Sprint 1:** 🔄 Em andamento (30/05/2026)
-- NPS (Net Promoter Score) - **70% funcional**
+- NPS (Net Promoter Score) - **95% funcional** ← sessão de bugfix hoje
 - NC Core (Non-Conformity) - **não iniciado**
 - Dashboard - **parcial**
 
@@ -110,11 +110,11 @@
 
 ## 🎯 Sprint 1 — NPS & NC Core ← ATUAL
 
-> **Status:** 70% concluído  
+> **Status:** 85% concluído  
 > **Data início:** 30/05/2026  
-> **Próximos passos:** Criar bucket Storage, executar dados de teste, iniciar NC Core
+> **Próximos passos:** NC Core, Dashboard charts, polimento NPS
 
-### ✅ NPS (Reclamações & Feedback) — 90% Funcional
+### ✅ NPS (Reclamações & Feedback) — 95% Funcional
 
 #### Funcionalidades Implementadas
 
@@ -147,6 +147,42 @@
 - [x] Timeline de atividades
 - [x] Formulário de comentários
 - [x] Loading states e error handling
+- [x] Anexos: upload, download, delete com nome/tamanho/tipo/ícone
+- [x] Activity log: registra upload, delete, edições de status, atualizações
+- [x] Comentários: postar e visualizar com autor e data
+- [x] API NPS aceita nota_nps, departamento, assunto no POST/PATCH
+- [x] Busca ampliada para assunto e departamento
+- [x] Dados de teste atualizados com scores NPS realistas
+
+#### 🐛 Bugs Corrigidos (30/05/2026)
+
+**Upload de anexos retornava 500**
+- Causa: MIME type não reconhecido + auth_user_id vs public.users.id FK mismatch
+- Correção: mapeamento correto do user ID (auth → public.users) e validação de MIME
+
+**i18n key faltante: complaints.categories.prazo**
+- Causa: chave não existia nos arquivos de tradução
+- Correção: adicionada nos 3 locales (PT/EN/ES)
+
+**Notas NPS não apareciam**
+- Causa: dados de teste com nota_nps=0 + API não aceitava campos nota_nps/departamento/assunto
+- Correção: migration 004 adicionou colunas; dados de teste atualizados com scores realistas
+
+**Barra de progresso SLA estourando o card**
+- Causa: slaPercent > 100% sem clamp
+- Correção: clamp visual para 100% máximo
+
+**Cards de anexo mostravam "FILE" genérico**
+- Causa: mapeamento de campos DB→frontend incorreto
+- Correção: mapeamento correto file_name, file_size, file_type → exibição com ícone/tamanho
+
+**Comentários não funcionavam**
+- Causa: campo `content` vs `conteudo` no mapeamento + faltava join com autor
+- Correção: mapeamento correto do campo + join com users para nome do autor
+
+**DELETE de anexo não registrava no activity log**
+- Causa: endpoint de delete não registrava evento
+- Correção: adicionado log automático ao deletar anexo
 
 #### Schema do Banco
 
@@ -161,24 +197,18 @@
 - [x] cliente, descricao, categoria, canal, prioridade, severidade, nota_nps
 - [x] sla_prazo_dias, sla_data_limite, days_remaining, sla_status
 - [x] Campos adicionais (migration 003): canal, prioridade, severidade
+- [x] Campos adicionais (migration 004): nota_nps (0-10), departamento, assunto
 
 #### ⚠️ Issues Conhecidos
 
-**1. Upload de anexos - Erro 500**
-- **Causa:** Endpoint atual falha, mas rota `upload-url` criada
-- **Solução pendente:**
-  1. Bucket `nps-attachments` já existe ✓
-  2. Implementar upload via signed URL
-  3. Atualizar UI para usar nova rota
+**1. Criar nova reclamação (formulário)**
+- Página `/complaints/new` ainda não existe
+- Solução: criar formulário com campos obrigatórios
 
-**2. Dados de teste vazios**
-- **Solução:** Executar script `scripts/populate-nps-test-data-v2.sql` (simplificado)
-- **Local:** `/home/pantojinho/temp/non-conformity-system/scripts/populate-nps-test-data-v2.sql`
-- **Resultado:** 5 registros de teste com clientes reais (VW, Fiat, GM, Toyota, Mercedes)
-
-**3. Códigos NPS nulos**
-- **Solução:** Executar script `scripts/fix-nps-codes.sql`
-- **Resultado:** Gera códigos NPS-000001 para registros com codigo=null
+**2. Polimento UX**
+- NPS score visual pode melhorar (cores por faixa: detrator/neutro/promotor)
+- Filtros avançados (por data, departamento)
+- Paginação na lista de reclamações
 
 ### ⏳ NC Core (Non-Conformity) — Não Iniciado
 
@@ -527,7 +557,26 @@ scripts/
 
 ## 📝 Notas de Desenvolvimento
 
-### 30/05/2026 - Sessão de testes NPS + Documentação
+### 30/05/2026 (tarde) - Sessão de Bugfix NPS
+
+#### Bugs Corrigidos:
+- ✅ Upload de anexos → erro 500 (MIME type + auth_user_id FK mismatch)
+- ✅ i18n key faltante complaints.categories.prazo
+- ✅ Notas NPS não apareciam (nota_nps=0 + API não aceitava campos)
+- ✅ Barra SLA estourando card (slaPercent > 100%)
+- ✅ Cards de anexo mostravam "FILE" genérico (mapeamento DB→frontend)
+- ✅ Comentários não funcionavam (content vs conteudo + mapeamento)
+- ✅ DELETE de anexo não registrava no activity log
+
+#### Funcionalidades Implementadas/Completadas:
+- ✅ Anexos: upload, download, delete com nome/tamanho/tipo/ícone
+- ✅ Activity log: registra upload, delete, edições de status, atualizações
+- ✅ Comentários: postar e visualizar com autor e data
+- ✅ API NPS aceita nota_nps, departamento, assunto no POST/PATCH
+- ✅ Busca ampliada para assunto e departamento
+- ✅ Dados de teste atualizados com scores NPS realistas
+
+### 30/05/2026 (manhã) - Sessão de testes NPS + Documentação
 
 #### Feito:
 - ✅ Corrigiu mapeamento de campos (cliente/description/canal/nota_nps)
@@ -535,36 +584,11 @@ scripts/
 - ✅ Corrigiu dropdown de status (aberto/resolvido vs aberta/resolvida)
 - ✅ Migration 003 aplicada (canal, prioridade, severidade)
 - ✅ Consolidou documentação (SPRINTS.md)
-  - Mergedeu AI-Agents-Tasks.md + SPRINTS.md em único arquivo
-  - Removido docs/ai-agents/AI-Agents-Tasks.md (duplicado)
-  - Roadmap completo com 9 sprints detalhados
-- ✅ Criou scripts SQL:
-  - `scripts/fix-nps-codes.sql` — Gera códigos NPS-000001 para nulos
-  - `scripts/populate-nps-test-data-v2.sql` — Dados de teste simplificados
-  - `scripts/create-test-user.sql` — Cria perfil de usuário teste
-- ✅ Verificou endpoint de upload (`/api/nps/[id]/attachments`)
-  - Implementado com Supabase Storage bucket `nps-attachments`
-  - Validações: 10MB max, sanitização de nome
-  - Gera registro + log de atividade
-
-#### Issues Ativos:
-⚠️ Upload de anexos - Erro 500
-- Bucket `nps-attachments` existe (verificado)
-- Endpoint implementado corretamente
-- **Próximos passos:**
-  1. Criar usuário teste: test@abb.com / test123!
-  2. Executar script `scripts/create-test-user.sql`
-  3. Testar upload na produção com Console aberto (F12)
-
-#### Próximos passos imediatos:
-1. Testar upload de anexos (aguardando usuário teste)
-2. Executar scripts de dados de teste no Supabase
-3. Testar completo NPS: listar, criar, editar, excluir, comentários, anexos
-4. Iniciar desenvolvimento NC Core (Sprint 1, Task 7)
+- ✅ Criou scripts SQL (fix-nps-codes, populate-test-data, create-test-user)
+- ✅ Verificou endpoint de upload
 
 ### Histórico anterior:
 - ✅ 28/05/2026 - Sprint 0 concluída (100% funcional)
-- 🔄 30/05/2026 - Sessão de testes NPS (sessão anterior)
 
 ---
 
@@ -656,7 +680,11 @@ scripts/
 ## ⚠️ Exclusão de Documentos
 
 > **Consolidado em:** 30/05/2026  
-> **Ação:** Arquivo `docs/ai-agents/AI-Agents-Tasks.md` removido  
-> **Razão:** Conteúdo integrado ao SPRINTS.md para evitar duplicação e facilitar manutenção
+> **Arquivos removidos:**
+> - `docs/ai-agents/AI-Agents-Tasks.md` — Conteúdo integrado ao SPRINTS.md
+> - `SPRINT_0_COMPLETE.md` — Conteúdo integrado ao SPRINTS.md
+> - `SPRINT_0_SUMMARY.md` — Conteúdo integrado ao SPRINTS.md
+> - `SPRINT_0_2_ACTION_PLAN.md` — Conteúdo integrado ao SPRINTS.md
+> - `UX_TODO.md` — Tarefas integradas ao UX_COMPONENTS.md e SPRINTS.md
 
 > Módulos de Treinamentos, Controle de EPI, Controle de Acessos e Saída de Materiais **não fazem parte** deste projeto — possuem sistemas próprios.
