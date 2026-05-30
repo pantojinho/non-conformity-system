@@ -11,17 +11,16 @@ const ABB_RED = "#FF000F";
 
 interface Complaint {
   id: string;
-  title: string;
-  description: string;
-  customer: string;
-  department: string;
-  date: string;
-  status: "aberta" | "em_analise" | "em_andamento" | "resolvida";
-  npsScore: number;
-  channel: string;
-  category?: string;
-  priority?: string;
-  source?: string;
+  codigo: string;
+  descricao: string;
+  cliente: string;
+  departamento: string | null;
+  created_at: string;
+  status: "aberto" | "em_analise" | "em_andamento" | "resolvido";
+  nota_nps: number;
+  canal: string;
+  prioridade: string | null;
+  severidade: string | null;
 }
 
 interface KpiData {
@@ -40,8 +39,8 @@ const statusConfig: Record<string, {
   darkTextColor: string;
   icon: typeof Clock;
 }> = {
-  aberta: {
-    label: "Aberta",
+  aberto: {
+    label: "Aberto",
     color: "red",
     bgColor: "bg-red-100",
     darkBgColor: "dark:bg-red-900/30",
@@ -67,8 +66,8 @@ const statusConfig: Record<string, {
     darkTextColor: "dark:text-blue-400",
     icon: TrendingUp,
   },
-  resolvida: {
-    label: "Resolvida",
+  resolvido: {
+    label: "Resolvido",
     color: "green",
     bgColor: "bg-green-100",
     darkBgColor: "dark:bg-green-900/30",
@@ -158,9 +157,9 @@ export default function ComplaintsPage() {
       const items: Complaint[] = Array.isArray(data) ? data : (data.data || data.complaints || []);
 
       const total = items.length;
-      const resolved = items.filter((c: Complaint) => c.status === "resolvida").length;
+      const resolved = items.filter((c: Complaint) => c.status === "resolvido").length;
       const avgNps = total > 0
-        ? Math.round(items.reduce((sum: number, c: Complaint) => sum + (c.npsScore || 0), 0) / total)
+        ? Math.round(items.reduce((sum: number, c: Complaint) => sum + (c.nota_nps || 0), 0) / total)
         : 0;
       const slaRate = total > 0 ? Math.round((resolved / total) * 100) : 0;
 
@@ -332,10 +331,10 @@ export default function ComplaintsPage() {
               className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 pl-10 pr-10 text-sm focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:w-auto"
             >
               <option value="">{t("complaints.allStatuses") || "Todos os Status"}</option>
-              <option value="aberta">Aberta</option>
+              <option value="aberto">Aberto</option>
               <option value="em_analise">Em Análise</option>
               <option value="em_andamento">Em Andamento</option>
-              <option value="resolvida">Resolvida</option>
+              <option value="resolvido">Resolvido</option>
             </select>
           </div>
           <div className="relative">
@@ -406,7 +405,7 @@ export default function ComplaintsPage() {
       {!loading && !error && complaints.length > 0 && (
         <div className="space-y-3 sm:space-y-4">
           {complaints.map((complaint) => {
-            const config = statusConfig[complaint.status] || statusConfig.aberta;
+            const config = statusConfig[complaint.status] || statusConfig.aberto;
             const StatusIcon = config.icon;
             return (
               <Link
@@ -429,11 +428,11 @@ export default function ComplaintsPage() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
                           <h3 className="truncate text-base font-semibold text-gray-900 dark:text-white">
-                            {complaint.title}
+                            {complaint.codigo}
                           </h3>
                         </div>
                         <p className="mt-1 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
-                          {complaint.description}
+                          {complaint.descricao}
                         </p>
                       </div>
                       <span
@@ -447,23 +446,23 @@ export default function ComplaintsPage() {
                     {/* Meta info */}
                     <div className="mt-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3 sm:text-xs">
                       <span className="font-medium text-gray-700 dark:text-gray-300">
-                        {complaint.id}
+                        {complaint.codigo}
                       </span>
                       <span className="hidden text-gray-400 dark:text-gray-600 sm:inline">•</span>
                       <span className="text-gray-500 dark:text-gray-500">
-                        {complaint.customer}
+                        {complaint.cliente}
                       </span>
                       <span className="hidden text-gray-400 dark:text-gray-600 sm:inline">•</span>
                       <span className="text-gray-500 dark:text-gray-500">
-                        {complaint.department}
+                        {complaint.departamento || "—"}
                       </span>
                       <span className="hidden text-gray-400 dark:text-gray-600 sm:inline">•</span>
                       <span className="text-gray-500 dark:text-gray-500">
-                        {complaint.date}
+                        {new Date(complaint.created_at).toLocaleDateString("pt-BR")}
                       </span>
                       <span className="hidden text-gray-400 dark:text-gray-600 sm:inline">•</span>
                       <span className="flex items-center gap-1 text-gray-500 dark:text-gray-500">
-                        {channelIcons[complaint.channel] || channelIcons[complaint.source || ""] || "💬"} {complaint.channel}
+                        {channelIcons[complaint.canal] || "💬"} {complaint.canal}
                       </span>
                     </div>
 
@@ -475,12 +474,12 @@ export default function ComplaintsPage() {
                           <div
                             key={i}
                             className={`h-2 w-2 rounded-full ${
-                              i < complaint.npsScore
-                                ? complaint.npsScore >= 9
+                              i < complaint.nota_nps
+                                ? complaint.nota_nps >= 9
                                   ? "bg-green-500"
-                                  : complaint.npsScore >= 7
+                                  : complaint.nota_nps >= 7
                                     ? "bg-yellow-400"
-                                    : complaint.npsScore >= 5
+                                    : complaint.nota_nps >= 5
                                       ? "bg-orange-400"
                                       : "bg-red-500"
                                 : "bg-gray-200 dark:bg-gray-700"
@@ -489,7 +488,7 @@ export default function ComplaintsPage() {
                         ))}
                       </div>
                       <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                        {complaint.npsScore}/10
+                        {complaint.nota_nps}/10
                       </span>
                     </div>
                   </div>
