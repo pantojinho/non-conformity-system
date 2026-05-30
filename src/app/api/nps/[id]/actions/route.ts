@@ -64,6 +64,13 @@ export async function POST(
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
 
+    // Lookup public.users.id from auth uid
+    const { data: appUser } = await admin
+      .from("users")
+      .select("id")
+      .eq("auth_user_id", user.id)
+      .single();
+
     // Verify NPS record exists
     const { data: record } = await admin
       .from("nps_records")
@@ -113,7 +120,7 @@ export async function POST(
       nps_record_id: id,
       acao: "action_created",
       descricao: `Ação corretiva criada: ${(descricao as string).substring(0, 80)}`,
-      alterado_por: user.id,
+      alterado_por: appUser?.id || user.id,
     });
 
     return NextResponse.json({ data: action }, { status: 201 });
@@ -142,6 +149,13 @@ export async function PATCH(
     if (!user) {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
+
+    // Lookup public.users.id from auth uid
+    const { data: appUser } = await admin
+      .from("users")
+      .select("id")
+      .eq("auth_user_id", user.id)
+      .single();
 
     const body = await request.json();
     const { action_id, status, descricao, responsavel, prazo, data_conclusao } = body;
@@ -201,7 +215,7 @@ export async function PATCH(
         nps_record_id: id,
         acao: "action_status_change",
         descricao: `Ação corretiva: status alterado de "${existing.status}" para "${status}"`,
-        alterado_por: user.id,
+        alterado_por: appUser?.id || user.id,
       });
     }
 

@@ -23,6 +23,13 @@ export async function POST(
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
 
+    // Lookup public.users.id from auth uid
+    const { data: appUser } = await admin
+      .from("users")
+      .select("id")
+      .eq("auth_user_id", user.id)
+      .single();
+
     // Verify NPS record exists
     const { data: record } = await admin
       .from("nps_records")
@@ -73,7 +80,7 @@ export async function POST(
         file_url: urlData.signedUrl,
         file_type: fileType,
         file_size: 0,
-        uploaded_by: user.id,
+        uploaded_by: appUser?.id || user.id,
       })
       .select()
       .single();

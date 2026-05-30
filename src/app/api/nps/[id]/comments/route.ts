@@ -64,6 +64,13 @@ export async function POST(
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
 
+    // Lookup public.users.id from auth uid
+    const { data: appUser } = await admin
+      .from("users")
+      .select("id")
+      .eq("auth_user_id", user.id)
+      .single();
+
     const body = await request.json();
     const { conteudo } = body;
 
@@ -93,7 +100,7 @@ export async function POST(
       .insert({
         nps_record_id: id,
         conteudo: (conteudo as string).trim(),
-        autor_id: user.id,
+        autor_id: appUser?.id || user.id,
       })
       .select()
       .single();
@@ -111,7 +118,7 @@ export async function POST(
       nps_record_id: id,
       acao: "comment_added",
       descricao: "Novo comentário adicionado",
-      alterado_por: user.id,
+      alterado_por: appUser?.id || user.id,
     });
 
     return NextResponse.json({ data: comment }, { status: 201 });

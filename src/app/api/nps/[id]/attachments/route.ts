@@ -101,6 +101,13 @@ export async function POST(
       );
     }
 
+    // Lookup public.users.id from auth uid (FK requires public.users id, not auth.users id)
+    const { data: appUser } = await admin
+      .from("users")
+      .select("id")
+      .eq("auth_user_id", user.id)
+      .single();
+
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
 
@@ -158,7 +165,7 @@ export async function POST(
         file_url: fileUrl,
         file_type: mapMimeToCategory(file.type),
         file_size: file.size,
-        uploaded_by: user.id,
+        uploaded_by: appUser?.id || user.id,
       })
       .select()
       .single();
@@ -176,7 +183,7 @@ export async function POST(
       nps_record_id: id,
       acao: "attachment_added",
       descricao: `Anexo "${file.name}" adicionado`,
-      alterado_por: user.id,
+      alterado_por: appUser?.id || user.id,
     });
 
     return NextResponse.json({ data: attachment }, { status: 201 });

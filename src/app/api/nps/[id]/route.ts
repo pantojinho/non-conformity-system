@@ -155,6 +155,13 @@ export async function PATCH(
       );
     }
 
+    // Lookup public.users.id from auth uid
+    const { data: appUser } = await admin
+      .from("users")
+      .select("id")
+      .eq("auth_user_id", user.id)
+      .single();
+
     const body = await request.json();
 
     // Build update object — only allow certain fields
@@ -221,7 +228,7 @@ export async function PATCH(
         nps_record_id: id,
         acao: "status_change",
         descricao: `Status alterado de "${existing.status}" para "${body.status}"`,
-        alterado_por: user.id,
+        alterado_por: appUser?.id || user.id,
       });
     }
 
@@ -230,7 +237,7 @@ export async function PATCH(
       nps_record_id: id,
       acao: "updated",
       descricao: "Registro atualizado",
-      alterado_por: user.id,
+      alterado_por: appUser?.id || user.id,
     });
 
     return NextResponse.json({ data: updated });
