@@ -89,6 +89,7 @@ interface TimelineEvent {
 
 interface ComplaintData {
   id: string;
+  codigo?: string;
   status: string;
   priority: string;
   category: string;
@@ -184,6 +185,7 @@ export default function ComplaintDetailPage() {
       // Mapear campos do banco para o formato esperado pelo frontend
       const complaintData: ComplaintData = {
         id: (raw.id as string) || '',
+        codigo: (raw.codigo as string) || '',
         status: (raw.status as string) || 'aberto',
         priority: (raw.prioridade as string) || (raw.priority as string) || 'medium',
         source: (raw.canal as string) || (raw.source as string) || 'portal',
@@ -358,6 +360,7 @@ export default function ComplaintDetailPage() {
   const slaPercent = Math.max(0, ((slaDays - slaRemaining) / slaDays) * 100);
   const complaintTitle = complaint.subject || complaint.title || complaint.id;
   const customer = complaint.customer || { name: "", contact: "", email: "", phone: "" };
+  const displayCode = complaint.codigo || complaint.id;
 
   return (
     <div className="space-y-6">
@@ -373,7 +376,7 @@ export default function ComplaintDetailPage() {
           <div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <h1 className="text-xl font-bold text-gray-900 dark:text-white sm:text-2xl">
-                {customer.name}
+                {displayCode}
               </h1>
               <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${statusConfig[status]?.bg} ${statusConfig[status]?.color}`}>
                 <StatusIcon className="h-3.5 w-3.5" />
@@ -384,7 +387,7 @@ export default function ComplaintDetailPage() {
               </span>
             </div>
             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-              {complaint.id}
+              {customer.name}
             </p>
           </div>
         </div>
