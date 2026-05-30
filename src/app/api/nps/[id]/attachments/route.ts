@@ -226,9 +226,16 @@ export async function DELETE(
     // Get attachment info to delete from storage
     const { data: attachment } = await admin
       .from("nps_attachments")
-      .select("file_url")
+      .select("file_url, file_name")
       .eq("id", attachmentId)
       .eq("nps_record_id", id)
+      .single();
+
+    // Lookup public.users.id from auth uid
+    const { data: appUser } = await admin
+      .from("users")
+      .select("id")
+      .eq("auth_user_id", user.id)
       .single();
 
     if (attachment?.file_url) {
@@ -261,6 +268,14 @@ export async function DELETE(
         { status: 500 }
       );
     }
+
+    // Log removal in activity log
+    await admin.from("nps_activity_log").insert({
+      nps_record_id: id,
+      acao: "attachment_removed",
+      descricao: `Anexo "${attachment?.file_name || "arquivo"}" removido`,
+      alterado_por: appUser?.id || user.id,
+    });
 
     return NextResponse.json({ success: true });
   } catch (err) {

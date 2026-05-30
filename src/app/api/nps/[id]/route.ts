@@ -62,10 +62,19 @@ export async function GET(
           .order("created_at", { ascending: false }),
       ]);
 
-    // Fetch user names for originador and responsavel
+    // Fetch user names for originador, responsavel, comment authors, and activity log users
+    const commentUserIds = (commentsRes.data || [])
+      .map((c: any) => c.autor_id)
+      .filter(Boolean) as string[];
+    const activityUserIds = (activityRes.data || [])
+      .map((e: any) => e.alterado_por)
+      .filter(Boolean) as string[];
+
     const userIds = [
       record.originador_id,
       record.responsavel_id,
+      ...commentUserIds,
+      ...activityUserIds,
     ].filter(Boolean) as string[];
 
     const uniqueUserIds = [...new Set(userIds)];
@@ -107,11 +116,21 @@ export async function GET(
       responsavel: usersMap[record.responsavel_id as string] || null,
     };
 
+    // Enrich comments and activity with user names
+    const enrichedComments = (commentsRes.data || []).map((c: any) => ({
+      ...c,
+      autor_nome: usersMap[c.autor_id]?.name || null,
+    }));
+    const enrichedActivity = (activityRes.data || []).map((e: any) => ({
+      ...e,
+      alterado_por_nome: usersMap[e.alterado_por]?.name || e.alterado_por || null,
+    }));
+
     return NextResponse.json({
       data: enriched,
-      comments: commentsRes.data || [],
+      comments: enrichedComments,
       attachments: attachmentsRes.data || [],
-      activity_log: activityRes.data || [],
+      activity_log: enrichedActivity,
       corrective_actions: actionsRes.data || [],
     });
   } catch (err) {

@@ -30,6 +30,7 @@ import {
   Image,
   Film,
   Trash2,
+  Download,
 } from "lucide-react";
 import { useTranslations } from "@/i18n";
 import { useToast } from "@/components/ui/toast";
@@ -222,7 +223,13 @@ export default function ComplaintDetailPage() {
           email: '',
           phone: '',
         },
-        comments: data.comments || [],
+        comments: (data.comments || []).map((c: any) => ({
+          id: c.id,
+          author: c.autor_nome || c.autor_id || 'Usuário',
+          avatar: c.autor_nome ? c.autor_nome.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() : (c.autor_id ? c.autor_id.substring(0, 2).toUpperCase() : 'U'),
+          content: c.conteudo || '',
+          date: c.created_at ? new Date(c.created_at).toLocaleString('pt-BR') : '',
+        })),
         attachments: (data.attachments || []).map((a: any) => ({
           id: a.id,
           name: a.file_name || a.name || 'Arquivo',
@@ -247,8 +254,18 @@ export default function ComplaintDetailPage() {
         })),
         correctiveActions: data.corrective_actions || [],
         actions: data.corrective_actions || [],
-        timeline: data.activity_log || [],
-        activity: data.activity_log || [],
+        timeline: (data.activity_log || []).map((e: any) => ({
+          event: e.descricao || e.acao || '',
+          user: e.alterado_por_nome || e.alterado_por || '',
+          date: e.created_at ? new Date(e.created_at).toLocaleString('pt-BR') : '',
+          icon: e.acao || '',
+        })),
+        activity: (data.activity_log || []).map((e: any) => ({
+          event: e.descricao || e.acao || '',
+          user: e.alterado_por_nome || e.alterado_por || '',
+          date: e.created_at ? new Date(e.created_at).toLocaleString('pt-BR') : '',
+          icon: e.acao || '',
+        })),
       };
       setComplaint(complaintData);
     } catch (err) {
@@ -272,7 +289,7 @@ export default function ComplaintDetailPage() {
       const res = await fetch(`/api/nps/${id}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: comment }),
+        body: JSON.stringify({ conteudo: comment }),
       });
       if (!res.ok) throw new Error("Erro ao adicionar comentário");
       setComment("");
@@ -698,13 +715,25 @@ export default function ComplaintDetailPage() {
                     </p>
                   </div>
                   {ev.id && (
-                    <button
-                      onClick={() => handleDeleteAttachment(ev.id!)}
-                      className="shrink-0 p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                      title="Excluir anexo"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      {fileUrl && (
+                        <a
+                          href={fileUrl}
+                          download
+                          className="shrink-0 p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                          title="Baixar anexo"
+                        >
+                          <Download className="h-4 w-4" />
+                        </a>
+                      )}
+                      <button
+                        onClick={() => handleDeleteAttachment(ev.id!)}
+                        className="shrink-0 p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                        title="Excluir anexo"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   )}
                 </div>
               );
