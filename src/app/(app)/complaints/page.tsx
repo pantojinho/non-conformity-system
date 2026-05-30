@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { MessageCircle, Plus, Search, Filter, TrendingUp, Hash, Clock, CheckCircle2, Star, ArrowRight } from "lucide-react";
+import { MessageCircle, Plus, Search, Filter, TrendingUp, Hash, Clock, CheckCircle2, Star, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "@/i18n";
 import { useToast } from "@/components/ui/toast";
@@ -106,7 +106,9 @@ export default function ComplaintsPage() {
   const [statusFilter, setStatusFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [page, setPage] = useState(1);
+  const pageSize = 20;
   const [totalCount, setTotalCount] = useState(0);
+  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
   const [kpiData, setKpiData] = useState<KpiData>({
     npsScore: 0,
     totalComplaints: 0,
@@ -123,7 +125,7 @@ export default function ComplaintsPage() {
       if (statusFilter) params.set("status", statusFilter);
       if (categoryFilter) params.set("categoria", categoryFilter);
       params.set("page", String(page));
-      params.set("limit", "20");
+      params.set("limit", String(pageSize));
 
       const res = await fetch(`/api/nps?${params.toString()}`);
       if (!res.ok) throw new Error("Failed to fetch complaints");
@@ -135,7 +137,7 @@ export default function ComplaintsPage() {
         setTotalCount(data.length);
       } else {
         setComplaints(data.data || data.complaints || []);
-        setTotalCount(data.total || data.meta?.total || (data.data || data.complaints || []).length);
+        setTotalCount(data.pagination?.total ?? data.total ?? data.meta?.total ?? (data.data || data.complaints || []).length);
       }
     } catch (err) {
       console.error("Error fetching complaints:", err);
@@ -502,15 +504,36 @@ export default function ComplaintsPage() {
         </div>
       )}
 
-      {/* Footer info */}
+      {/* Pagination Controls */}
       {!loading && !error && complaints.length > 0 && (
-        <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-gray-900/50">
+        <div className="flex flex-col items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-800 dark:bg-gray-900/50 sm:flex-row sm:justify-between">
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Exibindo {complaints.length} de {totalCount} reclamações
           </p>
-          <p className="text-xs text-gray-400 dark:text-gray-500">
-            Última atualização: {new Date().toLocaleDateString("pt-BR")}
-          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page <= 1}
+              className="inline-flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:border-red-300 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-gray-300 disabled:hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-red-700 dark:hover:text-red-400"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Anterior
+            </button>
+            <span
+              className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-white"
+              style={{ backgroundColor: ABB_RED }}
+            >
+              Página {page} de {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page >= totalPages}
+              className="inline-flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:border-red-300 hover:text-red-600 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-gray-300 disabled:hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-red-700 dark:hover:text-red-400"
+            >
+              Próximo
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
         </div>
       )}
     </div>
