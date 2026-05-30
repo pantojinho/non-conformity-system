@@ -378,7 +378,7 @@
       "low": "Baixa",
       "medium": "Média",
       "high": "Alta",
-      "critical": "Crítica"
+      "urgent": "Urgente"
     },
     "categories": {
       "product_quality": "Qualidade do Produto",
