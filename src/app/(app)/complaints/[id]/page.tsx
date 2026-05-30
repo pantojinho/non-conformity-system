@@ -313,6 +313,24 @@ export default function ComplaintDetailPage() {
     }
   }, [id, showToast, fetchComplaint]);
 
+  // Delete complaint
+  const handleDelete = useCallback(async () => {
+    if (!id) return;
+    if (!confirm("Tem certeza que deseja excluir esta reclamação? Esta ação não pode ser desfeita.")) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/nps/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Erro ao excluir reclamação");
+      showToast({ type: "success", message: "Reclamação excluída com sucesso." });
+      window.location.href = "/complaints";
+    } catch {
+      showToast({ type: "error", message: "Erro ao excluir reclamação." });
+    }
+  }, [id, showToast]);
+
   // Loading state
   if (loading) {
     return <LoadingPage message={t("common.loading") || "Carregando..."} />;
@@ -398,16 +416,19 @@ export default function ComplaintDetailPage() {
             onChange={(e) => handleStatusChange(e.target.value)}
             className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
           >
-            <option value="aberta">Aberta</option>
+            <option value="aberto">Aberto</option>
             <option value="em_analise">Em Análise</option>
             <option value="em_andamento">Em Andamento</option>
-            <option value="resolvida">Resolvida</option>
-            <option value="escalonada">Escalonada</option>
-            <option value="fechada">Fechada</option>
+            <option value="resolvido">Resolvido</option>
+            <option value="fechado">Fechado</option>
           </select>
-          <button className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors" style={{ backgroundColor: ABB_RED }}>
+          {/* Delete button */}
+          <button
+            onClick={handleDelete}
+            className="inline-flex items-center gap-2 rounded-lg border border-red-300 bg-red-50 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-100 dark:border-red-900 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30 transition-colors"
+          >
             <AlertCircle className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("complaints.actions.escalate")}</span>
+            <span className="hidden sm:inline">Excluir</span>
           </button>
         </div>
       </div>
