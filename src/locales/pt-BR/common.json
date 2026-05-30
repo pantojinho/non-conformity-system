@@ -381,6 +381,9 @@
       "urgent": "Urgente"
     },
     "categories": {
+      "service": "Atendimento",
+      "qualidade": "Qualidade do Produto",
+      "atendimento": "Atendimento ao Cliente",
       "product_quality": "Qualidade do Produto",
       "customer_service": "Atendimento ao Cliente",
       "delivery": "Entrega",
